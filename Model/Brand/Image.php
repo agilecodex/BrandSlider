@@ -42,7 +42,6 @@ class Image
      */
     public function getBaseUrl()
     {
-        //return $this->urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]).self::BASE_MEDIA_PATH;
         return $this->urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]);
     }
     /**
@@ -52,7 +51,6 @@ class Image
      */
     public function getBaseDir($path = null)
     {
-        //return $this->fileSystem->getDirectoryWrite(DirectoryList::MEDIA)->getAbsolutePath(self::BASE_MEDIA_PATH);
         return $this->fileSystem->getDirectoryWrite(DirectoryList::MEDIA)->getAbsolutePath($path);
     }
 }

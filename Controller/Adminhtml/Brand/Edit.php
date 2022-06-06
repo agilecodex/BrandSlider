@@ -20,12 +20,13 @@ class Edit extends \Acx\BrandSlider\Controller\Adminhtml\Brand
      */
     public function execute()
     {
-        $id = $this->getRequest()->getParam('entity_id');
+        $id = $this->getRequest()->getParam('id');
         $storeViewId = $this->getRequest()->getParam('store');
         $model = $this->_brandFactory->create();
 
         if ($id) {
-            $model->setStoreViewId($storeViewId)->load($id);
+            //$model->setStoreViewId($storeViewId)->load($id);
+            $model->load($id);
             if (!$model->getId()) {
                 $this->messageManager->addError(__('This brand no longer exists.'));
                 $resultRedirect = $this->resultRedirectFactory->create();

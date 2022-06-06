@@ -12,6 +12,7 @@ use \Magento\Backend\App\Action\Context;
 use Magento\Framework\Exception\LocalizedException as FrameworkException;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use \Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 
 /**
@@ -113,7 +114,14 @@ class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
                 }
             }
             
-            $data['store_id'] = isset($data['store_id'][0])?$data['store_id'][0]:$data['store_id'];
+            if (isset($data['store_id'][0])) {
+                $data['store_id'] = $data['store_id'][0];
+            } elseif (!isset($data['store_id'])) {
+                try {
+                    $data['store_id'] = $this->storeManager->getStore()->getId();
+                } catch (NoSuchEntityException $e) {
+                }
+            }
 
             $model->setData($data);
 

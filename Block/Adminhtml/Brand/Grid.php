@@ -46,7 +46,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         parent::_construct();
         $this->setId('brandGrid');
-        $this->setDefaultSort('entity_id');
+        $this->setDefaultSort('id');
         $this->setDefaultDir('ASC');
         $this->setSaveParametersInSession(true);
         $this->setUseAjax(true);
@@ -70,11 +70,11 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _prepareColumns()
     {
         $this->addColumn(
-            'entity_id',
+            'id',
             [
                 'header' => __('Brand ID'),
                 'type' => 'number',
-                'index' => 'entity_id',
+                'index' => 'id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id',
             ]
@@ -158,7 +158,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('entity_id');
+        $this->setMassactionIdField('id');
         $this->getMassactionBlock()->setFormFieldName('brand');
 
         $this->getMassactionBlock()->addItem(
@@ -210,7 +210,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl(
             '*/*/edit',
-            ['entity_id' => $row->getId()]
+            ['id' => $row->getId()]
         );
     }
 }

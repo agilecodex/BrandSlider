@@ -22,7 +22,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container {
      * @return void
      */
     protected function _construct() {
-        $this->_objectId = 'entity_id';
+        $this->_objectId = 'id';
         $this->_blockGroup = 'Acx_BrandSlider';
         $this->_controller = 'adminhtml_brand';
 
@@ -79,9 +79,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container {
 				});
 			";
 
-            if ($brandId = $this->getRequest()->getParam('entity_id')) {
+            if ($brandId = $this->getRequest()->getParam('id')) {
                 $this->_formScripts[] = '
-					window.entity_id = ' . $brandId . ';
+					window.id = ' . $brandId . ';
 				';
             }
         } else {
@@ -115,7 +115,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container {
                     'back' => 'edit',
                     'tab' => '{{tab_id}}',
                     'store' => $this->getRequest()->getParam('store'),
-                    'entity_id' => $this->getRequest()->getParam('entity_id'),
+                    'id' => $this->getRequest()->getParam('id'),
                     'current_brandslider_id' => $this->getRequest()->getParam('current_brandslider_id'),
                         ]
         );
@@ -133,7 +133,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container {
                     'back' => 'edit',
                     'tab' => '{{tab_id}}',
                     'store' => $this->getRequest()->getParam('store'),
-                    'entity_id' => $this->getRequest()->getParam('entity_id'),
+                    'id' => $this->getRequest()->getParam('id'),
                     'current_brandslider_id' => $this->getRequest()->getParam('current_brandslider_id'),
                     'saveandclose' => 1,
                         ]

@@ -7,7 +7,9 @@
 
 namespace Acx\BrandSlider\Block\Widget;
 
-class BrandSlider extends \Magento\Framework\View\Element\Template implements \Magento\Widget\Block\BlockInterface
+use Magento\Framework\View\Element\Template;
+
+class BrandSlider extends Template implements \Magento\Widget\Block\BlockInterface
 {
     protected function _construct()
     {

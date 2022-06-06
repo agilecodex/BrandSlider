@@ -9,16 +9,12 @@ use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 class StoreView extends Column {
-    /** Url path */
 
-    /** @var UrlInterface */
-    protected $urlBuilder;
+    protected UrlInterface $urlBuilder;
 
-    /**
-     * @var string
-     */
-    private $editUrl;
-    protected $storeManager;
+    private string $editUrl;
+
+    protected StoreManagerInterface $storeManager;
 
     /**
      * @param ContextInterface $context
@@ -29,7 +25,12 @@ class StoreView extends Column {
      * @param string $editUrl
      */
     public function __construct(
-    ContextInterface $context, UiComponentFactory $uiComponentFactory, UrlInterface $urlBuilder, array $components = [], array $data = [], StoreManagerInterface $storeManager
+        ContextInterface $context,
+        UiComponentFactory $uiComponentFactory,
+        UrlInterface $urlBuilder,
+        array $components = [],
+        array $data = [],
+        StoreManagerInterface $storeManager
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->storeManager = $storeManager;
@@ -56,7 +57,8 @@ class StoreView extends Column {
                     if(isset($st['value']))
                    $store_list[$st['value']] = $st['label'];
                 }
-                $item['store_id'] = isset($store_list[$item['store_id']])?$store_list[$item['store_id']]:$store_list[$item['store_id']];
+                $item['store_id'] = isset($store_list[$item['store_id']])
+                    ?? $store_list[$item['store_id']];
             }
         }
 

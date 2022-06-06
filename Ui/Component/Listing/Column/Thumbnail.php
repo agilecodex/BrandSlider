@@ -62,7 +62,7 @@ class Thumbnail extends Column
                 $item[$fieldName . '_alt'] = $this->getAlt($item) ?: '';
                 $item[$fieldName . '_link'] = $this->urlBuilder->getUrl(
                     'brandslider/brand/edit',
-                    ['entity_id' => $item['entity_id']]
+                    ['id' => $item['id']]
                 );
                 $item[$fieldName . '_orig_src'] = $url;
             }

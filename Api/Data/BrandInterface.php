@@ -20,69 +20,89 @@ interface BrandInterface
     const BRAND_TARGET_PARENT = 1;
     const BRAND_TARGET_BLANK = 2;
 
-
-
     /**
-     * get form field html id prefix.
-     *
-     * @return string
+     * @param $id
      */
-    public function getFormFieldHtmlIdPrefix();
+    public function setId($id);
 
     /**
-     * get available slides.
-     *
-     * @return []
+     * @return mixed
      */
-    public function getAvailableSlides();
+    public function getId();
+
+    /** @return string */
+    public function getName():string;
 
     /**
-     * get store attributes.
-     *
-     * @return array
+     * @param $brandName
+     * @return BrandInterface
      */
-    public function getStoreAttributes();
+    public function setName($brandName): BrandInterface;
 
     /**
-     * get store view id.
-     *
      * @return int
      */
-    public function getStoreViewId();
+    public function getSortOrder():int;
 
     /**
-     * set store view id.
-     *
-     * @param int $storeViewId
+     * @param $sortOrder
+     * @return BrandInterface|null
      */
-    public function setStoreViewId($storeViewId);
+    public function setSortOrder($sortOrder): ?BrandInterface;
 
     /**
-     * before save.
+     * @return int
      */
-    public function beforeSave();
+    public function getStatus(): int;
 
     /**
-     * after save.
+     * @param $status
+     * @return BrandInterface
      */
-    public function afterSave();
+    public function setStatus($status): BrandInterface;
 
     /**
-     * load info multistore.
-     *
-     * @param mixed  $id
-     * @param string $field
-     *
-     * @return $this
+     * @return string
      */
-    public function load($id, $field = null);
+    public function getImage(): string;
 
     /**
-     * get store view value.
-     *
-     * @param string|null $storeViewId
-     *
-     * @return $this
+     * @param $image
+     * @return BrandInterface
      */
-    public function getStoreViewValue($storeViewId = null);
+    public function setImage($image): ?BrandInterface;
+
+    /**
+     * @return string
+     */
+    public function getImageAlt(): string;
+
+    /**
+     * @param $imageAlt
+     * @return BrandInterface
+     */
+    public function setImageAlt($imageAlt): BrandInterface;
+
+    /**
+     * @return int
+     */
+    public function getStoreId(): int;
+
+    /**
+     * @param $storeId
+     * @return BrandInterface
+     */
+    public function setStoreId($storeId): BrandInterface;
+
+    /**
+     * @param \DateTime $value
+     * @return BrandInterface
+     */
+    public function setUpdatedAt(\DateTime $value): BrandInterface;
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUpdatedAt(): ?\DateTime;
+
 }

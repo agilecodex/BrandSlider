@@ -8,14 +8,8 @@
 
 namespace Acx\BrandSlider\Block\Adminhtml\Brand\Helper\Renderer;
 
-//use Acx\BrandSlider\Model\Brand\Image as BrandImage;
-
 /**
  * Image renderer.
- * @category Acx
- * @package  Acx_BrandSlider
- * @module   BrandSlider
- * @author   dev@agilecodex.com
  */
 class Image extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer {
 
@@ -50,11 +44,11 @@ class Image extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
      * @param array                                       $data
      */
     public function __construct(
-        \Magento\Backend\Block\Context $context, 
-        \Magento\Store\Model\StoreManagerInterface $storeManager, 
-        \Acx\BrandSlider\Model\BrandFactory $brandFactory, 
-        \Acx\BrandSlider\Model\Brand\Image $imageModel, 
-        \Magento\Framework\View\Asset\Repository $assetRepo, 
+        \Magento\Backend\Block\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Acx\BrandSlider\Model\BrandFactory $brandFactory,
+        \Acx\BrandSlider\Model\Brand\Image $imageModel,
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -74,7 +68,7 @@ class Image extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
     public function render(\Magento\Framework\DataObject $row) {
         $storeViewId = $this->getRequest()->getParam('store');
         $brand = $this->_brandFactory->create()->setStoreViewId($storeViewId)->load($row->getId());
-        
+
         if (preg_match('~\.(png|gif|jpe?g|bmp)~i', $brand->getImage())) {
             $srcImage = $this->imageModel->getBaseUrl() . $brand->getImage();
         } else {

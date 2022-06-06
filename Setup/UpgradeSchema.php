@@ -7,6 +7,7 @@
 
 namespace Acx\Webpos\Setup;
 
+use Magento\Framework\DB\Ddl\Table;
 use Magento\Framework\Setup\UpgradeSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
@@ -39,18 +40,27 @@ class UpgradeSchema implements UpgradeSchemaInterface
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
         $setup->startSetup();
-        if (version_compare($context->getVersion(), '2.3.5') < 0) {
+        if (version_compare($context->getVersion(), '2.3.5') >= 0) {
             //add store_id for acx_brandslider_brand table
             $setup->getConnection()->addColumn(
                 $setup->getTable('acx_brandslider_brand'),
                 'store_id',
-                array(
-                    'type'      => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+                Table::TYPE_INTEGER,
+                [
                     'nullable'  => true,
                     'length'    => '10',
-                    'comment'   => 'Store ID',
                     'after'     => 'status'
-                )
+                ],
+                'Store ID'
+            );
+
+            $setup->getConnection()->addColumn(
+                $setup->getTable('acx_brandslider_brand'),
+                'update_time',
+                Table::TYPE_TIMESTAMP,
+                null,
+                ['nullable' => false, 'default' => Table::TIMESTAMP_UPDATE],
+                'Updated Time'
             );
 
         }

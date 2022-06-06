@@ -8,6 +8,8 @@
 
 namespace Acx\BrandSlider\Controller\Adminhtml;
 
+use Magento\Store\Model\StoreManagerInterface;
+
 /**
  * Abstract Action
  * @category Acx
@@ -17,17 +19,14 @@ namespace Acx\BrandSlider\Controller\Adminhtml;
  */
 abstract class AbstractAction extends \Magento\Backend\App\Action
 {
-    const PARAM_CRUD_ID = 'entity_id';
+    const PARAM_CRUD_ID = 'id';
 
     /**
      * @var \Magento\Backend\Helper\Js
      */
     protected $_jsHelper;
 
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
+    public StoreManagerInterface $storeManager;
 
     /**
      * @var \Magento\Backend\Model\View\Result\ForwardFactory
@@ -85,7 +84,7 @@ abstract class AbstractAction extends \Magento\Backend\App\Action
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
      * @param \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param StoreManagerInterface $storeManager
      * @param \Magento\Backend\Helper\Js $jsHelper
      */
     public function __construct(
@@ -97,13 +96,13 @@ abstract class AbstractAction extends \Magento\Backend\App\Action
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,
         \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        StoreManagerInterface $storeManager,
         \Magento\Backend\Helper\Js $jsHelper
     ) {
         parent::__construct($context);
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
-        $this->_storeManager = $storeManager;
+        $this->storeManager = $storeManager;
         $this->_jsHelper = $jsHelper;
 
         $this->_resultPageFactory = $resultPageFactory;

@@ -87,16 +87,6 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
      */
     protected function _prepareForm()
     {
-        $brandAttributes = $this->_brand->getStoreAttributes();
-        $brandAttributesInStores = ['store_id' => ''];
-
-        foreach ($brandAttributes as $brandAttribute) {
-            $brandAttributesInStores[$brandAttribute.'_in_store'] = '';
-        }
-
-        $dataObj = $this->_objectFactory->create(
-            ['data' => $brandAttributesInStores]
-        );
         $model = $this->_coreRegistry->registry('brand');
 
         $dataObj->addData($model->getData());
@@ -104,12 +94,10 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $form->setHtmlIdPrefix($this->_brand->getFormFieldHtmlIdPrefix());
-
         $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Brand Information')]);
 
         if ($model->getId()) {
-            $fieldset->addField('entity_id', 'hidden', ['name' => 'entity_id']);
+            $fieldset->addField('id', 'hidden', ['name' => 'id']);
         }
 
         $elements = [];
@@ -127,33 +115,8 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
         $fieldset->addType('image', '\Acx\BrandSlider\Block\Adminhtml\Brand\Helper\Image');
         
         $image_path = null;
-        if(preg_match('~\.(png|gif|jpe?g|bmp)~i', $this->_brand->getImage()))
-              $image_path =  $this->_brand->getImage();
-        
-        if (!$this->_storeManager->isSingleStoreMode()) {
-            $elements['store_id'] = $fieldset->addField(
-                    'store_id', 'multiselect', [
-                'name' => 'store_id[]',
-                'label' => __('Store View'),
-                'title' => __('Store View'),
-                'required' => true,
-                'values' => $this->_systemStore->getStoreValuesForForm(false, true),
-                'disabled' => false,
-                'value' => (null !== $model->getStoreId() ? $model->getStoreId() : 0)
-                    ]
-            );
-            $renderer = $this->getLayout()->createBlock(
-                    'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
-            );
-            $elements['store_id']->setRenderer($renderer);
-        } else {
-            $elements['store_id'] = $fieldset->addField(
-                    'store_id', 'hidden', ['name' => 'store_id[]', 'value' => $this->_storeManager->getStore(true)->getId()]
-            );
-            $model->setStoreId($this->_storeManager->getStore(true)->getId());
-        }
-
-
+        if(preg_match('~\.(png|gif|jpe?g|bmp)~i', $model->getImage()))
+              $image_path =  $model->getImage();
 
         $elements['image'] = $fieldset->addField(
             'image',

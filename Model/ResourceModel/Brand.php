@@ -1,21 +1,19 @@
 <?php
-
 /**
- * This source file is subject to the agilecodex.com license that is
- * available through the world-wide-web at this URL:
- * https://www.agilecodex.com/license-agreement
+ *  Copyright © Agile Codex Ltd. All rights reserved.
+ *  License:    https://www.agilecodex.com/license-agreement
  */
 
 namespace Acx\BrandSlider\Model\ResourceModel;
 
+use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
+
 /**
  * Brand Resource Model
- * @category Acx
- * @package  Acx_BrandSlider
  * @module   BrandSlider
- * @author   dev@agilecodex.com
+ * @author   Agile Codex
  */
-class Brand extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
+class Brand extends AbstractDb
 {
     /**
      * construct
@@ -23,6 +21,6 @@ class Brand extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      */
     protected function _construct()
     {
-        $this->_init('acx_brandslider_brand', 'entity_id');
+        $this->_init('acx_brandslider_brand', 'id');
     }
 }
