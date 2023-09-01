@@ -4,27 +4,24 @@
                 type="Acx\BrandSlider\Model\Brand" />
     <preference for="Acx\BrandSlider\Api\BrandRepositoryInterface"
                 type="Acx\BrandSlider\Model\BrandRepository" />
-    <preference for="Acx\BrandSlider\Api\Data\BlockSearchResultsInterface"
+    <preference for="Acx\BrandSlider\Api\Data\BrandSearchResultsInterface"
                 type="Magento\Framework\Api\SearchResults" />
 
-    <virtualType name="BrandGridDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+    <virtualType name="BrandGridDataProviderVirtualCollection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
         <arguments>
-            <argument name="collection" xsi:type="object" shared="false">Acx\BrandSlider\Model\ResourceModel\Brand\Collection</argument>
+            <argument name="mainTable" xsi:type="string">acx_brandslider_brand</argument>
+            <argument name="resourceModel" xsi:type="string">Acx\BrandSlider\Model\ResourceModel\Brand</argument>
         </arguments>
-    </virtualType>    
+    </virtualType>
+
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="brandslider_brand_listing_data_source" xsi:type="string">Acx\BrandSlider\Model\ResourceModel\Brand\Grid\Collection</item>
+                <item name="brandslider_brand_listing_data_source" xsi:type="string">
+                    BrandGridDataProviderVirtualCollection
+                </item>
             </argument>
-        </arguments>
-    </type>
-    <type name="Acx\BrandSlider\Model\ResourceModel\Brand\Grid\Collection">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">acx_brandslider_brand</argument>
-            <argument name="eventPrefix" xsi:type="string">acx_brand_grid_collection</argument>
-            <argument name="eventObject" xsi:type="string">acx_grid_collection</argument>
-            <argument name="resourceModel" xsi:type="string">Acx\BrandSlider\Model\ResourceModel\Brand</argument>
         </arguments>
     </type>
 </config>
