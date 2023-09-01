@@ -1,9 +1,8 @@
 <?php
 
 /**
- * This source file is subject to the agilecodex.com license that is
- * available through the world-wide-web at this URL:
- * https://www.agilecodex.com/license-agreement
+ *  Copyright © Agile Codex Ltd. All rights reserved.
+ *  License: https://www.agilecodex.com/license-agreement
  */
 namespace Acx\BrandSlider\Block\Adminhtml\Brand;
 
@@ -11,10 +10,7 @@ use Acx\BrandSlider\Model\Status;
 
 /**
  * Brand grid.
- * @category Acx
- * @package  Acx_BrandSlider
- * @module   BrandSlider
- * @author   dev@agilecodex.com
+ * @author Agile Codex
  */
 class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
@@ -83,7 +79,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                     'store_id',
                     [
                         'header' => __('Store Views'),
-                        'index' => 'store_id',                        
+                        'index' => 'store_id',
                         'type' => 'store',
                         'store_all' => true,
                         'store_view' => true,
@@ -120,7 +116,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'width' => '50px',
             ]
         );
-        
+
         $this->addColumn(
             'status',
             [
@@ -130,7 +126,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'options' => Status::getAvailableStatuses(),
             ]
         );
-        
+
         $this->addColumn(
             'sort_order',
             [
@@ -139,7 +135,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'filter' => false,
             ]
         );
-        
+
         $this->addExportType('*/*/exportCsv', __('CSV'));
         $this->addExportType('*/*/exportXml', __('XML'));
         $this->addExportType('*/*/exportExcel', __('Excel'));

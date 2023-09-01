@@ -1,9 +1,8 @@
 <?php
 
 /**
- * This source file is subject to the agilecodex.com license that is
- * available through the world-wide-web at this URL:
- * https://www.agilecodex.com/license-agreement
+ *  Copyright © Agile Codex Ltd. All rights reserved.
+ *  License: https://www.agilecodex.com/license-agreement
  */
 
 namespace Acx\BrandSlider\Block;
@@ -11,10 +10,7 @@ use Acx\BrandSlider\Model\Status;
 
 /**
  * BrandSlider Block
- * @category Acx
- * @package  Acx_BrandSlider
- * @module   BrandSlider
- * @author   dev@agilecodex.com
+ * @author Agile Codex
  */
 class BrandSlider extends \Magento\Framework\View\Element\Template
 {
@@ -29,20 +25,20 @@ class BrandSlider extends \Magento\Framework\View\Element\Template
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $_scopeConfig;
-    
+
     /**
      * @var \Acx\BrandSlider\Model\BrandRepository
      */
     protected $_brandRepository;
-    
+
     /**
      * var \Magento\Framework\View\Asset\Repository
      */
     protected  $_assetRepo;
-    
+
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\View\Asset\Repository $assetRepo, 
+        \Magento\Framework\View\Asset\Repository $assetRepo,
         \Acx\BrandSlider\Model\BrandRepository $brandRepository,
         array $data = []
     ) {
@@ -51,7 +47,7 @@ class BrandSlider extends \Magento\Framework\View\Element\Template
         $this->_scopeConfig = $context->getScopeConfig();
         $this->_assetRepo = $assetRepo;
     }
-    
+
     /**
      * @return
      */
@@ -63,14 +59,14 @@ class BrandSlider extends \Magento\Framework\View\Element\Template
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        
+
         if ($configEnable && $this->_brandRepository->getBrandCollection()->getSize()) {
             $this->setTemplate(self::TEMPLATE);
         }
-        
+
         return parent::_toHtml();
     }
-    
+
     /**
      * get brand collection of brandslider.
      *
@@ -80,7 +76,7 @@ class BrandSlider extends \Magento\Framework\View\Element\Template
     {
         return $this->_brandRepository->getBrandCollection();
     }
-    
+
     /**
      * get brand image url.
      *
@@ -106,7 +102,7 @@ class BrandSlider extends \Magento\Framework\View\Element\Template
     {
         return 'acx-brandslider-brandslider';
     }
-    
+
     /**
      * get Base Url Media.
      *

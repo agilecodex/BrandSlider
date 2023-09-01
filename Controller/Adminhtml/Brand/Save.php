@@ -1,9 +1,8 @@
 <?php
 
 /**
- * This source file is subject to the agilecodex.com license that is
- * available through the world-wide-web at this URL:
- * https://www.agilecodex.com/license-agreement
+ *  Copyright © Agile Codex Ltd. All rights reserved.
+ *  License: https://www.agilecodex.com/license-agreement
  */
 
 namespace Acx\BrandSlider\Controller\Adminhtml\Brand;
@@ -17,10 +16,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Save Brand action.
- * @category Acx
- * @package  Acx_BrandSlider
- * @module   BrandSlider
- * @author   dev@agilecodex.com
+ * @author Agile Codex
  */
 class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
 
@@ -28,21 +24,21 @@ class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
     protected $imageModel;
 
     public function __construct(
-        \Magento\Backend\App\Action\Context $context, 
-        \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory, 
-        \Acx\BrandSlider\Model\Brand\Image $imageModel, 
-        \Acx\BrandSlider\Model\BrandFactory $brandFactory, 
-        \Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory $brandCollectionFactory, 
-        \Magento\Framework\Registry $coreRegistry, 
-        \Magento\Framework\App\Response\Http\FileFactory $fileFactory, 
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory, 
-        \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory, 
-        \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory, 
-        \Magento\Store\Model\StoreManagerInterface $storeManager, 
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\MediaStorage\Model\File\UploaderFactory $uploaderFactory,
+        \Acx\BrandSlider\Model\Brand\Image $imageModel,
+        \Acx\BrandSlider\Model\BrandFactory $brandFactory,
+        \Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory $brandCollectionFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,
+        \Magento\Backend\Model\View\Result\ForwardFactory $resultForwardFactory,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Helper\Js $jsHelper
     ) {
-        parent::__construct($context, $brandFactory, $brandCollectionFactory, 
-                $coreRegistry, $fileFactory, $resultPageFactory, $resultLayoutFactory, 
+        parent::__construct($context, $brandFactory, $brandCollectionFactory,
+                $coreRegistry, $fileFactory, $resultPageFactory, $resultLayoutFactory,
                 $resultForwardFactory, $storeManager, $jsHelper);
 
         $this->uploaderFactory = $uploaderFactory;
@@ -63,15 +59,15 @@ class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
             }
 
             $imageRequest = $this->getRequest()->getFiles('image');
-            $fileName = isset($imageRequest['name']) && strlen($imageRequest['name']) > 0 
+            $fileName = isset($imageRequest['name']) && strlen($imageRequest['name']) > 0
                             ? $imageRequest['name'] : '';
-            
+
             $isUpload = false;
             //uploading with file name
             if ( $fileName <> '' ) {
                 $isUpload = TRUE;
                 if (strlen($fileName) > 90) {
-                    $this->messageManager->addErrorMessage( 
+                    $this->messageManager->addErrorMessage(
                             __($fileName . ' was not uploaded. Filename is too long; must be 90 characters or less.'));
                     $fileName = '';
                 }
@@ -94,10 +90,10 @@ class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
                     $isUpload = TRUE;
                 }
             }
-            
+
             $this->_getSession()->unsBrandName();
             $this->_getSession()->unsImageAlt();
-            
+
             if ($isUpload) {
                 if ($fileName == '') {
                     foreach($data as $key=>$val ){
@@ -105,7 +101,7 @@ class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
                             $key = 'brand_name';
                         $this->_getSession()->setData($key, $val);
                     }
-                    
+
                     $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
                     $resultRedirect->setUrl($this->_redirect->getRefererUrl());
                     return $resultRedirect;
@@ -113,7 +109,7 @@ class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
                     $data['image'] = $this->uploadImage('image', $this->imageModel->getBaseDir(\Acx\BrandSlider\Model\Brand\Image::BASE_MEDIA_PATH), $data);
                 }
             }
-            
+
             if (isset($data['store_id'][0])) {
                 $data['store_id'] = $data['store_id'][0];
             } elseif (!isset($data['store_id'])) {
@@ -148,11 +144,11 @@ class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
     }
 
     /**
-     * Upload file and return file name 
+     * Upload file and return file name
      */
     public function uploadImage($input, $destinationFolder, $data) {
         try {
-            
+
             if (isset($data[$input]['delete'])) {
                 return '';
             } else {
@@ -170,7 +166,7 @@ class Save extends \Acx\BrandSlider\Controller\Adminhtml\Brand {
                 $resultRedirect = $this->resultFactory->create(ResultFactory::TYPE_REDIRECT);
                 $resultRedirect->setUrl($this->_redirect->getRefererUrl());
                 return $resultRedirect;
-               
+
             } else {
                 if (isset($data[$input]['value'])) {
                     return $data[$input]['value'];

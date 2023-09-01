@@ -1,17 +1,13 @@
 <?php
 /**
- * This source file is subject to the agilecodex.com license that is
- * available through the world-wide-web at this URL:
- * https://www.agilecodex.com/license-agreement
+ *  Copyright © Agile Codex Ltd. All rights reserved.
+ *  License: https://www.agilecodex.com/license-agreement
  */
 namespace Acx\BrandSlider\Block\Adminhtml\Brand\Edit;
 
 /**
  * Adminhtml locator edit form block.
- * @category Acx
- * @package  Acx_BrandSlider
- * @module   BrandSlider
- * @author   dev@agilecodex.com
+ * @author Agile Codex
  */
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {

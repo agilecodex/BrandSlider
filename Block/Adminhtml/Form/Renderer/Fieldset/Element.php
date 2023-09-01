@@ -1,19 +1,15 @@
 <?php
 
 /**
- * This source file is subject to the agilecodex.com license that is
- * available through the world-wide-web at this URL:
- * https://www.agilecodex.com/license-agreement
+ *  Copyright © Agile Codex Ltd. All rights reserved.
+ *  License: https://www.agilecodex.com/license-agreement
  */
 
 namespace Acx\BrandSlider\Block\Adminhtml\Form\Renderer\Fieldset;
 
 /**
  * Fieldset element renderer.
- * @category Acx
- * @package  Acx_BrandSlider
- * @module   BrandSlider
- * @author   dev@agilecodex.com
+ * @author Agile Codex
  */
 class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
