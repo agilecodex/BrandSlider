@@ -1,57 +1,58 @@
 <?php
-
 /**
- * This source file is subject to the agilecodex.com license that is
- * available through the world-wide-web at this URL:
- * https://www.agilecodex.com/license-agreement
+ *  Copyright © Agile Codex Ltd. All rights reserved.
+ *  License: https://www.agilecodex.com/license-agreement
  */
 namespace Acx\BrandSlider\Block\Adminhtml\Brand\Edit\Tab;
 
+use Acx\BrandSlider\Model\Brand as BrandModel;
 use Acx\BrandSlider\Model\Status;
+use Magento\Backend\Block\Template\Context;
+use Magento\Backend\Block\Widget\Form\Generic as GenericForm;
+use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Cms\Model\Wysiwyg\Config;
+use Magento\Framework\Data\FormFactory;
+use Magento\Framework\DataObjectFactory;
+use Magento\Framework\Registry;
+use Magento\Store\Model\System\Store;
 
 /**
  * Brand Edit tab.
- * @category Acx
- * @package  Acx_BrandSlider
- * @module   BrandSlider
- * @author   dev@agilecodex.com
+ * * @author Agile Codex
  */
-class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Brand extends GenericForm implements TabInterface
 {
-    /**
-     * @var \Magento\Framework\DataObjectFactory
-     */
+    /** @var DataObjectFactory */
     protected $_objectFactory;
 
-    /**
-     * @var \Acx\BrandSlider\Model\Brand
-     */
+    /** @var BrandModel */
     protected $_brand;
 
-    /**
-     * @var \Magento\Cms\Model\Wysiwyg\Config
-     */
+    /** @var Config */
     protected $_wysiwygConfig;
-    
+
+    /** @var Store  */
     protected $_systemStore;
+
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\Data\FormFactory $formFactory
-     * @param \Magento\Framework\DataObjectFactory $objectFactory
-     * @param \Acx\BrandSlider\Model\Brand $brand
-     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param Context $context
+     * @param Registry $registry
+     * @param FormFactory $formFactory
+     * @param DataObjectFactory $objectFactory
+     * @param BrandModel $brand
+     * @param Config $wysiwygConfig
+     * @param Store $systemStore
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Framework\Registry $registry,
-        \Magento\Framework\Data\FormFactory $formFactory,
-        \Magento\Framework\DataObjectFactory $objectFactory,
-        \Acx\BrandSlider\Model\Brand $brand,
-        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        array $data = [],
-        \Magento\Store\Model\System\Store $systemStore
+        Context             $context,
+        Registry            $registry,
+        FormFactory         $formFactory,
+        DataObjectFactory   $objectFactory,
+        BrandModel          $brand,
+        Config          $wysiwygConfig,
+        Store           $systemStore,
+        array           $data = []
     ) {
         $this->_objectFactory = $objectFactory;
         $this->_brand = $brand;
@@ -68,7 +69,7 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('page.title')->setPageTitle($this->getPageTitle());
-        
+
         \Magento\Framework\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
                 'Acx\BrandSlider\Block\Adminhtml\Form\Renderer\Fieldset\Element',
@@ -90,7 +91,7 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
         $model = $this->_coreRegistry->registry('brand');
 
         $dataObj->addData($model->getData());
-        
+
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
@@ -111,9 +112,9 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
                 'required' => true,
             ]
         );
-        
+
         $fieldset->addType('image', '\Acx\BrandSlider\Block\Adminhtml\Brand\Helper\Image');
-        
+
         $image_path = null;
         if(preg_match('~\.(png|gif|jpe?g|bmp)~i', $model->getImage()))
               $image_path =  $model->getImage();
@@ -132,24 +133,24 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
                 'renderer' => 'Acx\BrandSlider\Block\Adminhtml\Brand\Helper\Renderer\Image'
             ]
         )->setAfterElementHtml('
-        <script>    
+        <script>
 
             require([
                  "jquery",
             ], function($){
-                $(document).ready(function () {                
+                $(document).ready(function () {
                     if($("#page_image").attr("value")){
                         $("#page_image").removeClass("required-file");
                     }else{
                         $("#page_image").addClass("required-file");
                     }
-                    $( "#page_image" ).attr( "accept", "image/x-png,image/gif,image/jpeg,image/jpg,image/png" );                    
-                    
+                    $( "#page_image" ).attr( "accept", "image/x-png,image/gif,image/jpeg,image/jpg,image/png" );
+
                 });
               });
        </script>
     ');
-        
+
         $elements['image_alt'] = $fieldset->addField(
             'image_alt',
             'text',
@@ -161,7 +162,7 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
                 'required' => true
             ]
         );
-        
+
         $elements['Sort Oder'] = $fieldset->addField(
             'sort_order',
             'text',
@@ -171,7 +172,7 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
                 'name' => 'sort_order'
             ]
         );
-        
+
         $elements['status'] = $fieldset->addField(
             'status',
             'select',
@@ -182,7 +183,7 @@ class Brand extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
                 'options' => Status::getAvailableStatuses(),
             ]
         );
-        
+
         $form->addValues($dataObj->getData());
         $this->setForm($form);
 

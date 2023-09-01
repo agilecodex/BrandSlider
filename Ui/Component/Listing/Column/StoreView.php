@@ -28,9 +28,9 @@ class StoreView extends Column {
         ContextInterface $context,
         UiComponentFactory $uiComponentFactory,
         UrlInterface $urlBuilder,
+        StoreManagerInterface $storeManager,
         array $components = [],
-        array $data = [],
-        StoreManagerInterface $storeManager
+        array $data = []
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->storeManager = $storeManager;
@@ -45,14 +45,14 @@ class StoreView extends Column {
      * @return array
      */
     public function prepareDataSource(array $dataSource) {
-        
+
         $store_list = [];
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 $name = $this->getData('name');
-                
+
                 $store_arr = $this->getStoreData();
-                
+
                 foreach($store_arr as $st){
                     if(isset($st['value']))
                    $store_list[$st['value']] = $st['label'];

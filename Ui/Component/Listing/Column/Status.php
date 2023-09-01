@@ -9,16 +9,13 @@ use Magento\Framework\UrlInterface;
 use Magento\Directory\Model\Config\Source\Country as SourceCountry;
 
 class Status extends Column {
-    /** Url path */
 
     /** @var UrlInterface */
     protected $urlBuilder;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $editUrl;
-    
+
     const STATUS_ENABLED  = 1;
     const STATUS_DISABLED = 2;
 
@@ -31,14 +28,19 @@ class Status extends Column {
      * @param string $editUrl
      */
     public function __construct(
-    ContextInterface $context, UiComponentFactory $uiComponentFactory, UrlInterface $urlBuilder, array $components = [], array $data = [], SourceCountry $sourceCountry
+        ContextInterface $context,
+        UiComponentFactory $uiComponentFactory,
+        UrlInterface $urlBuilder,
+        SourceCountry $sourceCountry,
+        array $components = [],
+        array $data = []
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->sourceCountry = $sourceCountry;
 
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
-   
+
 
     /**
      * get available statuses.
@@ -58,7 +60,7 @@ class Status extends Column {
      * @return array
      */
     public function prepareDataSource(array $dataSource) {
-        
+
         $status_arr = $this->getAvailableStatuses();
 
         if (isset($dataSource['data']['items'])) {
@@ -69,8 +71,8 @@ class Status extends Column {
                 $item['status'] = isset($status_list[$item['status']]) ? $status_list[$item['status']] : "";
             }
         }
-        
-        
+
+
         return $dataSource;
     }
 
