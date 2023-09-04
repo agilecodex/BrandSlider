@@ -15,9 +15,13 @@
         <system>
             <media_storage_configuration>
                 <allowed_resources>
-                    <brandslider_folder>acx</brandslider_folder>
+                    <tmp_images_folder>tmp</tmp_images_folder>
+                    <brandslider_folder>acx/brand</brandslider_folder>
                 </allowed_resources>
             </media_storage_configuration>
+            <upload_configuration>
+                <jpeg_quality>80</jpeg_quality>
+            </upload_configuration>
         </system>
     </default>
 </config>
