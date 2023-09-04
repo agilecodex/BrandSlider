@@ -1,11 +1,11 @@
 <?php
-
 /**
  *  Copyright © Agile Codex Ltd. All rights reserved.
  *  License: https://www.agilecodex.com/license-agreement
  */
-
 namespace Acx\BrandSlider\Controller\Adminhtml;
+
+use Magento\Framework\Controller\Result\Redirect;
 
 /**
  * Brand Abstract Action
@@ -28,12 +28,13 @@ abstract class Brand extends \Acx\BrandSlider\Controller\Adminhtml\AbstractActio
     /**
      * Get back result redirect after add/edit.
      *
-     * @param \Magento\Framework\Controller\Result\Redirect $resultRedirect
-     * @param null                                          $paramCrudId
-     *
-     * @return \Magento\Framework\Controller\Result\Redirect
+     * @param Redirect $resultRedirect
+     * @param null $paramCrudId
+     * @return Redirect
      */
-    protected function _getBackResultRedirect(\Magento\Framework\Controller\Result\Redirect $resultRedirect, $paramCrudId = null)
+    protected function _getBackResultRedirect(
+        Redirect $resultRedirect,
+        $paramCrudId = null)
     {
         switch ($this->getRequest()->getParam('back')) {
             case 'edit':
@@ -57,4 +58,5 @@ abstract class Brand extends \Acx\BrandSlider\Controller\Adminhtml\AbstractActio
 
         return $resultRedirect;
     }
+
 }

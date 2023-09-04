@@ -4,12 +4,14 @@
  * License:    https://www.agilecodex.com/license-agreement
  * @author   agilecodex.com
  */
-
 namespace Acx\BrandSlider\Model;
 
+use Acx\BrandSlider\Api\BrandRepositoryInterface;
+use Acx\BrandSlider\Api\Data\BrandSearchResultsInterface;
 use Acx\BrandSlider\Api\Data\BrandInterface;
 use Acx\BrandSlider\Model\BrandFactory;
 use Acx\BrandSlider\Model\ResourceModel\Brand as BrandResourceModel;
+use Acx\BrandSlider\Model\ResourceModel\Brand\Collection;
 use Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory as BrandCollectionFactory;
 use Acx\BrandSlider\Api\Data\BrandSearchResultsInterfaceFactory as ResultsInterfaceFactory;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
@@ -20,7 +22,7 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 
 
-class BrandRepository
+class BrandRepository implements BrandRepositoryInterface
 {
     protected BrandResourceModel $resource;
 
@@ -30,9 +32,9 @@ class BrandRepository
 
     protected ResultsInterfaceFactory $searchResultsFactory;
 
-    private StoreManagerInterface $storeManager;
+    protected StoreManagerInterface $storeManager;
 
-    private CollectionProcessorInterface $collectionProcessor;
+    protected CollectionProcessorInterface $collectionProcessor;
 
     /**
      * @param BrandResourceModel $resource
@@ -77,11 +79,11 @@ class BrandRepository
     /**
      * Load Brand data by given Brand Identity
      *
-     * @param int $brandId
-     * @return Brand
+     * @param string $brandId
+     * @return BrandInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    public function getById(int $brandId): BrandInterface
+    public function getById(string $brandId): BrandInterface
     {
         $brand = $this->brandFactory->create();
         $this->resource->load($brand, $brandId);
@@ -98,14 +100,14 @@ class BrandRepository
      * @param SearchCriteriaInterface $criteria
      * @return \Acx\BrandSlider\Api\Data\BrandSearchResultsInterface
      */
-    public function getList(SearchCriteriaInterface $criteria)
+    public function getList(SearchCriteriaInterface $criteria): BrandSearchResultsInterface
     {
         /** @var \Acx\BrandSlider\Model\ResourceModel\Brand\Collection $collection */
         $collection = $this->brandCollectionFactory->create();
 
         $this->collectionProcessor->process($criteria, $collection);
 
-        /** @var BrandSearchResultsInterface $searchResults */
+        /** @var \Acx\BrandSlider\Api\Data\BrandSearchResultsInterface $searchResults */
         $searchResults = $this->searchResultsFactory->create();
         $searchResults->setSearchCriteria($criteria);
         $searchResults->setItems($collection->getItems());
@@ -120,7 +122,7 @@ class BrandRepository
      * @return bool
      * @throws CouldNotDeleteException
      */
-    public function delete(BrandInterface $brand)
+    public function delete(BrandInterface $brand): bool
     {
         try {
             $this->resource->delete($brand);
@@ -138,7 +140,7 @@ class BrandRepository
      * @throws CouldNotDeleteException
      * @throws NoSuchEntityException
      */
-    public function deleteById(int $brandId)
+    public function deleteById(int $brandId): bool
     {
         return $this->delete($this->getById($brandId));
     }
@@ -148,7 +150,7 @@ class BrandRepository
      *
      * @return \Acx\BrandSlider\Model\ResourceModel\Brand\Collection
      */
-    public function getBrandCollection()
+    public function getBrandCollection(): Collection
     {
         $storeViewId = $this->storeManager->getStore()->getId();
 
@@ -162,31 +164,4 @@ class BrandRepository
         return $brandCollection;
     }
 
-
-    /**
-     * get categories array.
-     *
-     * @return array
-     */
-    public function getCategoriesArray()
-    {
-        $categoriesArray = $this->_categoryCollectionFactory->create()
-            ->addAttributeToSelect('name')
-            ->addAttributeToSort('path', 'asc')
-            ->load()
-            ->toArray();
-
-        $categories = array();
-        foreach ($categoriesArray as $categoryId => $category) {
-            if (isset($category['name']) && isset($category['level'])) {
-                $categories[] = array(
-                    'label' => $category['name'],
-                    'level' => $category['level'],
-                    'value' => $categoryId,
-                );
-            }
-        }
-
-        return $categories;
-    }
 }
