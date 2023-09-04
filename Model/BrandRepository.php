@@ -14,6 +14,7 @@ use Acx\BrandSlider\Model\ResourceModel\Brand as BrandResourceModel;
 use Acx\BrandSlider\Model\ResourceModel\Brand\Collection;
 use Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory as BrandCollectionFactory;
 use Acx\BrandSlider\Api\Data\BrandSearchResultsInterfaceFactory as ResultsInterfaceFactory;
+use Acx\BrandSlider\Model\ResourceModel\Store\Relation as StoreRelation;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
@@ -24,24 +25,34 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class BrandRepository implements BrandRepositoryInterface
 {
-    protected BrandResourceModel $resource;
+    /** @var BrandResourceModel  */
+    protected  $resource;
 
-    protected BrandFactory $brandFactory;
+    /** @var BrandFactory */
+    protected $brandFactory;
 
-    protected BrandCollectionFactory $brandCollectionFactory;
+    /** @var BrandCollectionFactory  */
+    protected $brandCollectionFactory;
 
-    protected ResultsInterfaceFactory $searchResultsFactory;
+    /** @var ResultsInterfaceFactory  */
+    protected  $searchResultsFactory;
 
-    protected StoreManagerInterface $storeManager;
+    /** @var StoreManagerInterface  */
+    protected $storeManager;
 
-    protected CollectionProcessorInterface $collectionProcessor;
+    /** @var CollectionProcessorInterface */
+    protected $collectionProcessor;
+
+    /** @var StoreRelation */
+    protected $storeRelation;
 
     /**
      * @param BrandResourceModel $resource
-     * @param BrandFactory $brandFactory
+     * @param \Acx\BrandSlider\Model\BrandFactory $brandFactory
      * @param BrandCollectionFactory $brandCollectionFactory
      * @param ResultsInterfaceFactory $searchResultsFactory
      * @param StoreManagerInterface $storeManager
+     * @param StoreRelation $storeRelation
      * @param CollectionProcessorInterface|null $collectionProcessor
      */
     public function __construct(
@@ -50,6 +61,7 @@ class BrandRepository implements BrandRepositoryInterface
         BrandCollectionFactory $brandCollectionFactory,
         ResultsInterfaceFactory $searchResultsFactory,
         StoreManagerInterface $storeManager,
+        StoreRelation $storeRelation,
         CollectionProcessorInterface $collectionProcessor = null
     ) {
         $this->resource = $resource;
@@ -57,19 +69,26 @@ class BrandRepository implements BrandRepositoryInterface
         $this->brandCollectionFactory = $brandCollectionFactory;
         $this->searchResultsFactory = $searchResultsFactory;
         $this->storeManager = $storeManager;
+        $this->storeRelation = $storeRelation;
     }
 
     /**
      * Save Brand data
      *
      * @param BrandInterface $brand
-     * @return Brand
+     * @return BrandInterface
      * @throws CouldNotSaveException
      */
     public function save(BrandInterface $brand)
     {
         try {
+            $storeIds = $brand->getStoreId();
+            $brand->unsetStoreIds();
             $this->resource->save($brand);
+            $brandId = $brand->getId();
+            if (!empty($brandId)) {
+                $this->storeRelation->processRelations($brandId, $storeIds);
+            }
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
         }

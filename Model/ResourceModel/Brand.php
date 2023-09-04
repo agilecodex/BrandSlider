@@ -3,7 +3,6 @@
  *  Copyright © Agile Codex Ltd. All rights reserved.
  *  License:    https://www.agilecodex.com/license-agreement
  */
-
 namespace Acx\BrandSlider\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;

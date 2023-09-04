@@ -8,14 +8,17 @@
 namespace Acx\BrandSlider\Controller\Adminhtml\Brand;
 
 use Acx\BrandSlider\Controller\Adminhtml\Brand as AbastractBrand;
+use Acx\BrandSlider\Model\Brand;
 use Acx\BrandSlider\Model\Brand\Image;
 use Acx\BrandSlider\Model\BrandFactory;
+use Acx\BrandSlider\Model\BrandRepository;
 use Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory;
 use Magento\Backend\App\Action\Context as BackendContext;
 use Magento\Backend\Helper\Js;
 use Magento\Backend\Model\View\Result\ForwardFactory;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\LayoutFactory;
@@ -36,19 +39,23 @@ class Save extends AbastractBrand
     /** @var Image  */
     protected $imageModel;
 
+    /** @var BrandRepository */
+    protected $brandRepository;
+
     public function __construct(
-        BackendContext                                               $context,
-        UploaderFactory                                              $uploaderFactory,
-        Image                                                        $imageModel,
-        BrandFactory                          $brandFactory,
+        BackendContext $context,
+        UploaderFactory $uploaderFactory,
+        Image $imageModel,
+        BrandFactory $brandFactory,
         CollectionFactory $brandCollectionFactory,
-        Registry                                  $coreRegistry,
-        FileFactory             $fileFactory,
-        PageFactory                   $resultPageFactory,
-        LayoutFactory                 $resultLayoutFactory,
-        ForwardFactory            $resultForwardFactory,
-        StoreManagerInterface                   $storeManager,
-        Js $jsHelper
+        Registry $coreRegistry,
+        FileFactory $fileFactory,
+        PageFactory $resultPageFactory,
+        LayoutFactory $resultLayoutFactory,
+        ForwardFactory $resultForwardFactory,
+        StoreManagerInterface $storeManager,
+        Js $jsHelper,
+        BrandRepository $brandRepository
     ) {
         parent::__construct($context, $brandFactory, $brandCollectionFactory,
                 $coreRegistry, $fileFactory, $resultPageFactory, $resultLayoutFactory,
@@ -56,6 +63,7 @@ class Save extends AbastractBrand
 
         $this->uploaderFactory = $uploaderFactory;
         $this->imageModel = $imageModel;
+        $this->brandRepository = $brandRepository;
     }
 
     /**
@@ -65,32 +73,28 @@ class Save extends AbastractBrand
         $resultRedirect = $this->resultRedirectFactory->create();
 
         if ($data = $this->getRequest()->getPostValue()) {
+            if (isset($data['status']) && $data['status'] === 'true') {
+                $data['status'] = Brand::STATUS_ENABLED;
+            }
+            if (empty($data['id'])) {
+                $data['id'] = null;
+            }
             $model = $this->_brandFactory->create();
 
             if ($id = $this->getRequest()->getParam(static::PARAM_CRUD_ID)) {
-                $model->load($id);
-            }
-
-            $imageRequest = $this->getRequest()->getFiles('image');
-
-            $fileName = isset($imageRequest['name']) && strlen($imageRequest['name']) > 0
-                            ? $imageRequest['name'] : '';
-
-            $data = $this->imageModel->beforeSave($data);
-
-            if (isset($data['store_id'][0])) {
-                $data['store_id'] = $data['store_id'][0];
-            } elseif (!isset($data['store_id'])) {
                 try {
-                    $data['store_id'] = $this->storeManager->getStore()->getId();
-                } catch (NoSuchEntityException $e) {
+                    $model = $this->brandRepository->getById($id);
+                } catch (LocalizedException $e) {
+                    $this->messageManager->addErrorMessage(__('This brand no longer exists.'));
+                    return $resultRedirect->setPath('*/*/');
                 }
             }
 
+            $data = $this->imageModel->beforeSave($data);
             $model->setData($data);
 
             try {
-                $model->save();
+                $this->brandRepository->save($model);
 
                 $this->messageManager->addSuccess(__('The brand has been saved.'));
                 $this->_getSession()->setFormData(false);

@@ -19,12 +19,18 @@ class Brand extends AbstractModel implements BrandInterface
      */
     protected $_eventPrefix = 'brand_slider';
 
+    /**
+     * Brand's statuses
+     */
+    public const STATUS_ENABLED = 1;
+    public const STATUS_DISABLED = 0;
+
     protected function _construct()
     {
         $this->_init(ResourceModel\Brand::class);
     }
 
-    /** @return string */
+    /** @return string|null */
     public function getName(): string {
         return $this->getData('name');
     }
@@ -68,7 +74,7 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getImage(): string {
         return $this->getData('image');
@@ -83,7 +89,7 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getImageAlt(): string {
         return $this->getData('image_alt');
@@ -91,25 +97,32 @@ class Brand extends AbstractModel implements BrandInterface
 
     /**
      * @param $imageAlt
-     * @return string|null
+     * @return BrandInterface
      */
     public function setImageAlt($imageAlt): BrandInterface{
         return $this->setData('image_alt', $imageAlt);
     }
 
     /**
-     * @return int
+     * @return array
      */
-    public function getStoreId(): int {
-        return $this->getData('store_id');
+    public function getStoreId(): array {
+        return $this->getData('store_ids');
     }
 
     /**
-     * @param $storeId
+     * @param $storeIds
      * @return BrandInterface
      */
-    public function setStoreId($storeId): BrandInterface{
-        return $this->setData('store_id', $storeId);
+    public function setStoreIds($storeIds): BrandInterface {
+        return $this->setData('store_ids', $storeIds);
+    }
+
+    /**
+     * @return BrandInterface
+     */
+    public function unsetStoreIds(): BrandInterface {
+        return $this->unsetData('store_ids');
     }
 
     /**

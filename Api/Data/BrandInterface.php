@@ -29,7 +29,9 @@ interface BrandInterface
      */
     public function getId();
 
-    /** @return string */
+    /**
+     * @return string|null
+     */
     public function getName():string;
 
     /**
@@ -61,7 +63,7 @@ interface BrandInterface
     public function setStatus($status): BrandInterface;
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getImage(): string;
 
@@ -72,7 +74,7 @@ interface BrandInterface
     public function setImage($image): ?BrandInterface;
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getImageAlt(): string;
 
@@ -83,15 +85,20 @@ interface BrandInterface
     public function setImageAlt($imageAlt): BrandInterface;
 
     /**
-     * @return int
+     * @return array
      */
-    public function getStoreId(): int;
+    public function getStoreId(): array;
 
     /**
-     * @param $storeId
+     * @param array $storeIds
      * @return BrandInterface
      */
-    public function setStoreId($storeId): BrandInterface;
+    public function setStoreIds(array $storeIds): BrandInterface;
+
+    /**
+     * @return BrandInterface
+     */
+    public function unsetStoreIds(): BrandInterface;
 
     /**
      * @param \DateTime $value

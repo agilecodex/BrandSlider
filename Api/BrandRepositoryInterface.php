@@ -27,7 +27,7 @@ interface BrandRepositoryInterface
      * Save Brand data
      *
      * @param BrandInterface $brand
-     * @return Brand
+     * @return BrandInterface
      * @throws CouldNotSaveException
      */
     public function save(BrandInterface $brand);
