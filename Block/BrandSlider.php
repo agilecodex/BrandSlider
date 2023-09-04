@@ -6,13 +6,21 @@
  */
 
 namespace Acx\BrandSlider\Block;
+use Acx\BrandSlider\Api\BrandRepositoryInterface;
+use Acx\BrandSlider\Model\BrandRepository;
 use Acx\BrandSlider\Model\Status;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\View\Asset\Repository;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+use Magento\Store\Model\ScopeInterface;
 
 /**
- * BrandSlider Block
+ * BrandSlider Widget Block
+ *
  * @author Agile Codex
  */
-class BrandSlider extends \Magento\Framework\View\Element\Template
+class BrandSlider extends Template
 {
     /**
      * template for evolution brandslider.
@@ -20,26 +28,19 @@ class BrandSlider extends \Magento\Framework\View\Element\Template
     const TEMPLATE = 'Acx_BrandSlider::brandslider/brandslider.phtml';
     const XML_CONFIG_BRANDSLIDER = 'brandslider/general/enable_frontend';
 
-    /**
-     * scope config.
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
+    /** @var ScopeConfigInterface */
     protected $_scopeConfig;
 
-    /**
-     * @var \Acx\BrandSlider\Model\BrandRepository
-     */
+    /** @var BrandRepository */
     protected $_brandRepository;
 
-    /**
-     * var \Magento\Framework\View\Asset\Repository
-     */
+    /** @var Repository */
     protected  $_assetRepo;
 
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Acx\BrandSlider\Model\BrandRepository $brandRepository,
+        Context $context,
+        Repository $assetRepo,
+        BrandRepositoryInterface $brandRepository,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -56,7 +57,7 @@ class BrandSlider extends \Magento\Framework\View\Element\Template
         $store = $this->_storeManager->getStore()->getId();
         $configEnable = $this->_scopeConfig->getValue(
             self::XML_CONFIG_BRANDSLIDER,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+            ScopeInterface::SCOPE_STORE,
             $store
         );
 
@@ -68,7 +69,7 @@ class BrandSlider extends \Magento\Framework\View\Element\Template
     }
 
     /**
-     * get brand collection of brandslider.
+     * Get brand collection.
      *
      * @return \Acx\BrandSlider\Model\ResourceModel\Brand\Collection
      */
