@@ -104,12 +104,13 @@ class Image
      * Will set empty image attribute value if image was not uploaded.
      *
      * @param \Magento\Framework\DataObject $object
-     * @return $this
+     * @return \Magento\Framework\DataObject $object
      */
     public function beforeSave($object)
     {
         $attributeName = 'image';
-        $value = $object->getData($attributeName);
+
+        $value = $object[$attributeName];
 
         if ($this->isTmpFileAvailable($value) && $imageName = $this->getUploadedImageName($value)) {
             try {
@@ -131,10 +132,11 @@ class Image
             if (!$this->fileResidesOutsideCategoryDir($value)) {
                 $imageName = $this->checkUniqueImageName($imageName);
             }
-            $object->setData($attributeName, $imageName);
+            $object[$attributeName] = $imageName;
         } elseif (!is_string($value)) {
-            $object->setData($attributeName, null);
+            $object[$attributeName] = null;
         }
+        return $object;
     }
 
     /**

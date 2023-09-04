@@ -47,4 +47,9 @@
             <argument name="imageUploader" xsi:type="object">Acx\BrandSlider\BrandLogoUpload</argument>
         </arguments>
     </type>
+    <type name="Acx\BrandSlider\Model\Brand\Image">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Acx\BrandSlider\BrandLogoUpload</argument>
+        </arguments>
+    </type>
 </config>

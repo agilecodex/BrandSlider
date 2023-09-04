@@ -15,6 +15,7 @@ use Magento\Backend\App\Action\Context as BackendContext;
 use Magento\Backend\Helper\Js;
 use Magento\Backend\Model\View\Result\ForwardFactory;
 use Magento\Framework\App\Response\Http\FileFactory;
+use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\LayoutFactory;
@@ -74,6 +75,8 @@ class Save extends AbastractBrand
 
             $fileName = isset($imageRequest['name']) && strlen($imageRequest['name']) > 0
                             ? $imageRequest['name'] : '';
+
+            $data = $this->imageModel->beforeSave($data);
 
             if (isset($data['store_id'][0])) {
                 $data['store_id'] = $data['store_id'][0];
