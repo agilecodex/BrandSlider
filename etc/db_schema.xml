@@ -20,4 +20,20 @@
             <column name="id"/>
         </constraint>
     </table>
+    <table name="acx_brandslider_brand_store" resource="default" engine="innodb" comment="Brand Slider To Store Linkage Table">
+        <column xsi:type="int" name="brand_id" unsigned="false" nullable="false" identity="false"/>
+        <column xsi:type="smallint" name="store_id" unsigned="true" nullable="false" identity="false"
+                comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="brand_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="ACX_BRANDSLIDER_BRAND_STORE_BRAND_ID_ACX_BRANDSLIDER_BRAND_BRAND_ID" table="acx_brandslider_brand_store"
+                    column="brand_id" referenceTable="acx_brandslider_brand" referenceColumn="id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="ACX_BRANDSLIDER_BRAND_STORE_STORE_ID_STORE_STORE_ID" table="acx_brandslider_brand_store"
+                    column="store_id" referenceTable="store" referenceColumn="store_id" onDelete="CASCADE"/>
+        <index referenceId="ACX_BRANDSLIDER_BRAND_STORE_STORE_ID" indexType="btree">
+            <column name="store_id"/>
+        </index>
+    </table>
 </schema>
