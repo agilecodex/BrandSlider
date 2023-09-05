@@ -30,9 +30,24 @@ class Brand extends AbstractModel implements BrandInterface
         $this->_init(ResourceModel\Brand::class);
     }
 
+    /**
+     * @param $id
+     * @return BrandInterface
+     */
+    public function setBrandId($id) {
+        return $this->setData(self::BRAND_ID, $id);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBrandId(){
+        return $this->getData(self::BRAND_ID);
+    }
+
     /** @return string|null */
     public function getName(): string {
-        return $this->getData('name');
+        return $this->getData(self::NAME);
     }
 
     /**
@@ -40,14 +55,14 @@ class Brand extends AbstractModel implements BrandInterface
      * @return BrandInterface
      */
     public function setName($brandName): BrandInterface {
-        return $this->setData('name', $brandName);
+        return $this->setData(self::NAME, $brandName);
     }
 
     /**
      * @return int
      */
     public function getSortOrder(): int {
-        return $this->getData('sort_order');
+        return $this->getData(self::SORT_ORDER);
     }
 
     /**
@@ -55,14 +70,14 @@ class Brand extends AbstractModel implements BrandInterface
      * @return BrandInterface
      */
     public function setSortOrder($sortOrder): BrandInterface{
-        return $this->setData('sort_order', $sortOrder);
+        return $this->setData(self::SORT_ORDER, $sortOrder);
     }
 
     /**
      * @return int
      */
     public function getStatus(): int {
-        return $this->getData('status');
+        return $this->getData(self::STATUS);
     }
 
     /**
@@ -70,14 +85,14 @@ class Brand extends AbstractModel implements BrandInterface
      * @return BrandInterface
      */
     public function setStatus($status): BrandInterface{
-        return $this->setData('status', $status);
+        return $this->setData(self::STATUS, $status);
     }
 
     /**
      * @return string|null
      */
     public function getImage(): string {
-        return $this->getData('image');
+        return $this->getData(self::IMAGE);
     }
 
     /**
@@ -85,14 +100,14 @@ class Brand extends AbstractModel implements BrandInterface
      * @return BrandInterface
      */
     public function setImage($image): BrandInterface{
-        return $this->setData('image', $image);
+        return $this->setData(self::IMAGE, $image);
     }
 
     /**
      * @return string|null
      */
-    public function getImageAlt(): string {
-        return $this->getData('image_alt');
+    public function getImageAlt(): ?string {
+        return $this->getData(self::IMAGE_ALT);
     }
 
     /**
@@ -100,14 +115,14 @@ class Brand extends AbstractModel implements BrandInterface
      * @return BrandInterface
      */
     public function setImageAlt($imageAlt): BrandInterface{
-        return $this->setData('image_alt', $imageAlt);
+        return $this->setData(self::IMAGE_ALT, $imageAlt);
     }
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getStoreId(): array {
-        return $this->getData('store_ids');
+    public function getStoreId(): ?array {
+        return $this->getData(self::STORE_ID);
     }
 
     /**
@@ -115,28 +130,28 @@ class Brand extends AbstractModel implements BrandInterface
      * @return BrandInterface
      */
     public function setStoreIds($storeIds): BrandInterface {
-        return $this->setData('store_ids', $storeIds);
+        return $this->setData(self::STORE_ID, $storeIds);
     }
 
     /**
      * @return BrandInterface
      */
     public function unsetStoreIds(): BrandInterface {
-        return $this->unsetData('store_ids');
+        return $this->unsetData('store_id');
     }
 
     /**
-     * @return \DateTime|null
+     * @return string|null
      */
-    public function getUpdatedAt(): ?\DateTime {
-        return new \DateTime($this->getData('update_time'));
+    public function getUpdatedAt(): ?string {
+        return $this->getData(self::UPDATE_TIME);
     }
 
     /**
-     * @param \DateTime $value
+     * @param string $value
      * @return BrandInterface
      */
-    public function setUpdatedAt(\DateTime $value): BrandInterface{
-        return $this->setData('update_time', $value);
+    public function setUpdatedAt($value): BrandInterface{
+        return $this->setData(self::UPDATE_TIME, $value);
     }
 }

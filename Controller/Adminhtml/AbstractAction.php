@@ -15,7 +15,7 @@ use Magento\Store\Model\StoreManagerInterface;
  */
 abstract class AbstractAction extends \Magento\Backend\App\Action
 {
-    const PARAM_CRUD_ID = 'id';
+    const PARAM_CRUD_ID = 'brand_id';
 
     /**
      * @var \Magento\Backend\Helper\Js

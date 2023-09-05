@@ -61,7 +61,7 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
      */
     public function checkFieldDisable()
     {
-        if (!$this->getElementStoreViewId() && $this->getElementName() != 'id' && $this->canDisplayUseDefault() && $this->usedDefault()) {
+        if (!$this->getElementStoreViewId() && $this->getElementName() != 'brand_id' && $this->canDisplayUseDefault() && $this->usedDefault()) {
             $this->getElement()->setDisabled(true);
         }
 

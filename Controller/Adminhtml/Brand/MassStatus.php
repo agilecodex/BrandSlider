@@ -27,7 +27,7 @@ class MassStatus extends \Acx\BrandSlider\Controller\Adminhtml\Brand
         } else {
             $brandCollection = $this->_brandCollectionFactory->create()
                 ->setStoreViewId($storeViewId)
-                ->addFieldToFilter('id', ['in' => $brandIds]);
+                ->addFieldToFilter('brand_id', ['in' => $brandIds]);
             try {
                 foreach ($brandCollection as $brand) {
                     $brand->setStoreViewId($storeViewId)

@@ -13,6 +13,18 @@ namespace Acx\BrandSlider\Api\Data;
  */
 interface BrandInterface
 {
+    /**#@+
+     * Constants for keys of data array. Identical to the name of the getter in snake case
+     */
+    const BRAND_ID  = 'brand_id';
+    const NAME      = 'name';
+    const SORT_ORDER = 'sort_order';
+    const STATUS    = 'status';
+    const IMAGE     = 'image';
+    const IMAGE_ALT = 'image_alt';
+    const UPDATE_TIME   = 'update_time';
+    const STORE_ID     = 'store_id';
+
     const BASE_MEDIA_PATH = 'acx/brandslider/images';
 
     const BRAND_TARGET_SELF = 0;
@@ -21,13 +33,14 @@ interface BrandInterface
 
     /**
      * @param $id
+     * @return BrandInterface
      */
-    public function setId($id);
+    public function setBrandId($id);
 
     /**
      * @return mixed
      */
-    public function getId();
+    public function getBrandId();
 
     /**
      * @return string|null
@@ -76,7 +89,7 @@ interface BrandInterface
     /**
      * @return string|null
      */
-    public function getImageAlt(): string;
+    public function getImageAlt(): ?string;
 
     /**
      * @param $imageAlt
@@ -85,9 +98,9 @@ interface BrandInterface
     public function setImageAlt($imageAlt): BrandInterface;
 
     /**
-     * @return array
+     * @return array|null
      */
-    public function getStoreId(): array;
+    public function getStoreId(): ?array;
 
     /**
      * @param array $storeIds
@@ -101,14 +114,14 @@ interface BrandInterface
     public function unsetStoreIds(): BrandInterface;
 
     /**
-     * @param \DateTime $value
+     * @param string $value
      * @return BrandInterface
      */
-    public function setUpdatedAt(\DateTime $value): BrandInterface;
+    public function setUpdatedAt($value): BrandInterface;
 
     /**
-     * @return \DateTime|null
+     * @return string|null
      */
-    public function getUpdatedAt(): ?\DateTime;
+    public function getUpdatedAt(): ?string;
 
 }

@@ -16,7 +16,7 @@ class Delete extends \Acx\BrandSlider\Controller\Adminhtml\Brand
     {
         $brandId = $this->getRequest()->getParam(static::PARAM_CRUD_ID);
         try {
-            $brand = $this->_brandFactory->create()->setId($brandId);
+            $brand = $this->_brandFactory->create()->setBrandId($brandId);
             $brand->delete();
             $this->messageManager->addSuccess(
                 __('Delete successfully !')

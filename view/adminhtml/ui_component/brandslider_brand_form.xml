@@ -30,8 +30,8 @@
         </settings>
         <dataProvider class="Acx\BrandSlider\Model\Brand\DataProvider" name="brand_form_data_source">
             <settings>
-                <requestFieldName>id</requestFieldName>
-                <primaryFieldName>id</primaryFieldName>
+                <requestFieldName>brand_id</requestFieldName>
+                <primaryFieldName>brand_id</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>
@@ -39,7 +39,7 @@
         <settings>
             <label/>
         </settings>
-        <field name="id" formElement="input">
+        <field name="brand_id" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="source" xsi:type="string">brand</item>
@@ -48,7 +48,7 @@
             <settings>
                 <dataType>text</dataType>
                 <visible>false</visible>
-                <dataScope>id</dataScope>
+                <dataScope>brand_id</dataScope>
             </settings>
         </field>
         <field name="status" sortOrder="10" formElement="checkbox">
@@ -148,7 +148,7 @@
                     <description>What is this?</description>
                 </tooltip>
                 <label translate="true">Store View</label>
-                <dataScope>store_ids</dataScope>
+                <dataScope>store_id</dataScope>
             </settings>
             <formElements>
                 <multiselect>

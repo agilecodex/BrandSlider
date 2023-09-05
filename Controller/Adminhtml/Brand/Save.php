@@ -76,8 +76,8 @@ class Save extends AbastractBrand
             if (isset($data['status']) && $data['status'] === 'true') {
                 $data['status'] = Brand::STATUS_ENABLED;
             }
-            if (empty($data['id'])) {
-                $data['id'] = null;
+            if (empty($data['brand_id'])) {
+                $data['brand_id'] = null;
             }
             $model = $this->_brandFactory->create();
 

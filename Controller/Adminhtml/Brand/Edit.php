@@ -16,7 +16,7 @@ class Edit extends \Acx\BrandSlider\Controller\Adminhtml\Brand
      */
     public function execute()
     {
-        $id = $this->getRequest()->getParam('id');
+        $id = $this->getRequest()->getParam('brand_id');
         $storeViewId = $this->getRequest()->getParam('store');
         $model = $this->_brandFactory->create();
 

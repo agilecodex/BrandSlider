@@ -37,7 +37,7 @@ class InstallSchema implements InstallSchemaInterface
         $table = $installer->getConnection()->newTable(
             $installer->getTable('acx_brandslider_brand')
         )->addColumn(
-            'id',
+            'brand_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             10,
             ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
@@ -73,8 +73,8 @@ class InstallSchema implements InstallSchemaInterface
             ['nullable' => true],
             'Brand image alt'
         )->addIndex(
-            $installer->getIdxName('acx_brandslider_brand', ['id']),
-            ['id']
+            $installer->getIdxName('acx_brandslider_brand', ['brand_id']),
+            ['brand_id']
         )->addIndex(
             $installer->getIdxName('acx_brandslider_brand', ['status']),
             ['status']

@@ -1,7 +1,7 @@
 {
     "acx_brandslider_brand": {
         "column": {
-            "id": true,
+            "brand_id": true,
             "name": true,
             "sort_order": true,
             "status": true,

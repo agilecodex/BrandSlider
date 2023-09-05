@@ -39,7 +39,7 @@ class GenericButton
      */
     public function getBrandId()
     {
-        $brandId = $this->context->getRequest()->getParam('id');
+        $brandId = $this->context->getRequest()->getParam('brand_id');
         if (is_null($brandId)) {
             return null;
         }

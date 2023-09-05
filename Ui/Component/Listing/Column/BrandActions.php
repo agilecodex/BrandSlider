@@ -52,13 +52,13 @@ class BrandActions extends Column
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
                 $name = $this->getData('name');
-                if (isset($item['id'])) {
+                if (isset($item['brand_id'])) {
                     $item[$name]['edit'] = [
-                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['id' => $item['id']]),
+                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['brand_id' => $item['brand_id']]),
                         'label' => __('Edit')
                     ];
                     $item[$name]['delete'] = [
-                        'href' => $this->urlBuilder->getUrl(self::URL_PATH_DELETE, ['id' => $item['id']]),
+                        'href' => $this->urlBuilder->getUrl(self::URL_PATH_DELETE, ['brand_id' => $item['brand_id']]),
                         'label' => __('Delete'),
                         'confirm' => [
                             'title' => __('Delete '.$item['name'].' logo'),

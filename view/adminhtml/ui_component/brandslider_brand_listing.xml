@@ -35,8 +35,8 @@
         <aclResource>Acx_BrandSlider::brandslider</aclResource>
         <dataProvider class="Acx\BrandSlider\Ui\Component\DataProvider" name="brandslider_brand_listing_data_source">
             <settings>
-                <requestFieldName>id</requestFieldName>
-                <primaryFieldName>id</primaryFieldName>
+                <requestFieldName>brand_id</requestFieldName>
+                <primaryFieldName>brand_id</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>
@@ -50,7 +50,7 @@
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="brandslider_brand_columns">
-        <column name="id">
+        <column name="brand_id">
             <settings>
                 <filter>textRange</filter>
                 <label translate="true">ID</label>
@@ -97,7 +97,7 @@
         </column>
         <actionsColumn name="actions" class="Acx\BrandSlider\Ui\Component\Listing\Column\BrandActions">
             <settings>
-                <indexField>id</indexField>
+                <indexField>brand_id</indexField>
             </settings>
         </actionsColumn>
     </columns>

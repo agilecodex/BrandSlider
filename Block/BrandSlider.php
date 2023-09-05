@@ -95,7 +95,7 @@ class BrandSlider extends Template
     }
 
     /**
-     * get flexslider html id.
+     * get flexslider html brand_id.
      *
      * @return string
      */
