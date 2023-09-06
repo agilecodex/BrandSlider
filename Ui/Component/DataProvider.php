@@ -74,7 +74,7 @@ class DataProvider extends AbstractDataProvider
 
         if (!$this->authorization->isAllowed('Acx_BrandSlider::brandslider')) {
             $metadata = [
-                'cms_page_columns' => [
+                'brandslider_brand_columns' => [
                     'arguments' => [
                         'data' => [
                             'config' => [

@@ -59,7 +59,7 @@ class Collection extends BrandCollection implements SearchResultInterface
         $eventPrefix,
         $eventObject,
         $resourceModel,
-        $model = \Acx\BrandSlider\Model\Brand::class,
+        $model = \Magento\Framework\View\Element\UiComponent\DataProvider\Document::class,
         $connection = null,
         AbstractDb $resource = null,
         TimezoneInterface $timeZone = null
