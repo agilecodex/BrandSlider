@@ -1,0 +1,59 @@
+<?php
+/**
+ *  Copyright © Agile Codex Ltd. All rights reserved.
+ *  License: https://www.agilecodex.com/license-agreement
+ */
+/** @var \Acx\BrandSlider\Block\BrandSlider $block */
+$htmlId = $block->getFlexSliderHtmlId();
+$brandCollection = $block->getBrandCollection();
+?>
+<link rel="stylesheet" type="text/css" href="<?php echo $block->getViewFileUrl('Acx_BrandSlider::css/flexslider.css') ?>">
+
+    <div class="acx-brandslider-standard">
+        <?php
+        if ($block->getData("show_title")) { ?>
+            <div class="acx-content-heading">
+                <h2 class="title"><?php echo $block->getTitle(); ?></h2>
+            </div>
+            <?php
+        }
+
+        ?>
+        <div class="acx-brandslider-flex-brandslider">
+            <div id="<?php echo $htmlId ?>" class="flexslider carousel flexslider-content-image <?php echo $htmlId ?>" style="margin:auto">
+                <ul class="slides">
+                    <?php foreach ($brandCollection as $brand) { ?>
+                        <li data-thumb="<?php echo $block->getBrandImageUrl($brand) ?>">
+                            <img alt="<?php echo $brand->getImageAlt() ?>"
+                                 src="<?php echo $block->getBrandImageUrl($brand) ?>"/>
+                            <?php if ($brand->getName() && $block->getShowCaption()) { ?>
+                                <div class="flex-caption">
+                                    <?php echo $brand->getName(); ?>
+                                </div>
+                            <?php } ?>
+                        </li>
+
+                        <?php
+                    }
+
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    require([
+        'jquery',
+        'slick',
+        'domReady!'
+    ], function ($) {
+        $('.slides').slick({
+            dots: <?= (!$block->getDot()) ? "false" : "true" ?>,
+            infinite: true,
+            speed: 300,
+            slidesToShow: 4,
+            slidesToScroll: 1
+        });
+    });
+</script>

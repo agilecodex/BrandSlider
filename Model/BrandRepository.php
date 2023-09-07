@@ -175,7 +175,6 @@ class BrandRepository implements BrandRepositoryInterface
 
         /** @var \Acx\BrandSlider\Model\ResourceModel\Brand\Collection $brandCollection */
         $brandCollection = $this->brandCollectionFactory->create()
-            ->setStoreViewId($storeViewId)
             ->addFieldToFilter('status', Status::STATUS_ENABLED)
             ->addFieldToFilter('store_id', ['in' => [0,$storeViewId]])
             ->setOrder('sort_order', 'ASC');

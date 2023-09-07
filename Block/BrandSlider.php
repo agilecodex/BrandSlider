@@ -1,11 +1,10 @@
 <?php
-
 /**
  *  Copyright © Agile Codex Ltd. All rights reserved.
  *  License: https://www.agilecodex.com/license-agreement
  */
-
 namespace Acx\BrandSlider\Block;
+
 use Acx\BrandSlider\Api\BrandRepositoryInterface;
 use Acx\BrandSlider\Model\BrandRepository;
 use Acx\BrandSlider\Model\Status;
@@ -114,7 +113,8 @@ class BrandSlider extends Template
      */
     public function getBaseUrlMedia($path = '', $secure = false)
     {
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA, $secure) . $path;
+        return $this->_storeManager->getStore()
+                ->getBaseUrl() . $path;
     }
 
 
