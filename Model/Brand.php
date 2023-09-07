@@ -4,7 +4,6 @@
  * License:  https://www.agilecodex.com/license-agreement
  * @author   Agile Codex
 */
-
 namespace Acx\BrandSlider\Model;
 
 use Acx\BrandSlider\Api\Data\BrandInterface;
@@ -13,21 +12,30 @@ use Magento\Framework\Model\AbstractModel;
 /** Brand Model */
 class Brand extends AbstractModel implements BrandInterface
 {
-    /**
-     * Prefix of model events names
-     * @var string
-     */
+    /** Brand slider cache tag */
+    public const CACHE_TAG = 'acx_bs_b';
+
+    /** @var string */
     protected $_eventPrefix = 'brand_slider';
 
-    /**
-     * Brand's statuses
-     */
+    /** Brand's statuses */
     public const STATUS_ENABLED = 1;
     public const STATUS_DISABLED = 0;
 
     protected function _construct()
     {
         $this->_init(ResourceModel\Brand::class);
+    }
+
+    /**
+     * Get identities
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        return [self::CACHE_TAG . '_' . $this->getId(), self::CACHE_TAG . '_'
+            . str_replace(' ', '_', $this->getName())];
     }
 
     /**

@@ -6,9 +6,11 @@
 namespace Acx\BrandSlider\Block;
 
 use Acx\BrandSlider\Api\BrandRepositoryInterface;
+use Acx\BrandSlider\Model\Brand as BrandModel;
 use Acx\BrandSlider\Model\BrandRepository;
 use Acx\BrandSlider\Model\Status;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -19,13 +21,15 @@ use Magento\Store\Model\ScopeInterface;
  *
  * @author Agile Codex
  */
-class BrandSlider extends Template
+class BrandSlider extends Template  implements \Magento\Framework\DataObject\IdentityInterface
 {
-    /**
-     * template for evolution brandslider.
-     */
+    /** template for brand slider */
     const TEMPLATE = 'Acx_BrandSlider::brandslider/brandslider.phtml';
     const XML_CONFIG_BRANDSLIDER = 'brandslider/general/enable_frontend';
+
+    /** Prefix for cache key of Brand Slider */
+    const CACHE_KEY_PREFIX = 'BRAND_SLIDER_';
+
 
     /** @var ScopeConfigInterface */
     protected $_scopeConfig;
@@ -35,6 +39,9 @@ class BrandSlider extends Template
 
     /** @var Repository */
     protected  $_assetRepo;
+
+    /** @var BrandModel */
+    private $brand;
 
     public function __construct(
         Context $context,
@@ -136,5 +143,60 @@ class BrandSlider extends Template
     public function getBackendUrl($route = '', $params = ['_current' => true])
     {
         return $this->_backendUrl->getUrl($route, $params);
+    }
+
+    /**
+     * Get identities of the Brand
+     *
+     * @return array
+     */
+    public function getIdentities()
+    {
+        $brand = $this->getBrand();
+
+        if ($brand) {
+            return $brand->getIdentities();
+        }
+
+        return [];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCacheKeyInfo()
+    {
+        $cacheKeyInfo = parent::getCacheKeyInfo();
+        $cacheKeyInfo[] = $this->_storeManager->getStore()->getId();
+        return $cacheKeyInfo;
+    }
+
+    /**
+     * Get brand
+     *
+     * @return BrandModel|null
+     */
+    private function getBrand(): ?BrandModel
+    {
+        if ($this->brand) {
+            return $this->brand;
+        }
+
+        $brandId = $this->getData('brand_id');
+
+        if ($brandId) {
+            try {
+                $storeId = $this->_storeManager->getStore()->getId();
+                /** @var \Magento\Cms\Model\Brand $brand */
+                $brand = $this->_brandFactory->create();
+                $brand->setStoreId($storeId)->load($brandId);
+                $this->brand = $brand;
+
+                return $brand;
+            } catch (NoSuchEntityException $e) {
+            }
+        }
+
+        return null;
     }
 }
