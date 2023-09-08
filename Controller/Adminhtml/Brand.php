@@ -6,7 +6,6 @@
 namespace Acx\BrandSlider\Controller\Adminhtml;
 
 use Magento\Framework\Controller\Result\Redirect;
-
 /**
  * Brand Abstract Action
  * @author Agile Codex

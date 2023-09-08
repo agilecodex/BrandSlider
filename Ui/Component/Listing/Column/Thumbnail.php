@@ -1,7 +1,7 @@
 <?php
 namespace Acx\BrandSlider\Ui\Component\Listing\Column;
 
-use Magento\Catalog\Helper\Image;
+use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Catalog\Ui\Component\Listing\Columns\Thumbnail as CatalogThumbnail;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
@@ -12,41 +12,35 @@ class Thumbnail extends CatalogThumbnail
 {
     const ALT_FIELD = 'name';
 
-    /**
-     * @var \Magento\Catalog\Helper\Image
-     */
+    /** @var ImageHelper */
     private $imageHelper;
 
-    /**
-     * @var \Magento\Framework\UrlInterface
-     */
+    /** @var UrlInterface */
     private $urlBuilder;
 
-    /**
-     * @var \Magento\Store\Model\StoreManagerInterface
-     */
+    /** @var StoreManagerInterface */
     protected $storeManager;
 
     /**
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
-     * @param Image $imageHelper
+     * @param ImageHelper $imageHelper
      * @param UrlInterface $urlBuilder
      * @param StoreManagerInterface $storeManager
      * @param array $components
      * @param array $data
      */
     public function __construct(
-        ContextInterface $context,
-        UiComponentFactory $uiComponentFactory,
-        Image $imageHelper,
-        UrlInterface $urlBuilder,
+        ContextInterface      $context,
+        UiComponentFactory    $uiComponentFactory,
+        ImageHelper           $imageHelper,
+        UrlInterface          $urlBuilder,
         StoreManagerInterface $storeManager,
-        array $components = [],
-        array $data = []
+        array                 $components = [],
+        array                 $data = []
     ) {
-        parent::__construct($context, $uiComponentFactory, $imageHelper, $urlBuilder,
-                                $components, $data);
+        parent::__construct($context, $uiComponentFactory, $imageHelper,
+            $urlBuilder, $components, $data);
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
         $this->urlBuilder = $urlBuilder;
@@ -78,7 +72,6 @@ class Thumbnail extends CatalogThumbnail
                 $item[$fieldName . '_orig_src'] = $url;
             }
         }
-
         return $dataSource;
     }
 

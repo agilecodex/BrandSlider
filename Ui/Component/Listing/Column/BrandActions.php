@@ -15,9 +15,7 @@ class BrandActions extends Column
     /** @var UrlInterface */
     protected $urlBuilder;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $editUrl;
 
     /**
