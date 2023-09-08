@@ -9,7 +9,11 @@ namespace Acx\BrandSlider\Model\Brand;
 use Acx\BrandSlider\Model\Brand as BrandModel;
 use Acx\BrandSlider\Model\ResourceModel\Brand\Collection as BrandCollection;
 use Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory;
+use Magento\Catalog\Helper\Image as ImageHelper;
+use Magento\Catalog\Model\Category\FileInfo;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Store\Model\StoreManagerInterface as StoreManager;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 use Magento\Ui\DataProvider\ModifierPoolDataProvider;
 
@@ -26,6 +30,15 @@ class DataProvider extends ModifierPoolDataProvider
 
     /** @var array */
     protected $loadedData;
+
+    /** @var FileInfo */
+    private $fileInfo;
+
+    /** @var StoreManager */
+    private $storeManager;
+
+    /** @var ImageHelper */
+    private $imageHelper;
 
     /**
      * Constructor
@@ -45,12 +58,18 @@ class DataProvider extends ModifierPoolDataProvider
         $requestFieldName,
         CollectionFactory $blockCollectionFactory,
         DataPersistorInterface $dataPersistor,
+        StoreManager $storeManager,
+        ImageHelper $imageHelper,
         array $meta = [],
         array $data = [],
+        FileInfo $fileInfo = null,
         PoolInterface $pool = null
     ) {
         $this->collection = $blockCollectionFactory->create();
         $this->dataPersistor = $dataPersistor;
+        $this->storeManager = $storeManager;
+        $this->imageHelper = $imageHelper;
+        $this->fileInfo = $fileInfo ?: ObjectManager::getInstance()->get(FileInfo::class);
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data, $pool);
     }
 
@@ -70,6 +89,8 @@ class DataProvider extends ModifierPoolDataProvider
             $this->loadedData[$brand->getId()] = $brand->getData();
         }
 
+        $this->loadedData = $this->convertValues($this->loadedData);
+
         $data = $this->dataPersistor->get('brandslider_brand');
         if (!empty($data)) {
             $brand = $this->collection->getNewEmptyItem();
@@ -79,5 +100,44 @@ class DataProvider extends ModifierPoolDataProvider
         }
 
         return $this->loadedData;
+    }
+
+    /**
+     * Converts brand image data to acceptable for rendering format
+     *
+     * @param array $dataSet
+     * @return array
+     */
+    private function convertValues($dataSet): array
+    {
+        foreach ($dataSet as $i => $data) {
+            foreach ($data as $key => $value) {
+                if ($key == 'image') {
+                    $fileName = $value;
+
+                    if ($this->fileInfo->isExist($fileName)) {
+                        $stat = $this->fileInfo->getStat($fileName);
+                        $mime = $this->fileInfo->getMimeType($fileName);
+
+                        $data[$key] = array();
+                        $data[$key][0]['name'] = basename($fileName);
+
+                        $url = '';
+                        if ($value != '') {
+                            $url = $this->storeManager->getStore()->getBaseUrl() . $value;
+                        } else {
+                            $url = $this->imageHelper->getDefaultPlaceholderUrl('thumbnail');
+                        }
+                        $data[$key][0]['url'] = $url;
+
+                        $data[$key][0]['size'] = $stat['size'];
+                        $data[$key][0]['type'] = $mime;
+                    }
+                }
+            }
+            $dataSet[$i] = $data;
+        }
+
+        return $dataSet;
     }
 }

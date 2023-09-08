@@ -9,6 +9,7 @@
     <module name="Acx_BrandSlider" setup_version="3.0.0">
         <sequence>
             <module name="Acx_Backend"/>
+            <module name="Magento_Catalog"/>
         </sequence>
     </module>
 </config>
