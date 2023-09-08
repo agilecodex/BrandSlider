@@ -7,6 +7,8 @@ declare(strict_types=1);
 
 namespace Acx\BrandSlider\Observer;
 
+use Magento\Framework\App\Cache\TypeListInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
@@ -16,30 +18,26 @@ use Magento\Framework\Event\ObserverInterface;
  */
 class InvalidateCacheOnBrandChange implements ObserverInterface
 {
-    /**
-     * @var \Magento\Framework\App\Cache\TypeListInterface
-     */
+    /** @var TypeListInterface */
     private $cacheTypeList;
 
-    /**
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
+    /** @var ScopeConfigInterface */
     private $scopeConfig;
 
     /**
-     * @param \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param TypeListInterface $cacheTypeList
+     * @param ScopeConfigInterface $scopeConfig
      */
     public function __construct(
-        \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        TypeListInterface $cacheTypeList,
+        ScopeConfigInterface $scopeConfig
     ) {
         $this->cacheTypeList = $cacheTypeList;
         $this->scopeConfig = $scopeConfig;
     }
 
     /**
-     * Invalidate cache on category design attribute value changed
+     * Invalidate cache on brand logo changed
      *
      * @param \Magento\Framework\Event\Observer $observer
      */

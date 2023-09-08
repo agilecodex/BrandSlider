@@ -91,13 +91,13 @@ class DataProvider extends ModifierPoolDataProvider
 
         $this->loadedData = $this->convertValues($this->loadedData);
 
-        $data = $this->dataPersistor->get('brandslider_brand');
+        /*$data = $this->dataPersistor->get('brandslider_brand');
         if (!empty($data)) {
             $brand = $this->collection->getNewEmptyItem();
             $brand->setData($data);
             $this->loadedData[$brand->getId()] = $brand->getData();
             $this->dataPersistor->clear('brandslider_brand');
-        }
+        }*/
 
         return $this->loadedData;
     }
