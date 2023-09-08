@@ -77,7 +77,7 @@
                 <sortable>false</sortable>
             </settings>
         </column>
-        <column name="image_alt" class="Acx\BrandSlider\Ui\Component\Listing\Column\ImageAlt">
+        <column name="image_alt">
             <settings>
                 <filter>text</filter>
                 <label translate="true">Alt Text</label>

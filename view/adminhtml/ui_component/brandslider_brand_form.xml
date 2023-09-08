@@ -119,6 +119,21 @@
                 </imageUploader>
             </formElements>
         </field>
+        <field name="image_alt" sortOrder="41" formElement="input">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="source" xsi:type="string">brand</item>
+                </item>
+            </argument>
+            <settings>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                </validation>
+                <dataType>text</dataType>
+                <label translate="true">Brand Logo Alt Text</label>
+                <dataScope>image_alt</dataScope>
+            </settings>
+        </field>
         <field name="sort_order" formElement="input">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
