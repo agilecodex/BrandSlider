@@ -16,8 +16,10 @@ use Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory;
 use Magento\Backend\App\Action\Context as BackendContext;
 use Magento\Backend\Helper\Js;
 use Magento\Backend\Model\View\Result\ForwardFactory;
+use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\App\Response\Http\FileFactory;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Registry;
@@ -42,6 +44,12 @@ class Save extends AbastractBrand
     /** @var BrandRepository */
     protected $brandRepository;
 
+    /** @var DataPersistorInterface */
+    protected $dataPersistor;
+
+    /** @var EventManager */
+    private $eventManager;
+
     public function __construct(
         BackendContext $context,
         UploaderFactory $uploaderFactory,
@@ -55,6 +63,8 @@ class Save extends AbastractBrand
         ForwardFactory $resultForwardFactory,
         StoreManagerInterface $storeManager,
         Js $jsHelper,
+        DataPersistorInterface $dataPersistor,
+        EventManager $eventManager,
         BrandRepository $brandRepository
     ) {
         parent::__construct($context, $brandFactory, $brandCollectionFactory,
@@ -64,6 +74,8 @@ class Save extends AbastractBrand
         $this->uploaderFactory = $uploaderFactory;
         $this->imageModel = $imageModel;
         $this->brandRepository = $brandRepository;
+        $this->dataPersistor = $dataPersistor;
+        $this->eventManager = $eventManager;
     }
 
     /**
@@ -90,13 +102,19 @@ class Save extends AbastractBrand
                 }
             }
 
+            $this->dataPersistor->set('brandslider_brand', $data);
             $data = $this->imageModel->beforeSave($data);
+            $oldData = $model->getData();
             $model->setData($data);
 
             try {
-                $this->brandRepository->save($model);
+                $brand = $this->brandRepository->save($model);
 
                 $this->messageManager->addSuccess(__('The brand has been saved.'));
+
+                $this->eventManager->dispatch('acx_brand_slider_brand_save_after',
+                    ['entity' => $brand, 'oldData' => $oldData]);
+
                 $this->_getSession()->setFormData(false);
 
                 return $this->_getBackResultRedirect($resultRedirect, $model->getId());

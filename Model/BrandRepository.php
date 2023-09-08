@@ -17,7 +17,6 @@ use Acx\BrandSlider\Api\Data\BrandSearchResultsInterfaceFactory as ResultsInterf
 use Acx\BrandSlider\Model\ResourceModel\Store\Relation as StoreRelation;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Api\SearchCriteriaInterface;
-use Magento\Framework\Event\ManagerInterface as EventManager;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -47,9 +46,6 @@ class BrandRepository implements BrandRepositoryInterface
     /** @var StoreRelation */
     protected $storeRelation;
 
-    /** @var EventManager */
-    private $eventManager;
-
     /**
      * @param BrandResourceModel $resource
      * @param \Acx\BrandSlider\Model\BrandFactory $brandFactory
@@ -57,7 +53,6 @@ class BrandRepository implements BrandRepositoryInterface
      * @param ResultsInterfaceFactory $searchResultsFactory
      * @param StoreManagerInterface $storeManager
      * @param StoreRelation $storeRelation
-     * @param EventManager $eventManager
      * @param CollectionProcessorInterface|null $collectionProcessor
      */
     public function __construct(
@@ -67,7 +62,6 @@ class BrandRepository implements BrandRepositoryInterface
         ResultsInterfaceFactory $searchResultsFactory,
         StoreManagerInterface $storeManager,
         StoreRelation $storeRelation,
-        EventManager $eventManager,
         CollectionProcessorInterface $collectionProcessor = null
     ) {
         $this->resource = $resource;
@@ -76,7 +70,6 @@ class BrandRepository implements BrandRepositoryInterface
         $this->searchResultsFactory = $searchResultsFactory;
         $this->storeManager = $storeManager;
         $this->storeRelation = $storeRelation;
-        $this->eventManager = $eventManager;
     }
 
     /**
@@ -96,8 +89,6 @@ class BrandRepository implements BrandRepositoryInterface
             if (!empty($brandId)) {
                 $this->storeRelation->processRelations($brandId, $storeIds);
             }
-            $this->eventManager->dispatch('acx_brand_slider_brand_save_after',
-                ['entity' => $brand]);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
         }

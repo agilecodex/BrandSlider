@@ -22,7 +22,7 @@ class Edit extends \Acx\BrandSlider\Controller\Adminhtml\Brand
 
         if ($id) {
             //$model->setStoreViewId($storeViewId)->load($id);
-            $model->load($id);
+            $model->load($id, 'brand_id');
             if (!$model->getId()) {
                 $this->messageManager->addError(__('This brand no longer exists.'));
                 $resultRedirect = $this->resultRedirectFactory->create();

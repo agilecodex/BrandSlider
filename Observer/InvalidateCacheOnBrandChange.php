@@ -46,7 +46,15 @@ class InvalidateCacheOnBrandChange implements ObserverInterface
     public function execute(Observer $observer)
     {
         $brandFields = ['name', 'sort_order', 'image', 'image_alt', 'store_id'];
-        $brand =$observer->getEvent()->getData('entity');
+        $brand = $observer->getEvent()->getData('entity');
+        $oldData = $observer->getEvent()->getData('oldData');
+
+        if (!$brand->getOrigData()) {
+            foreach ($oldData as $key => $value) {
+                $brand->setOrigData($key, $value);
+            }
+        }
+
         if (!$brand->isObjectNew()) {
             foreach ($brandFields as $field) {
                 if ($this->isBrandFieldChanged($field, $brand)) {
