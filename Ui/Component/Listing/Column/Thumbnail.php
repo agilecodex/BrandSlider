@@ -2,15 +2,25 @@
 namespace Acx\BrandSlider\Ui\Component\Listing\Column;
 
 use Magento\Catalog\Helper\Image;
+use Magento\Catalog\Ui\Component\Listing\Columns\Thumbnail as CatalogThumbnail;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Magento\Ui\Component\Listing\Columns\Column;
 
-class Thumbnail extends Column
+class Thumbnail extends CatalogThumbnail
 {
-    const ALT_FIELD = 'title';
+    const ALT_FIELD = 'name';
+
+    /**
+     * @var \Magento\Catalog\Helper\Image
+     */
+    private $imageHelper;
+
+    /**
+     * @var \Magento\Framework\UrlInterface
+     */
+    private $urlBuilder;
 
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
@@ -35,10 +45,11 @@ class Thumbnail extends Column
         array $components = [],
         array $data = []
     ) {
+        parent::__construct($context, $uiComponentFactory, $imageHelper, $urlBuilder,
+                                $components, $data);
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
         $this->urlBuilder = $urlBuilder;
-        parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
     /**
@@ -53,10 +64,10 @@ class Thumbnail extends Column
             $fieldName = $this->getData('name');
             foreach($dataSource['data']['items'] as & $item) {
                 $url = '';
-                if($item[$fieldName] != '') {
-                    $url = $this->storeManager->getStore()->getBaseUrl(
-                        \Magento\Framework\UrlInterface::URL_TYPE_MEDIA
-                    ).$item[$fieldName];
+                if ($item[$fieldName] != '') {
+                    $url = $this->storeManager->getStore()->getBaseUrl().$item[$fieldName];
+                } else {
+                    $url = $this->imageHelper->getDefaultPlaceholderUrl('thumbnail');
                 }
                 $item[$fieldName . '_src'] = $url;
                 $item[$fieldName . '_alt'] = $this->getAlt($item) ?: '';
