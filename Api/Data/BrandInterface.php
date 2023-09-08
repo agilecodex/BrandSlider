@@ -45,7 +45,7 @@ interface BrandInterface
     /**
      * @return string|null
      */
-    public function getName():string;
+    public function getName(): ?string;
 
     /**
      * @param $brandName
@@ -54,9 +54,9 @@ interface BrandInterface
     public function setName($brandName): BrandInterface;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getSortOrder():int;
+    public function getSortOrder(): ?int;
 
     /**
      * @param $sortOrder
@@ -65,9 +65,9 @@ interface BrandInterface
     public function setSortOrder($sortOrder): ?BrandInterface;
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getStatus(): int;
+    public function getStatus(): ?int;
 
     /**
      * @param $status
@@ -78,7 +78,7 @@ interface BrandInterface
     /**
      * @return string|null
      */
-    public function getImage(): string;
+    public function getImage(): ?string;
 
     /**
      * @param $image

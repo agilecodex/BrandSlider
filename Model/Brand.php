@@ -54,7 +54,7 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /** @return string|null */
-    public function getName(): string {
+    public function getName(): ?string {
         return $this->getData(self::NAME);
     }
 
@@ -67,9 +67,9 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getSortOrder(): int {
+    public function getSortOrder(): ?int {
         return $this->getData(self::SORT_ORDER);
     }
 
@@ -82,9 +82,9 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getStatus(): int {
+    public function getStatus(): ?int {
         return $this->getData(self::STATUS);
     }
 
@@ -99,7 +99,7 @@ class Brand extends AbstractModel implements BrandInterface
     /**
      * @return string|null
      */
-    public function getImage(): string {
+    public function getImage(): ?string {
         return $this->getData(self::IMAGE);
     }
 
