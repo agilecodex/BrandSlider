@@ -64,7 +64,6 @@ class Thumbnail extends CatalogThumbnail
                     $url = $this->imageHelper->getDefaultPlaceholderUrl('thumbnail');
                 }
                 $item[$fieldName . '_src'] = $url;
-                $item[$fieldName . '_alt'] = $this->getAlt($item) ?: '';
                 $item[$fieldName . '_link'] = $this->urlBuilder->getUrl(
                     'brandslider/brand/edit',
                     ['brand_id' => $item['brand_id']]
