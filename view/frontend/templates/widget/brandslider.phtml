@@ -4,8 +4,5 @@
  *  License: https://www.agilecodex.com/license-agreement
  */
 ?>
-<div class="acx-brandslider widget-brandslider">
-    <?php
-    echo $this->getLayout()->createBlock("Acx\BrandSlider\Block\BrandSlider")->setData($this->getData())->toHtml();
-    ?>
-</div>
+<?= $this->getLayout()->createBlock("Acx\BrandSlider\Block\BrandSlider")
+    ->setData($this->getData())->toHtml() ?>

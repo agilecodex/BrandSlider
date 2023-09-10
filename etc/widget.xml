@@ -18,7 +18,6 @@
                     </option>
                 </options>
             </parameter>
-
             <parameter name="show_title" xsi:type="select"  visible="true" sort_order="30" required="true"
                        source_model="Magento\Config\Model\Config\Source\Yesno">
                 <label translate="true">Show Title</label>
@@ -35,11 +34,23 @@
                        source_model="Magento\Config\Model\Config\Source\Enabledisable">
                 <label translate="true">Autoplay</label>
             </parameter>
+            <parameter name="infinite" xsi:type="select" visible="true" sort_order="60" required="true"
+                       source_model="Magento\Config\Model\Config\Source\Enabledisable">
+                <label translate="true">Infinite loop sliding</label>
+            </parameter>
             <parameter name="brandslider_speed" xsi:type="text" visible="true" required="true"
                        sort_order="70">
                 <label translate="true">Autoplay Timeout (ms)</label>
                 <depends><parameter name="autoplay" value="1" /></depends>
                 <value>3000</value>
+            </parameter>
+            <parameter name="slides_to_show" xsi:type="text" visible="true" sort_order="120" required="true">
+                <label translate="true">SlidesToShow: # of slides to show</label>
+                <value>5</value>
+            </parameter>
+            <parameter name="slides_to_scroll" xsi:type="text" visible="true" sort_order="120" required="true">
+                <label translate="true">SlidesToScroll: # of slides to scroll</label>
+                <value>2</value>
             </parameter>
             <parameter name="dot" xsi:type="select"  visible="true" sort_order="80" required="true"
                        source_model="Magento\Config\Model\Config\Source\Enabledisable">
