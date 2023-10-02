@@ -102,6 +102,7 @@
                 <label translate="true">Brand Logo</label>
                 <visible>true</visible>
                 <required>false</required>
+                <dataScope>image</dataScope>
             </settings>
             <formElements>
                 <imageUploader>
@@ -118,7 +119,6 @@
                     </settings>
                 </imageUploader>
             </formElements>
-            <dataScope>image</dataScope>
         </field>
         <field name="image_alt" sortOrder="41" formElement="input">
             <argument name="data" xsi:type="array">
