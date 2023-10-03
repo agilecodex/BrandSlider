@@ -12,7 +12,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\ResultFactory;
 
 /**
- * Class Upload
+ * Action class for uploading image
  */
 class Upload extends Action implements HttpPostActionInterface
 {

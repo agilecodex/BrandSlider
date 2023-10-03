@@ -6,13 +6,14 @@
 namespace Acx\BrandSlider\Controller\Adminhtml;
 
 use Magento\Framework\Controller\Result\Redirect;
+
 /**
  * Brand Abstract Action
  * @author Agile Codex
  */
 abstract class Brand extends \Acx\BrandSlider\Controller\Adminhtml\AbstractAction
 {
-    const PARAM_CRUD_ID = 'brand_id';
+    public const PARAM_CRUD_ID = 'brand_id';
 
     /**
      * Check if admin has permissions to visit related pages.
@@ -28,13 +29,13 @@ abstract class Brand extends \Acx\BrandSlider\Controller\Adminhtml\AbstractActio
      * Get back result redirect after add/edit.
      *
      * @param Redirect $resultRedirect
-     * @param null $paramCrudId
+     * @param int|null $paramCrudId
      * @return Redirect
      */
     protected function _getBackResultRedirect(
         Redirect $resultRedirect,
-        $paramCrudId = null)
-    {
+        $paramCrudId = null
+    ) {
         switch ($this->getRequest()->getParam('back')) {
             case 'edit':
                 $resultRedirect->setPath(

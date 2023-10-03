@@ -8,11 +8,13 @@ namespace Acx\BrandSlider\Block\Adminhtml\Brand\Edit;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
 /**
- * Class BackButton
+ * Block class for back button
  */
 class BackButton extends GenericButton implements ButtonProviderInterface
 {
     /**
+     * Retrieve button-specified settings
+     *
      * @return array
      */
     public function getButtonData()

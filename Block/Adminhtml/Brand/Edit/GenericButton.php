@@ -6,11 +6,12 @@
 namespace Acx\BrandSlider\Block\Adminhtml\Brand\Edit;
 
 use Acx\BrandSlider\Api\BrandRepositoryInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\View\Element\Context;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
- * Class GenericButton
+ * Block class for generic button classes
  */
 class GenericButton
 {
@@ -36,16 +37,18 @@ class GenericButton
      * Return CMS block ID
      *
      * @return int|null
+     * @throws LocalizedException
      */
     public function getBrandId()
     {
         $brandId = $this->context->getRequest()->getParam('brand_id');
-        if (is_null($brandId)) {
+        if ($brandId === NULL) {
             return null;
         }
         try {
             return $this->brandRepository->getById($brandId)->getId();
         } catch (NoSuchEntityException $e) {
+            throw new LocalizedException(__('The specified logo id does not exist.'));
         }
         return null;
     }

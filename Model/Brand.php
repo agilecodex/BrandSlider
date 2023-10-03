@@ -1,15 +1,17 @@
 <?php
 /**
  * Copyright © Agile Codex Ltd. All rights reserved.
- * License:  https://www.agilecodex.com/license-agreement
- * @author   Agile Codex
+ * License: https://www.agilecodex.com/license-agreement
 */
 namespace Acx\BrandSlider\Model;
 
 use Acx\BrandSlider\Api\Data\BrandInterface;
 use Magento\Framework\Model\AbstractModel;
 
-/** Brand Model */
+/**
+ * Brand Model
+ * @author Agile Codex
+ */
 class Brand extends AbstractModel implements BrandInterface
 {
     /** Brand slider cache tag */
@@ -22,6 +24,9 @@ class Brand extends AbstractModel implements BrandInterface
     public const STATUS_ENABLED = 1;
     public const STATUS_DISABLED = 0;
 
+    /**
+     * @return void
+     */
     protected function _construct()
     {
         $this->_init(ResourceModel\Brand::class);
@@ -39,7 +44,9 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
-     * @param $id
+     * Set Brand ID.
+     *
+     * @param int $id
      * @return BrandInterface
      */
     public function setBrandId($id) {
@@ -47,18 +54,26 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Get Brand ID.
+     *
      * @return mixed
      */
     public function getBrandId(){
         return $this->getData(self::BRAND_ID);
     }
 
-    /** @return string|null */
+    /**
+     * Get Brand Name.
+     *
+     * @return string|null
+     */
     public function getName(): ?string {
         return $this->getData(self::NAME);
     }
 
     /**
+     * Set Brand Name.
+     *
      * @param $brandName
      * @return BrandInterface
      */
@@ -67,6 +82,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Get sort order.
+     *
      * @return int|null
      */
     public function getSortOrder(): ?int {
@@ -74,6 +91,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Set sort order.
+     *
      * @param $sortOrder
      * @return BrandInterface
      */
@@ -82,6 +101,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Get active status.
+     *
      * @return int|null
      */
     public function getStatus(): ?int {
@@ -89,6 +110,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Set active status.
+     *
      * @param $status
      * @return BrandInterface
      */
@@ -97,6 +120,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Get logo image.
+     *
      * @return string|null
      */
     public function getImage(): ?string {
@@ -104,6 +129,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Set logo image.
+     *
      * @param $image
      * @return BrandInterface
      */
@@ -112,6 +139,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Get alt text of logo image.
+     *
      * @return string|null
      */
     public function getImageAlt(): ?string {
@@ -119,7 +148,9 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
-     * @param $imageAlt
+     * Set alt text of logo image.
+     *
+     * @param string|null $imageAlt
      * @return BrandInterface
      */
     public function setImageAlt($imageAlt): BrandInterface{
@@ -127,6 +158,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Get store ID.
+     *
      * @return array|null
      */
     public function getStoreId(): ?array {
@@ -134,7 +167,9 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
-     * @param $storeIds
+     * Set store ID.
+     *
+     * @param array|null $storeIds
      * @return BrandInterface
      */
     public function setStoreIds($storeIds): BrandInterface {
@@ -142,6 +177,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Unset store ID.
+     *
      * @return BrandInterface
      */
     public function unsetStoreIds(): BrandInterface {
@@ -149,6 +186,8 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Get updating time.
+     *
      * @return string|null
      */
     public function getUpdatedAt(): ?string {
@@ -156,10 +195,13 @@ class Brand extends AbstractModel implements BrandInterface
     }
 
     /**
+     * Set updating time.
+     *
      * @param string $value
      * @return BrandInterface
      */
     public function setUpdatedAt($value): BrandInterface{
         return $this->setData(self::UPDATE_TIME, $value);
     }
+
 }

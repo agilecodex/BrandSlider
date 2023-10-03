@@ -10,6 +10,8 @@ use Acx\BrandSlider\Model\Brand as BrandModel;
 use Acx\BrandSlider\Model\BrandRepository;
 use Acx\BrandSlider\Model\Status;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Framework\View\Element\Template;
@@ -21,15 +23,14 @@ use Magento\Store\Model\ScopeInterface;
  *
  * @author Agile Codex
  */
-class BrandSlider extends Template  implements \Magento\Framework\DataObject\IdentityInterface
+class BrandSlider extends Template implements IdentityInterface
 {
     /** template for brand slider */
-    const TEMPLATE = 'Acx_BrandSlider::brandslider/brandslider.phtml';
-    const XML_CONFIG_BRANDSLIDER = 'brandslider/general/enable_frontend';
+    public const TEMPLATE = 'Acx_BrandSlider::brandslider/brandslider.phtml';
+    public const XML_CONFIG_BRANDSLIDER = 'brandslider/general/enable_frontend';
 
     /** Prefix for cache key of Brand Slider */
-    const CACHE_KEY_PREFIX = 'BRAND_SLIDER_';
-
+    public const CACHE_KEY_PREFIX = 'BRAND_SLIDER_';
 
     /** @var ScopeConfigInterface */
     protected $_scopeConfig;
@@ -38,11 +39,17 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
     protected $_brandRepository;
 
     /** @var Repository */
-    protected  $_assetRepo;
+    protected $_assetRepo;
 
     /** @var BrandModel */
     private $brand;
 
+    /**
+     * @param Context $context
+     * @param Repository $assetRepo
+     * @param BrandRepositoryInterface $brandRepository
+     * @param array $data
+     */
     public function __construct(
         Context $context,
         Repository $assetRepo,
@@ -56,7 +63,9 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
     }
 
     /**
-     * @return
+     * Render block HTML
+     *
+     * @return string
      */
     protected function _toHtml()
     {
@@ -85,7 +94,7 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
     }
 
     /**
-     * get brand image url.
+     * Get brand image url.
      *
      * @param \Acx\BrandSlider\Model\Brand $brand
      *
@@ -101,22 +110,22 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
     }
 
     /**
-     * get flexslider html brand_id.
+     * Get brand slider html.
      *
      * @return string
      */
-    public function getFlexSliderHtmlId()
+    public function getBrandSliderHtmlId()
     {
         return 'acx-brandslider-brandslider';
     }
 
     /**
-     * get Base Url Media.
+     * Get Base Url Media.
      *
-     * @param string $path   [description]
-     * @param bool   $secure [description]
+     * @param string $path
+     * @param bool   $secure
      *
-     * @return string [description]
+     * @return string
      */
     public function getBaseUrlMedia($path = '', $secure = false)
     {
@@ -126,7 +135,8 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
 
 
     /**
-     * get BrandSlider Brand Url
+     * Get Brand Url
+     *
      * @return string
      */
     public function getBrandSliderBrandUrl()
@@ -135,7 +145,8 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
     }
 
     /**
-     * get Backend Url
+     * Get Backend Url
+     *
      * @param  string $route
      * @param  array  $params
      * @return string
@@ -146,7 +157,7 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
     }
 
     /**
-     * Get identities of the Brand
+     * Get cache identities of the Brand
      *
      * @return array
      */
@@ -175,6 +186,7 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
      * Get brand
      *
      * @return BrandModel|null
+     * @throws LocalizedException
      */
     private function getBrand(): ?BrandModel
     {
@@ -187,13 +199,15 @@ class BrandSlider extends Template  implements \Magento\Framework\DataObject\Ide
         if ($brandId) {
             try {
                 $storeId = $this->_storeManager->getStore()->getId();
-                /** @var \Magento\Cms\Model\Brand $brand */
+
+                /** @var \Acx\BrandSlider\Model\Brand $brand */
                 $brand = $this->_brandFactory->create();
                 $brand->setStoreId($storeId)->load($brandId);
                 $this->brand = $brand;
 
                 return $brand;
             } catch (NoSuchEntityException $e) {
+                throw new LocalizedException(__('The specified logo id does not exist.'));
             }
         }
 

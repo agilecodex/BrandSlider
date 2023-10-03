@@ -6,7 +6,8 @@
 namespace Acx\BrandSlider\Controller\Adminhtml\Brand;
 
 /**
- * Edit Brand action.
+ * Edit action.
+ *
  * @author Agile Codex
  */
 class Edit extends \Acx\BrandSlider\Controller\Adminhtml\Brand
@@ -21,7 +22,6 @@ class Edit extends \Acx\BrandSlider\Controller\Adminhtml\Brand
         $model = $this->_brandFactory->create();
 
         if ($id) {
-            //$model->setStoreViewId($storeViewId)->load($id);
             $model->load($id, 'brand_id');
             if (!$model->getId()) {
                 $this->messageManager->addError(__('This brand no longer exists.'));
@@ -35,10 +35,11 @@ class Edit extends \Acx\BrandSlider\Controller\Adminhtml\Brand
 
         if (!empty($data)) {
             $model->setData($data);
-        }else if(!$id){
+        } elseif (!$id) {
             $brand_name = $this->_getSession()->getBrandName();
             $image_alt = $this->_getSession()->getImageAlt();
-            if(isset($brand_name) && strlen($brand_name)){
+
+            if (isset($brand_name) && strlen($brand_name)) {
                 $data = [ 'name' => $brand_name, 'image_alt' => $image_alt ];
                 $model->setData($data);
             }

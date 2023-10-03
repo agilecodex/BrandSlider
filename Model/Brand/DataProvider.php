@@ -13,12 +13,13 @@ use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Catalog\Model\Category\FileInfo;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Framework\Filesystem\Io\File as FileSystemIO;
 use Magento\Store\Model\StoreManagerInterface as StoreManager;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
 use Magento\Ui\DataProvider\ModifierPoolDataProvider;
 
 /**
- * Class DataProvider
+ * @inheritdoc
  */
 class DataProvider extends ModifierPoolDataProvider
 {
@@ -40,16 +41,23 @@ class DataProvider extends ModifierPoolDataProvider
     /** @var ImageHelper */
     private $imageHelper;
 
+    /** @var FileSystemIO */
+    private $fileSystemIo;
+
     /**
      * Constructor
      *
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
      * @param CollectionFactory $blockCollectionFactory
      * @param DataPersistorInterface $dataPersistor
+     * @param StoreManager $storeManager
+     * @param ImageHelper $imageHelper
+     * @param FileSystemIO $fileSystemIo
      * @param array $meta
      * @param array $data
+     * @param FileInfo|null $fileInfo
      * @param PoolInterface|null $pool
      */
     public function __construct(
@@ -60,6 +68,7 @@ class DataProvider extends ModifierPoolDataProvider
         DataPersistorInterface $dataPersistor,
         StoreManager $storeManager,
         ImageHelper $imageHelper,
+        FileSystemIO $fileSystemIo,
         array $meta = [],
         array $data = [],
         FileInfo $fileInfo = null,
@@ -69,6 +78,7 @@ class DataProvider extends ModifierPoolDataProvider
         $this->dataPersistor = $dataPersistor;
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
+        $this->fileSystemIo = $fileSystemIo;
         $this->fileInfo = $fileInfo ?: ObjectManager::getInstance()->get(FileInfo::class);
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data, $pool);
     }
@@ -91,14 +101,6 @@ class DataProvider extends ModifierPoolDataProvider
 
         $this->loadedData = $this->convertValues($this->loadedData);
 
-        /*$data = $this->dataPersistor->get('brandslider_brand');
-        if (!empty($data)) {
-            $brand = $this->collection->getNewEmptyItem();
-            $brand->setData($data);
-            $this->loadedData[$brand->getId()] = $brand->getData();
-            $this->dataPersistor->clear('brandslider_brand');
-        }*/
-
         return $this->loadedData;
     }
 
@@ -119,8 +121,11 @@ class DataProvider extends ModifierPoolDataProvider
                         $stat = $this->fileInfo->getStat($fileName);
                         $mime = $this->fileInfo->getMimeType($fileName);
 
-                        $data[$key] = array();
-                        $data[$key][0]['name'] = basename($fileName);
+                        $data[$key] = [];
+                        /** @var FileSystemIO $fileSystemIo **/
+                        $fileInfo = $this->fileSystemIo->getPathInfo($fileName);
+                        $basename = $fileInfo['basename'];
+                        $data[$key][0]['name'] = $basename;
 
                         $url = '';
                         if ($value != '') {

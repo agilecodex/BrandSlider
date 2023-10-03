@@ -18,26 +18,18 @@ use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Brand Resource Model
- * @module   BrandSlider
+ *
  * @author   Agile Codex
  */
 class Brand extends AbstractDb
 {
-    /**
-     * Store manager
-     *
-     * @var StoreManagerInterface
-     */
+    /** @var StoreManagerInterface */
     protected $_storeManager;
 
-    /**
-     * @var EntityManager
-     */
+    /** @var EntityManager */
     protected $entityManager;
 
-    /**
-     * @var MetadataPool
-     */
+    /** @var MetadataPool */
     protected $metadataPool;
 
     /**
@@ -61,7 +53,8 @@ class Brand extends AbstractDb
     }
 
     /**
-     * construct
+     * Construct
+     *
      * @return void
      */
     protected function _construct()

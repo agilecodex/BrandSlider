@@ -8,11 +8,15 @@
 namespace Acx\BrandSlider\Controller\Adminhtml\Brand;
 
 /**
- * NewAction
+ * Action class for new brand logo.
+ *
  * @author Agile Codex
  */
 class NewAction extends \Acx\BrandSlider\Controller\Adminhtml\Brand
 {
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
         $resultForward = $this->_resultForwardFactory->create();
@@ -20,4 +24,5 @@ class NewAction extends \Acx\BrandSlider\Controller\Adminhtml\Brand
          $this->_getSession()->unsImageAlt();
         return $resultForward->forward('edit');
     }
+
 }

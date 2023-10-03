@@ -8,7 +8,7 @@ namespace Acx\BrandSlider\Block\Adminhtml\Brand\Edit;
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
 
 /**
- * Class DeleteButton
+ * Block class for delete button
  */
 class DeleteButton extends GenericButton implements ButtonProviderInterface
 {

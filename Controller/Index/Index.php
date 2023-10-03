@@ -1,22 +1,27 @@
 <?php
-declare(strict_types=1);
-
+/**
+ * Copyright © Agile Codex Ltd. All rights reserved.
+ * @website www.agilecodex.com
+ */
 namespace Acx\BrandSlider\Controller\Index;
 
 use Magento\Framework\App\Action\HttpGetActionInterface;
-use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\App\Action\Context;
 
 /**
- * Copyright © Agile Codex Ltd. All rights reserved.
- * @website www.agilecodex.com
+ * Frontend index controller
  */
-class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface
+class Index extends Action implements HttpGetActionInterface
 {
+    /** @var PageFactory  */
     protected PageFactory $pageFactory;
 
+    /**
+     * @param Context $context
+     * @param PageFactory $pageFactory
+     */
     public function __construct(
         Context $context,
         PageFactory $pageFactory
@@ -25,8 +30,12 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
         parent::__construct($context);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
         return $this->pageFactory->create();
     }
+
 }

@@ -5,10 +5,8 @@ use Magento\Store\Ui\Component\Listing\Column\Store\Options as StoreOptions;
 
 class StoreView extends StoreOptions
 {
-    /**
-     * All Store Views value
-     */
-    const ALL_STORE_VIEWS = '0';
+    /** All Store Views value */
+    public const ALL_STORE_VIEWS = '0';
 
     /**
      * Get options

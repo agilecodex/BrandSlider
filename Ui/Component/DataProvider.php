@@ -87,5 +87,4 @@ class DataProvider extends AbstractDataProvider
 
         return $metadata;
     }
-
 }

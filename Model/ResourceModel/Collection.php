@@ -6,30 +6,22 @@
 namespace Acx\BrandSlider\Model\ResourceModel;
 
 use Acx\BrandSlider\Api\Data\BrandInterface;
+use Acx\BrandSlider\Model\Brand as BrandModel;
 use Acx\BrandSlider\Model\ResourceModel\AbstractCollection;
+use Acx\BrandSlider\Model\ResourceModel\Brand as BrandResourceModel;
 
 /**
  * Brand Collection
  */
 class Collection extends AbstractCollection
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $_idFieldName = 'brand_id';
 
-    /**
-     * Event prefix
-     *
-     * @var string
-     */
+    /** @var string */
     protected $_eventPrefix = 'brandslider_brand_collection';
 
-    /**
-     * Event object
-     *
-     * @var string
-     */
+    /** @var string */
     protected $_eventObject = 'brand_collection';
 
     /**
@@ -53,8 +45,7 @@ class Collection extends AbstractCollection
      */
     protected function _construct()
     {
-        $this->_init(\Acx\BrandSlider\Model\Brand::class,
-            \Acx\BrandSlider\Model\ResourceModel\Brand::class);
+        $this->_init(BrandModel::class,BrandResourceModel::class);
         $this->_map['fields']['store'] = 'store_table.store_id';
         $this->_map['fields']['brand_id'] = 'main_table.brand_id';
     }

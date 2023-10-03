@@ -9,7 +9,7 @@ namespace Acx\BrandSlider\Model\Brand;
 use Acx\BrandSlider\Model\ImageUploader;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ObjectManager;
-use Magento\Framework\File\Uploader;
+use Magento\Framework\File\Uploader as FileUploader;
 use Magento\Framework\Filesystem;
 use Magento\MediaStorage\Model\File\UploaderFactory;
 use Magento\Store\Api\Data\StoreInterface;
@@ -18,6 +18,7 @@ use Psr\Log\LoggerInterface;
 
 /**
  * Brand logo image model
+ *
  * @see Magento\Catalog\Model\Category\Attribute\Backend\Image
  * @api
  */
@@ -41,6 +42,9 @@ class Image
     /** @var StoreManagerInterface */
     private $storeManager;
 
+    /** @var FileUploader */
+    private $fileUploader;
+
     /**
      * @param LoggerInterface $logger
      * @param Filesystem $filesystem
@@ -52,12 +56,14 @@ class Image
         LoggerInterface $logger,
         Filesystem $filesystem,
         UploaderFactory $fileUploaderFactory,
+        FileUploader $fileUploader,
         StoreManagerInterface $storeManager = null,
         ImageUploader $imageUploader = null
     ) {
         $this->_filesystem = $filesystem;
         $this->_fileUploaderFactory = $fileUploaderFactory;
         $this->_logger = $logger;
+        $this->fileUploader = $fileUploader;
         $this->storeManager = $storeManager ??
             ObjectManager::getInstance()->get(StoreManagerInterface::class);
         $this->imageUploader = $imageUploader ??
@@ -93,15 +99,11 @@ class Image
             $this->imageUploader->getBasePath() . DIRECTORY_SEPARATOR . $imageName
         );
 
-        // phpcs:ignore Magento2.Functions.DiscouragedFunction
-        $imageName = call_user_func([Uploader::class, 'getNewFilename'], $imageAbsolutePath);
-
-        return $imageName;
+        return $this->fileUploader->getNewFilename($imageAbsolutePath);
     }
 
     /**
-     * Avoiding saving potential upload data to DB.
-     * Will set empty image attribute value if image was not uploaded.
+     * Do not save empty image value to DB if image was not uploaded.
      *
      * @param \Magento\Framework\DataObject $object
      * @return \Magento\Framework\DataObject $object
@@ -124,6 +126,9 @@ class Image
                 $this->_logger->critical($e);
             }
         } elseif ($this->fileResidesOutsideCategoryDir($value)) {
+            //todo
+            $uri = \Laminas\Uri\UriFactory::factory($value[0]['url']);
+            $query = $uri->getPath();
             $value[0]['url'] = parse_url($value[0]['url'], PHP_URL_PATH);
             $value[0]['name'] = $value[0]['url'];
         }

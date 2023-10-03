@@ -17,12 +17,12 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
- * Brand Repository Interface
+ * Repository interface to save, load or delete Brand logo
+ * @api
  * @author Agile Codex
  */
 interface BrandRepositoryInterface
 {
-
     /**
      * Save Brand data
      *
@@ -69,7 +69,7 @@ interface BrandRepositoryInterface
     public function deleteById(int $brandId): bool;
 
     /**
-     * get brand collection of brandslider.
+     * Get brand collection of brandslider.
      *
      * @return \Acx\BrandSlider\Model\ResourceModel\Brand\Collection
      */

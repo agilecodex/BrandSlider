@@ -16,16 +16,16 @@ class Status extends Column {
     /** @var string */
     private $editUrl;
 
-    const STATUS_ENABLED  = 1;
-    const STATUS_DISABLED = 2;
+    public const STATUS_ENABLED  = 1;
+    public const STATUS_DISABLED = 2;
 
     /**
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
      * @param UrlInterface $urlBuilder
+     * @param SourceCountry $sourceCountry
      * @param array $components
      * @param array $data
-     * @param string $editUrl
      */
     public function __construct(
         ContextInterface $context,
@@ -41,13 +41,12 @@ class Status extends Column {
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
-
     /**
-     * get available statuses.
+     * Get available statuses.
      *
      * @return []
      */
-    public static function getAvailableStatuses()
+    public function getAvailableStatuses()
     {
          $options[] = ['label' => __('Enabled'), 'value' => self::STATUS_ENABLED];
          $options[] = ['label' => __('Disabled'), 'value' => self::STATUS_DISABLED];
@@ -59,8 +58,8 @@ class Status extends Column {
      * @param array $dataSource
      * @return array
      */
-    public function prepareDataSource(array $dataSource) {
-
+    public function prepareDataSource(array $dataSource)
+    {
         $status_arr = $this->getAvailableStatuses();
 
         if (isset($dataSource['data']['items'])) {
@@ -72,9 +71,6 @@ class Status extends Column {
             }
         }
 
-
         return $dataSource;
     }
-
 }
-

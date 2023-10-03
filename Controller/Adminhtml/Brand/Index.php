@@ -6,26 +6,33 @@
  */
 namespace Acx\BrandSlider\Controller\Adminhtml\Brand;
 
-/**
- * Brand Index action.
- * @author Agile Codex
- */
 use Magento\Backend\App\Action as AppAction;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\View\Result\PageFactory;
 
+/**
+ * Action class for logo listing.
+ * @author Agile Codex
+ */
 class Index extends AppAction implements HttpGetActionInterface
 {
     /** @var PageFactory */
     private $pageFactory;
 
+    /**
+     * @param Context $context
+     * @param PageFactory $pageFactory
+     */
     public function __construct(Context $context, PageFactory $pageFactory)
     {
         $this->pageFactory = $pageFactory;
         parent::__construct($context);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function execute()
     {
         $page = $this->pageFactory->create();

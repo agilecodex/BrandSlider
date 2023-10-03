@@ -10,7 +10,7 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class Thumbnail extends CatalogThumbnail
 {
-    const ALT_FIELD = 'name';
+    public const ALT_FIELD = 'name';
 
     /** @var ImageHelper */
     private $imageHelper;
@@ -39,8 +39,7 @@ class Thumbnail extends CatalogThumbnail
         array                 $components = [],
         array                 $data = []
     ) {
-        parent::__construct($context, $uiComponentFactory, $imageHelper,
-            $urlBuilder, $components, $data);
+        parent::__construct($context, $uiComponentFactory, $imageHelper, $urlBuilder, $components, $data);
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
         $this->urlBuilder = $urlBuilder;
@@ -54,9 +53,9 @@ class Thumbnail extends CatalogThumbnail
      */
     public function prepareDataSource(array $dataSource)
     {
-        if(isset($dataSource['data']['items'])) {
+        if (isset($dataSource['data']['items'])) {
             $fieldName = $this->getData('name');
-            foreach($dataSource['data']['items'] as & $item) {
+            foreach ($dataSource['data']['items'] as & $item) {
                 $url = '';
                 if ($item[$fieldName] != '') {
                     $url = $this->storeManager->getStore()->getBaseUrl().$item[$fieldName];
@@ -75,13 +74,15 @@ class Thumbnail extends CatalogThumbnail
     }
 
     /**
+     * Get Alt text
+     *
      * @param array $row
      *
      * @return null|string
      */
     protected function getAlt($row)
     {
-        $altField = $this->getData('config/altField') ?: self::ALT_FIELD;
+        $altField = self::ALT_FIELD;
         return isset($row[$altField]) ? $row[$altField] : null;
     }
 }

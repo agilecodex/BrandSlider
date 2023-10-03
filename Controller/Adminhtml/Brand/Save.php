@@ -1,10 +1,8 @@
 <?php
-
 /**
  *  Copyright © Agile Codex Ltd. All rights reserved.
  *  License: https://www.agilecodex.com/license-agreement
  */
-
 namespace Acx\BrandSlider\Controller\Adminhtml\Brand;
 
 use Acx\BrandSlider\Controller\Adminhtml\Brand as AbastractBrand;
@@ -29,7 +27,7 @@ use Magento\MediaStorage\Model\File\UploaderFactory;
 use Magento\Store\Model\StoreManagerInterface;
 
 /**
- * Save Brand action.
+ * Action class for saving brand.
  *
  * @author Agile Codex
  */
@@ -50,6 +48,23 @@ class Save extends AbastractBrand
     /** @var EventManager */
     private $eventManager;
 
+    /**
+     * @param BackendContext $context
+     * @param UploaderFactory $uploaderFactory
+     * @param Image $imageModel
+     * @param BrandFactory $brandFactory
+     * @param CollectionFactory $brandCollectionFactory
+     * @param Registry $coreRegistry
+     * @param FileFactory $fileFactory
+     * @param PageFactory $resultPageFactory
+     * @param LayoutFactory $resultLayoutFactory
+     * @param ForwardFactory $resultForwardFactory
+     * @param StoreManagerInterface $storeManager
+     * @param Js $jsHelper
+     * @param DataPersistorInterface $dataPersistor
+     * @param EventManager $eventManager
+     * @param BrandRepository $brandRepository
+     */
     public function __construct(
         BackendContext $context,
         UploaderFactory $uploaderFactory,
@@ -79,7 +94,7 @@ class Save extends AbastractBrand
     }
 
     /**
-     * @var PageFactory
+     * @inheritDoc
      */
     public function execute() {
         $resultRedirect = $this->resultRedirectFactory->create();
@@ -111,7 +126,6 @@ class Save extends AbastractBrand
                 $brand = $this->brandRepository->save($model);
 
                 $this->messageManager->addSuccess(__('The brand has been saved.'));
-
                 $this->eventManager->dispatch('acx_brand_slider_brand_save_after',
                     ['entity' => $brand, 'oldData' => $oldData]);
 

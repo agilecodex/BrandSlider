@@ -111,5 +111,4 @@ class Relation extends AbstractDb
         }
         return $this;
     }
-
 }

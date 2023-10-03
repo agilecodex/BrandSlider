@@ -9,8 +9,8 @@ use Magento\Framework\UrlInterface;
 class BrandActions extends Column
 {
     /** Url path */
-    const URL_PATH_EDIT = 'brandslider/brand/edit';
-    const URL_PATH_DELETE = 'brandslider/brand/delete';
+    public const URL_PATH_EDIT = 'brandslider/brand/edit';
+    public const URL_PATH_DELETE = 'brandslider/brand/delete';
 
     /** @var UrlInterface */
     protected $urlBuilder;

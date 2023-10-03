@@ -3,47 +3,51 @@
  *  Copyright © Agile Codex Ltd. All rights reserved.
  *  License: https://www.agilecodex.com/license-agreement
  */
-/** @var \Acx\BrandSlider\Block\BrandSlider $block */
-$htmlId = $block->getFlexSliderHtmlId();
+/**
+ * @var \Acx\BrandSlider\Block\BrandSlider $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+$htmlId = $block->getBrandSliderHtmlId();
 $brandCollection = $block->getBrandCollection();
 ?>
 <link rel="stylesheet" type="text/css"
-      href="<?= $block->getViewFileUrl('Acx_BrandSlider::css/slick.css') ?>">
+      href="<?= $escaper->escapeUrl($block->getViewFileUrl('Acx_BrandSlider::css/slick.css')) ?>">
 <div class="slick-list">
-    <?php if ($block->getData("show_title")) : ?>
-        <h2><?= $block->getTitle() ?></h2>
+    <?php if ($block->getData("show_title")): ?>
+        <h2><?= $escaper->escapeHtml($block->getTitle()) ?></h2>
     <?php endif; ?>
     <ul class="brand-list">
         <?php foreach ($brandCollection as $brand) : ?>
-            <li data-thumb="<?= $block->getBrandImageUrl($brand) ?>">
-                <img alt="<?= $brand->getImageAlt() ?>"
-                     src="<?= $block->getBrandImageUrl($brand) ?>"/>
-                <?php if ($brand->getName() && $block->getShowCaption()) :?>
-                    <span><?= $brand->getName() ?></span>
+            <li data-thumb="<?= $escaper->escapeUrl($block->getBrandImageUrl($brand)) ?>">
+                <img alt="<?= $escaper->escapeHtmlAttr($brand->getImageAlt()) ?>"
+                     src="<?= $escaper->escapeUrl($block->getBrandImageUrl($brand)) ?>"/>
+                <?php if ($brand->getName() && $block->getShowCaption()): ?>
+                    <span><?= $escaper->escapeHtml($brand->getName()) ?></span>
                 <?php endif; ?>
             </li>
         <?php endforeach; ?>
     </ul>
 </div>
 
-<script type="text/javascript">
+<?php $scriptString = <<<script
     require([
         'jquery',
         'slick',
         'domReady!'
     ], function ($) {
         $('.brand-list').slick({
-            dots: <?= (!$block->getDot()) ? "false" : "true" ?>,
-            infinite: <?= (!$block->getInfinite()) ? "false" : "true" ?>,
-            speed: <?= $block->getBrandsliderSpeed() ?>,
-            slidesToShow: <?= $block->getSlidesToShow() ? $block->getSlidesToShow() : 5 ?>,
-            slidesToScroll: <?= $block->getSlidesToScroll() ? $block->getSlidesToScroll() : 2 ?>,
+            dots: <?= (!$escaper->escapeJs($block->getDot())) ? "false" : "true" ?>,
+            infinite: <?= (!$escaper->escapeJs($block->getInfinite())) ? "false" : "true" ?>,
+            speed: <?= $escaper->escapeJs($block->getBrandsliderSpeed()) ?>,
+            slidesToShow: <?= $block->getSlidesToShow() ? $escaper->escapeJs($block->getSlidesToShow()) : 5 ?>,
+            slidesToScroll: <?= $block->getSlidesToScroll() ? $escaper->escapeJs($block->getSlidesToScroll()) : 2 ?>,
             responsive: [
                 {
                     breakpoint: 1024,
                     settings: {
-                        slidesToShow: <?= $block->getSlidesToShow() ? $block->getSlidesToShow() : 4 ?>,
-                        slidesToScroll: <?= $block->getSlidesToScroll() ? $block->getSlidesToScroll() : 2 ?>,
+                        slidesToShow: <?= $block->getSlidesToShow() ? $escaper->escapeJs($block->getSlidesToShow()) : 4 ?>,
+                        slidesToScroll: <?= $block->getSlidesToScroll() ? $escaper->escapeJs($block->getSlidesToScroll()) : 2 ?>,
                         infinite: <?= (!$block->getInfinite()) ? "false" : "true" ?>,
                         dots: <?= (!$block->getDot()) ? "false" : "true" ?>,
                     }
@@ -65,4 +69,6 @@ $brandCollection = $block->getBrandCollection();
             ]
         });
     });
-</script>
+script;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false); ?>

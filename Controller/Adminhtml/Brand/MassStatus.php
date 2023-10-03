@@ -1,20 +1,21 @@
 <?php
-
 /**
  *  Copyright © Agile Codex Ltd. All rights reserved.
  *  License: https://www.agilecodex.com/license-agreement
  */
-
 namespace Acx\BrandSlider\Controller\Adminhtml\Brand;
 
+use Acx\BrandSlider\Controller\Adminhtml\Brand;
+
 /**
- * MassStatus action
+ * Action class for mass status.
+ *
  * @author Agile Codex
  */
-class MassStatus extends \Acx\BrandSlider\Controller\Adminhtml\Brand
+class MassStatus extends Brand
 {
     /**
-     * @var \Magento\Framework\View\Result\PageFactory
+     * @inheritDoc
      */
     public function execute()
     {
@@ -46,4 +47,5 @@ class MassStatus extends \Acx\BrandSlider\Controller\Adminhtml\Brand
 
         return $resultRedirect->setPath('*/*/', ['store' => $this->getRequest()->getParam('store')]);
     }
+
 }

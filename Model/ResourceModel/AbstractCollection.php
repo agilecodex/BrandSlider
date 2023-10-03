@@ -165,8 +165,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\ResourceModel
     }
 
     /**
-     * Get SQL for get record count
-     * Extra GROUP BY strip added.
+     * Get SQL for get record count.
      *
      * @return \Magento\Framework\DB\Select
      */
@@ -177,5 +176,4 @@ abstract class AbstractCollection extends \Magento\Framework\Model\ResourceModel
 
         return $countSelect;
     }
-
 }

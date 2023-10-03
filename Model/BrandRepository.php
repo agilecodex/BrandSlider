@@ -22,11 +22,13 @@ use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 
-
+/**
+ * Repository class to save, load or delete Brand logo
+ */
 class BrandRepository implements BrandRepositoryInterface
 {
     /** @var BrandResourceModel  */
-    protected  $resource;
+    protected $resource;
 
     /** @var BrandFactory */
     protected $brandFactory;
@@ -35,7 +37,7 @@ class BrandRepository implements BrandRepositoryInterface
     protected $brandCollectionFactory;
 
     /** @var ResultsInterfaceFactory  */
-    protected  $searchResultsFactory;
+    protected $searchResultsFactory;
 
     /** @var StoreManagerInterface  */
     protected $storeManager;
@@ -165,7 +167,7 @@ class BrandRepository implements BrandRepositoryInterface
     }
 
     /**
-     * get brand collection of brandslider.
+     * Get brand logo collection.
      *
      * @return \Acx\BrandSlider\Model\ResourceModel\Brand\Collection
      */
@@ -181,5 +183,4 @@ class BrandRepository implements BrandRepositoryInterface
 
         return $brandCollection;
     }
-
 }
