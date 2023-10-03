@@ -4,7 +4,7 @@
  *  License: https://www.agilecodex.com/license-agreement
  */
 /**
- * @var \Acx\BrandSlider\Block\BrandSlider $block
+ * @var \Acx\BrandSlider\Block\Widget\BrandSlider $block
  * @var \Magento\Framework\Escaper $escaper
  * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
  */
@@ -37,19 +37,21 @@ $brandCollection = $block->getBrandCollection();
         'domReady!'
     ], function ($) {
         $('.brand-list').slick({
-            dots: <?= (!$escaper->escapeJs($block->getDot())) ? "false" : "true" ?>,
-            infinite: <?= (!$escaper->escapeJs($block->getInfinite())) ? "false" : "true" ?>,
-            speed: <?= $escaper->escapeJs($block->getBrandsliderSpeed()) ?>,
-            slidesToShow: <?= $block->getSlidesToShow() ? $escaper->escapeJs($block->getSlidesToShow()) : 5 ?>,
-            slidesToScroll: <?= $block->getSlidesToScroll() ? $escaper->escapeJs($block->getSlidesToScroll()) : 2 ?>,
+            dots: {$escaper->escapeJs($block->getDot())},
+            infinite: {$escaper->escapeJs($block->getInfinite())},
+            speed: {$escaper->escapeJs($block->getBrandsliderSpeed())},
+            slidesToShow: {$escaper->escapeJs($block->getSlidesToShow())},
+            slidesToScroll: {$escaper->escapeJs($block->getSlidesToScroll())},
+            autoplay: {$escaper->escapeJs($block->getAutoplay())},
+            autoplaySpeed: {$escaper->escapeJs($block->getAutoplay())},
             responsive: [
                 {
                     breakpoint: 1024,
                     settings: {
-                        slidesToShow: <?= $block->getSlidesToShow() ? $escaper->escapeJs($block->getSlidesToShow()) : 4 ?>,
-                        slidesToScroll: <?= $block->getSlidesToScroll() ? $escaper->escapeJs($block->getSlidesToScroll()) : 2 ?>,
-                        infinite: <?= (!$block->getInfinite()) ? "false" : "true" ?>,
-                        dots: <?= (!$block->getDot()) ? "false" : "true" ?>,
+                        slidesToShow: {$escaper->escapeJs($block->getSlidesToShowOnPad())},
+                        slidesToScroll: {$escaper->escapeJs($block->getSlidesToScroll())},
+                        infinite: {$block->getInfinite()},
+                        dots: {$block->getDot()},
                     }
                 },
                 {

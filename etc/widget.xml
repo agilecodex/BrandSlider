@@ -30,9 +30,9 @@
                        source_model="Magento\Config\Model\Config\Source\Enabledisable">
                 <label translate="true">Caption</label>
             </parameter>
-            <parameter name="autoplay" xsi:type="select" visible="true" sort_order="60" required="true"
+            <parameter name="dot" xsi:type="select"  visible="true" sort_order="51" required="true"
                        source_model="Magento\Config\Model\Config\Source\Enabledisable">
-                <label translate="true">Autoplay</label>
+                <label translate="true">Dot Navigations</label>
             </parameter>
             <parameter name="infinite" xsi:type="select" visible="true" sort_order="60" required="true"
                        source_model="Magento\Config\Model\Config\Source\Enabledisable">
@@ -40,7 +40,16 @@
             </parameter>
             <parameter name="brandslider_speed" xsi:type="text" visible="true" required="true"
                        sort_order="70">
-                <label translate="true">Autoplay Timeout (ms)</label>
+                <label translate="true">Slide/Fade animation speed</label>
+                <value>300</value>
+            </parameter>
+            <parameter name="autoplay" xsi:type="select" visible="true" sort_order="80" required="true"
+                       source_model="Magento\Config\Model\Config\Source\Enabledisable">
+                <label translate="true">Enables Autoplay</label>
+            </parameter>
+            <parameter name="autoplaySpeed" xsi:type="text" visible="true" required="true"
+                       sort_order="81">
+                <label translate="true">Autoplay Speed in milliseconds</label>
                 <depends><parameter name="autoplay" value="1" /></depends>
                 <value>3000</value>
             </parameter>
@@ -51,10 +60,6 @@
             <parameter name="slides_to_scroll" xsi:type="text" visible="true" sort_order="120" required="true">
                 <label translate="true">SlidesToScroll: # of slides to scroll</label>
                 <value>2</value>
-            </parameter>
-            <parameter name="dot" xsi:type="select"  visible="true" sort_order="80" required="true"
-                       source_model="Magento\Config\Model\Config\Source\Enabledisable">
-                <label translate="true">Dot Navigations</label>
             </parameter>
             <parameter name="nav_button" xsi:type="select"  visible="true" sort_order="100" required="true"
                        source_model="Magento\Config\Model\Config\Source\Enabledisable">
