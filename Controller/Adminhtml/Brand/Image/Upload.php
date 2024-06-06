@@ -5,7 +5,7 @@
  */
 namespace Acx\BrandSlider\Controller\Adminhtml\Brand\Image;
 
-use Acx\BrandSlider\Model\ImageUploader;
+use Magento\Catalog\Model\ImageUploader;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;

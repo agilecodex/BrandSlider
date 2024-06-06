@@ -35,7 +35,7 @@
             </argument>
         </arguments>
     </type>
-    <virtualType name="Acx\BrandSlider\BrandLogoUpload" type="Acx\BrandSlider\Model\ImageUploader">
+    <virtualType name="Acx\BrandSlider\BrandLogoUpload" type="Magento\Catalog\Model\ImageUploader">
         <arguments>
             <argument name="baseTmpPath" xsi:type="string">acx/tmp/brand</argument>
             <argument name="basePath" xsi:type="string">acx/brand</argument>

@@ -4,17 +4,18 @@
  * License:    https://www.agilecodex.com/license-agreement
  * @author   agilecodex.com
  */
-namespace Acx\BrandSlider\Model\Brand;
+namespace Acx\BrandSlider\Service;
 
-use Acx\BrandSlider\Model\ImageUploader;
+use Magento\Catalog\Model\ImageUploader;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ObjectManager;
-use Magento\Framework\File\Uploader as FileUploader;
 use Magento\Framework\Filesystem;
-use Magento\MediaStorage\Model\File\UploaderFactory;
+use Magento\Framework\UrlInterface;
 use Magento\Store\Api\Data\StoreInterface;
+use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
+use Acx\BrandPage\Model\Image\ThumbnailFile;
 
 /**
  * Brand logo image model
@@ -22,16 +23,10 @@ use Psr\Log\LoggerInterface;
  * @see Magento\Catalog\Model\Category\Attribute\Backend\Image
  * @api
  */
-class Image
+class ImageService
 {
-    /** @var UploaderFactory */
-    protected $_uploaderFactory;
-
     /** @var Filesystem */
     protected $_filesystem;
-
-    /** @var UploaderFactory */
-    protected $_fileUploaderFactory;
 
     /** @var LoggerInterface */
     protected $_logger;
@@ -42,28 +37,25 @@ class Image
     /** @var StoreManagerInterface */
     private $storeManager;
 
-    /** @var FileUploader */
-    private $fileUploader;
+    private $thumbnailFile;
 
     /**
      * @param LoggerInterface $logger
      * @param Filesystem $filesystem
-     * @param UploaderFactory $fileUploaderFactory
-     * @param StoreManagerInterface $storeManager
-     * @param ImageUploader $imageUploader
+     * @param ThumbnailFile $thumbnailFile
+     * @param StoreManagerInterface|null $storeManager
+     * @param ImageUploader|null $imageUploader
      */
     public function __construct(
         LoggerInterface $logger,
         Filesystem $filesystem,
-        UploaderFactory $fileUploaderFactory,
-        FileUploader $fileUploader,
+        ThumbnailFile $thumbnailFile,
         StoreManagerInterface $storeManager = null,
         ImageUploader $imageUploader = null
     ) {
         $this->_filesystem = $filesystem;
-        $this->_fileUploaderFactory = $fileUploaderFactory;
         $this->_logger = $logger;
-        $this->fileUploader = $fileUploader;
+        $this->thumbnailFile    = $thumbnailFile;
         $this->storeManager = $storeManager ??
             ObjectManager::getInstance()->get(StoreManagerInterface::class);
         $this->imageUploader = $imageUploader ??
@@ -87,22 +79,6 @@ class Image
     }
 
     /**
-     * Check that image name exists in catalog/category directory and return new image name if it already exists.
-     *
-     * @param string $imageName
-     * @return string
-     */
-    private function checkUniqueImageName(string $imageName): string
-    {
-        $mediaDirectory = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $imageAbsolutePath = $mediaDirectory->getAbsolutePath(
-            $this->imageUploader->getBasePath() . DIRECTORY_SEPARATOR . $imageName
-        );
-
-        return $this->fileUploader->getNewFilename($imageAbsolutePath);
-    }
-
-    /**
      * Do not save empty image value to DB if image was not uploaded.
      *
      * @param \Magento\Framework\DataObject $object
@@ -119,7 +95,7 @@ class Image
                 /** @var StoreInterface $store */
                 $store = $this->storeManager->getStore();
                 $baseMediaDir = $store->getBaseMediaDir();
-                $newImgRelativePath = $this->imageUploader->moveFileFromTmp($imageName, true);
+                $newImgRelativePath = $this->getImageUrl($imageName);
                 $value[0]['url'] = '/' . $baseMediaDir . '/' . $newImgRelativePath;
                 $value[0]['name'] = $value[0]['url'];
             } catch (\Exception $e) {
@@ -133,12 +109,7 @@ class Image
             $value[0]['name'] = $value[0]['url'];
         }
 
-        if ($imageName = $this->getUploadedImageName($value)) {
-            if (!$this->fileResidesOutsideCategoryDir($value)) {
-                $imageName = $this->checkUniqueImageName($imageName);
-            }
-            $object[$attributeName] = $imageName;
-        } elseif (!is_string($value)) {
+        if (!is_string($value)) {
             $object[$attributeName] = null;
         }
         return $object;
@@ -187,5 +158,36 @@ class Image
     public function afterSave($object)
     {
         return $this;
+    }
+
+    public function getImageUrl(string $imageName, string $imageType = null): string
+    {
+        $placeholderUrl = $this->assertRepository->getUrl(
+            $this->thumbnailFile->getPlaceholderPath(
+                $imageType ?: 'small_image'
+            )
+        );
+
+        if (empty($imageName)) {
+            return $placeholderUrl;
+        }
+
+        if ($imageType) {
+            if (!$this->thumbnailFile->hasImage($imageType, $imageName)) {
+                try {
+                    $this->thumbnailFile->createImage($imageType, $imageName);
+                } catch (\Exception $e) {
+                    return $placeholderUrl;
+                }
+            }
+
+            $image = (string)$this->thumbnailFile->getImageUrl($imageType, $imageName);
+        } else {
+            /** @var Store $store */
+            $store = $this->storeManager->getStore();
+            $image = $store->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . "brand/brand/{$imageName}";
+        }
+
+        return $image;
     }
 }
