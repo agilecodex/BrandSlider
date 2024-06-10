@@ -6,8 +6,11 @@ declare(strict_types=1);
  */
 namespace Acx\BrandSlider\Ui\Component;
 
+use Acx\BrandSlider\Service\ImageService;
+use Acx\BrandSlider\Api\Data\BrandInterface;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
+use Magento\Framework\Api\Search\SearchResultInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\View\Element\UiComponent\DataProvider\Reporting;
@@ -15,9 +18,10 @@ use Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider as Abst
 
 class DataProvider extends AbstractDataProvider
 {
-    /**
-     * @var AuthorizationInterface
-     */
+    /** @var ImageService  */
+    private $imageService;
+
+    /** @var AuthorizationInterface */
     private $authorization;
 
     /**
@@ -33,6 +37,7 @@ class DataProvider extends AbstractDataProvider
      * @param array $data
      */
     public function __construct(
+        ImageService $imageService,
         $name,
         $primaryFieldName,
         $requestFieldName,
@@ -55,8 +60,33 @@ class DataProvider extends AbstractDataProvider
             $meta,
             $data
         );
+        $this->imageService = $imageService;
         $this->authorization = $authorization;
         $this->meta = array_replace_recursive($meta, $this->prepareMetadata());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function searchResultToOutput(SearchResultInterface $searchResult)
+    {
+        $arrItems = [];
+
+        $arrItems['items'] = [];
+        /** @var BrandInterface|\Magento\Framework\DataObject $item */
+        foreach ($searchResult->getItems() as $item) {
+            $itemData = $item->getData();
+
+            if ($item->getData(BrandInterface::IMAGE)) {
+                $itemData[BrandInterface::IMAGE . '_src'] = $this->imageService->getImageUrl($item->getImage());
+            }
+
+            $arrItems['items'][] = $itemData;
+        }
+
+        $arrItems['totalRecords'] = $searchResult->getTotalCount();
+
+        return $arrItems;
     }
 
     /**
