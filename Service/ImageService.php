@@ -19,9 +19,8 @@ use Acx\BrandPage\Model\Image\ThumbnailFile;
 use Magento\Framework\View\Asset\Repository as AssetRepository;
 
 /**
- * Brand logo image model
+ * Brand logo image Service
  *
- * @see Magento\Catalog\Model\Category\Attribute\Backend\Image
  * @api
  */
 class ImageService
@@ -104,13 +103,12 @@ class ImageService
                 $store = $this->storeManager->getStore();
                 $baseMediaDir = $store->getBaseMediaDir();
                 $newImgRelativePath = $this->getImageUrl($imageName);
-                $value[0]['url'] = '/' . $baseMediaDir . '/' . $newImgRelativePath;
-                $value[0]['name'] = $value[0]['url'];
+                $value[0]['url'] =  $newImgRelativePath;
+                $value[0]['name'] = $imageName;
             } catch (\Exception $e) {
                 $this->_logger->critical($e);
             }
         } elseif ($this->fileResidesOutsideCategoryDir($value)) {
-            //todo
             $uri = \Laminas\Uri\UriFactory::factory($value[0]['url']);
             $query = $uri->getPath();
             $value[0]['url'] = parse_url($value[0]['url'], PHP_URL_PATH);
