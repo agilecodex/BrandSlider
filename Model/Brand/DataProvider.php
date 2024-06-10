@@ -9,10 +9,16 @@ namespace Acx\BrandSlider\Model\Brand;
 use Acx\BrandSlider\Model\Brand as BrandModel;
 use Acx\BrandSlider\Model\ResourceModel\Brand\Collection as BrandCollection;
 use Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory;
+use Acx\BrandSlider\Service\ImageService;
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Catalog\Model\Category\FileInfo;
+use Magento\Catalog\Model\ImageUploader;
+use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\App\Request\DataPersistorInterface;
+use Magento\Framework\File\Mime;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\Framework\Filesystem\Io\File as FileSystemIO;
 use Magento\Store\Model\StoreManagerInterface as StoreManager;
 use Magento\Ui\DataProvider\Modifier\PoolInterface;
@@ -44,6 +50,15 @@ class DataProvider extends ModifierPoolDataProvider
     /** @var FileSystemIO */
     private $fileSystemIo;
 
+    /** @var ReadInterface */
+    private $mediaDirectory;
+
+    /** @var ImageService */
+    private $imageService;
+
+    /** @var ImageUploader */
+    private $imageUploader;
+
     /**
      * Constructor
      *
@@ -69,6 +84,10 @@ class DataProvider extends ModifierPoolDataProvider
         StoreManager $storeManager,
         ImageHelper $imageHelper,
         FileSystemIO $fileSystemIo,
+        Filesystem $filesystem,
+        ImageService $imageService,
+        ImageUploader $imageUploader,
+        Mime $mime,
         array $meta = [],
         array $data = [],
         FileInfo $fileInfo = null,
@@ -80,6 +99,10 @@ class DataProvider extends ModifierPoolDataProvider
         $this->imageHelper = $imageHelper;
         $this->fileSystemIo = $fileSystemIo;
         $this->fileInfo = $fileInfo ?: ObjectManager::getInstance()->get(FileInfo::class);
+        $this->imageService = $imageService;
+        $this->imageUploader = $imageUploader;
+        $this->mime = $mime;
+        $this->mediaDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data, $pool);
     }
 
@@ -99,9 +122,58 @@ class DataProvider extends ModifierPoolDataProvider
             $this->loadedData[$brand->getId()] = $brand->getData();
         }
 
-        $this->loadedData = $this->convertValues($this->loadedData);
+        //$this->loadedData = $this->convertValues($this->loadedData);
+        $this->loadedData = $this->prepareImageData($this->loadedData, 'image');
 
         return $this->loadedData;
+    }
+
+    /**
+     * @param array  $data
+     * @param string $imageKey
+     *
+     * @return array
+     */
+    private function prepareImageData($data, $imageKey)
+    {
+        if (isset($data[$imageKey])) {
+            $imageName = $data[$imageKey];
+            unset($data[$imageKey]);
+            if ($this->mediaDirectory->isExist($this->getFilePath($imageName))) {
+                $data[$imageKey] = [
+                    [
+                        'name' => $imageName,
+                        'url'  => $this->imageService->getImageUrl($imageName),
+                        'size' => $this->mediaDirectory->stat($this->getFilePath($imageName))['size'],
+                        'type' => $this->getMimeType($imageName),
+                    ],
+                ];
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    private function getMimeType($fileName)
+    {
+        $absoluteFilePath = $this->mediaDirectory->getAbsolutePath($this->getFilePath($fileName));
+
+        return $this->mime->getMimeType($absoluteFilePath);
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    private function getFilePath($fileName)
+    {
+        return $this->imageUploader->getFilePath($this->imageUploader->getBasePath(), $fileName);
     }
 
     /**

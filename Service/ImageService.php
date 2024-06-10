@@ -16,6 +16,7 @@ use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
 use Acx\BrandPage\Model\Image\ThumbnailFile;
+use Magento\Framework\View\Asset\Repository as AssetRepository;
 
 /**
  * Brand logo image model
@@ -37,12 +38,17 @@ class ImageService
     /** @var StoreManagerInterface */
     private $storeManager;
 
+    /** @var ThumbnailFile  */
     private $thumbnailFile;
+
+    /** @var AssetRepository */
+    private $assertRepository;
 
     /**
      * @param LoggerInterface $logger
      * @param Filesystem $filesystem
      * @param ThumbnailFile $thumbnailFile
+     * @param AssetRepository $assertRepository
      * @param StoreManagerInterface|null $storeManager
      * @param ImageUploader|null $imageUploader
      */
@@ -50,12 +56,14 @@ class ImageService
         LoggerInterface $logger,
         Filesystem $filesystem,
         ThumbnailFile $thumbnailFile,
+        AssetRepository $assertRepository,
         StoreManagerInterface $storeManager = null,
         ImageUploader $imageUploader = null
     ) {
         $this->_filesystem = $filesystem;
         $this->_logger = $logger;
-        $this->thumbnailFile    = $thumbnailFile;
+        $this->thumbnailFile = $thumbnailFile;
+        $this->assertRepository = $assertRepository;
         $this->storeManager = $storeManager ??
             ObjectManager::getInstance()->get(StoreManagerInterface::class);
         $this->imageUploader = $imageUploader ??
@@ -109,7 +117,9 @@ class ImageService
             $value[0]['name'] = $value[0]['url'];
         }
 
-        if (!is_string($value)) {
+        if ($imageName = $this->getUploadedImageName($value)) {
+            $object[$attributeName] = $imageName;
+        } elseif (!is_string($value)) {
             $object[$attributeName] = null;
         }
         return $object;
@@ -185,7 +195,7 @@ class ImageService
         } else {
             /** @var Store $store */
             $store = $this->storeManager->getStore();
-            $image = $store->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . "brand/brand/{$imageName}";
+            $image = $store->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . "acx/brand/{$imageName}";
         }
 
         return $image;
