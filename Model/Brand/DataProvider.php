@@ -119,11 +119,10 @@ class DataProvider extends ModifierPoolDataProvider
         $items = $this->collection->getItems();
         /** @var BrandModel $brand */
         foreach ($items as $brand) {
-            $this->loadedData[$brand->getId()] = $brand->getData();
+            $data = $brand->getData();
+            $data = $this->prepareImageData($data, 'image');
+            $this->loadedData[$brand->getId()] = $data;
         }
-
-        //$this->loadedData = $this->convertValues($this->loadedData);
-        $this->loadedData = $this->prepareImageData($this->loadedData, 'image');
 
         return $this->loadedData;
     }
