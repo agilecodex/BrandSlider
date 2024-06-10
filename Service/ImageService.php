@@ -15,7 +15,6 @@ use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Psr\Log\LoggerInterface;
-use Acx\BrandPage\Model\Image\ThumbnailFile;
 use Magento\Framework\View\Asset\Repository as AssetRepository;
 
 /**
