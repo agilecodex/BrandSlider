@@ -124,8 +124,8 @@ class Brand extends AbstractModel implements BrandInterface
      *
      * @return string|null
      */
-    public function getImage(): ?string {
-        return $this->getData(self::IMAGE);
+    public function getLogo(): ?string {
+        return $this->getData(self::LOGO);
     }
 
     /**
@@ -135,7 +135,7 @@ class Brand extends AbstractModel implements BrandInterface
      * @return BrandInterface
      */
     public function setImage($image): BrandInterface{
-        return $this->setData(self::IMAGE, $image);
+        return $this->setData(self::LOGO, $image);
     }
 
     /**
@@ -143,8 +143,8 @@ class Brand extends AbstractModel implements BrandInterface
      *
      * @return string|null
      */
-    public function getImageAlt(): ?string {
-        return $this->getData(self::IMAGE_ALT);
+    public function getLogoAlt(): ?string {
+        return $this->getData(self::LOGO_ALT);
     }
 
     /**
@@ -154,7 +154,7 @@ class Brand extends AbstractModel implements BrandInterface
      * @return BrandInterface
      */
     public function setImageAlt($imageAlt): BrandInterface{
-        return $this->setData(self::IMAGE_ALT, $imageAlt);
+        return $this->setData(self::LOGO_ALT, $imageAlt);
     }
 
     /**

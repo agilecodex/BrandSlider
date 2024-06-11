@@ -5,8 +5,8 @@
             "name": true,
             "sort_order": true,
             "status": true,
-            "image": true,
-            "image_alt": true,
+            "logo": true,
+            "logo_alt": true,
             "update_time": true
         },
         "constraint": {

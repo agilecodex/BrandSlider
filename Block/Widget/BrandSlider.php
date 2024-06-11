@@ -107,7 +107,7 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
      */
     public function getBrandImageUrl(\Acx\BrandSlider\Model\Brand $brand)
     {
-        $srcImage = $this->getBaseUrlMedia($brand->getImage());
+        $srcImage = $this->getBaseUrlMedia($brand->getLogo());
         if (!preg_match('~\.(png|gif|jpe?g|bmp)~i', $srcImage)) {
             $srcImage = $this->_assetRepo->getUrl("Acx_BrandSlider::images/brand-logo-blank.png");
         }

@@ -6,6 +6,7 @@
  */
 namespace Acx\BrandSlider\Model\Brand;
 
+use Acx\BrandSlider\Api\Data\BrandInterface;
 use Acx\BrandSlider\Model\Brand as BrandModel;
 use Acx\BrandSlider\Model\ResourceModel\Brand\Collection as BrandCollection;
 use Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory;
@@ -120,7 +121,7 @@ class DataProvider extends ModifierPoolDataProvider
         /** @var BrandModel $brand */
         foreach ($items as $brand) {
             $data = $brand->getData();
-            $data = $this->prepareImageData($data, 'image');
+            $data = $this->prepareImageData($data, BrandInterface::LOGO);
             $this->loadedData[$brand->getId()] = $data;
         }
 

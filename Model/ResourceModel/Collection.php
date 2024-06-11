@@ -19,7 +19,7 @@ class Collection extends AbstractCollection
     protected $_idFieldName = 'brand_id';
 
     /** @var string */
-    protected $_eventPrefix = 'brandslider_brand_collection';
+    protected $_eventPrefix = 'brand_brand_collection';
 
     /** @var string */
     protected $_eventObject = 'brand_collection';

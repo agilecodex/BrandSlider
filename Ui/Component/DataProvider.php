@@ -77,8 +77,8 @@ class DataProvider extends AbstractDataProvider
         foreach ($searchResult->getItems() as $item) {
             $itemData = $item->getData();
 
-            if ($item->getData(BrandInterface::IMAGE)) {
-                $itemData[BrandInterface::IMAGE . '_src'] = $this->imageService->getImageUrl($item->getImage());
+            if ($item->getData(BrandInterface::LOGO)) {
+                $itemData[BrandInterface::LOGO . '_src'] = $this->imageService->getImageUrl($item->getLogo());
             }
 
             $arrItems['items'][] = $itemData;
@@ -100,7 +100,7 @@ class DataProvider extends AbstractDataProvider
 
         if (!$this->authorization->isAllowed('Acx_BrandSlider::brandslider')) {
             $metadata = [
-                'brandslider_brand_columns' => [
+                'brand_brand_columns' => [
                     'arguments' => [
                         'data' => [
                             'config' => [

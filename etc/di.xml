@@ -18,8 +18,8 @@
     </type>
     <type name="Acx\BrandSlider\Model\ResourceModel\Brand\Grid\Collection">
         <arguments>
-            <argument name="mainTable" xsi:type="string">acx_brandslider_brand</argument>
-            <argument name="eventPrefix" xsi:type="string">brandslider_brand_collection</argument>
+            <argument name="mainTable" xsi:type="string">acx_brand_brand</argument>
+            <argument name="eventPrefix" xsi:type="string">brand_brand_collection</argument>
             <argument name="eventObject" xsi:type="string">brand_collection</argument>
             <argument name="resourceModel" xsi:type="string">Acx\BrandSlider\Model\ResourceModel\Brand</argument>
         </arguments>

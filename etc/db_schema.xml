@@ -7,8 +7,8 @@
         <column xsi:type="int" name="sort_order" padding="10" unsigned="false" nullable="true" comment="Sort Order"/>
         <column xsi:type="smallint" name="status" unsigned="false" nullable="false" identity="false"
                 default="1" comment="active or inactive"/>
-        <column xsi:type="varchar" name="image" nullable="true" length="255" comment="Brand image"/>
-        <column xsi:type="varchar" name="image_alt" nullable="true" length="255" comment="Brand image alt"/>
+        <column xsi:type="varchar" name="logo" nullable="true" length="255" comment="Brand logo"/>
+        <column xsi:type="varchar" name="logo_alt" nullable="true" length="255" comment="Brand logo alt"/>
         <column xsi:type="timestamp" name="update_time" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
                 comment="Brand Modification Time"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">

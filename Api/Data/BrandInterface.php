@@ -21,8 +21,8 @@ interface BrandInterface
     public const NAME = 'name';
     public const SORT_ORDER = 'sort_order';
     public const STATUS = 'status';
-    public const IMAGE = 'image';
-    public const IMAGE_ALT = 'image_alt';
+    public const LOGO = 'logo';
+    public const LOGO_ALT = 'logo_alt';
     public const UPDATE_TIME = 'update_time';
     public const STORE_ID = 'store_id';
 
@@ -94,7 +94,7 @@ interface BrandInterface
      *
      * @return string|null
      */
-    public function getImage(): ?string;
+    public function getLogo(): ?string;
 
     /**
      * Set logo image
@@ -102,14 +102,14 @@ interface BrandInterface
      * @param string $image
      * @return BrandInterface
      */
-    public function setImage($image): ?BrandInterface;
+    public function setLogo($image): ?BrandInterface;
 
     /**
      * Get Alt text of logo image
      *
      * @return string|null
      */
-    public function getImageAlt(): ?string;
+    public function getLogoAlt(): ?string;
 
     /**
      * Set Alt text of logo image
@@ -117,7 +117,7 @@ interface BrandInterface
      * @param string|null $imageAlt
      * @return BrandInterface
      */
-    public function setImageAlt($imageAlt): BrandInterface;
+    public function setLogoAlt($imageAlt): BrandInterface;
 
     /**
      * Get store id of brand logo
