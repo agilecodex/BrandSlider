@@ -12,99 +12,81 @@ use Acx\BrandSlider\Model\ResourceModel\Brand\Collection as BrandCollection;
 use Acx\BrandSlider\Model\ResourceModel\Brand\CollectionFactory;
 use Acx\BrandSlider\Service\ImageService;
 use Magento\Catalog\Helper\Image as ImageHelper;
-use Magento\Catalog\Model\Category\FileInfo;
 use Magento\Catalog\Model\ImageUploader;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ObjectManager;
-use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\File\Mime;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
-use Magento\Framework\Filesystem\Io\File as FileSystemIO;
 use Magento\Store\Model\StoreManagerInterface as StoreManager;
-use Magento\Ui\DataProvider\Modifier\PoolInterface;
-use Magento\Ui\DataProvider\ModifierPoolDataProvider;
+use Magento\Ui\DataProvider\AbstractDataProvider;
 
 /**
  * @inheritdoc
  */
-class DataProvider extends ModifierPoolDataProvider
+class DataProvider extends AbstractDataProvider
 {
     /** @var BrandCollection */
     protected $collection;
 
-    /** @var DataPersistorInterface */
-    protected $dataPersistor;
-
     /** @var array */
     protected $loadedData;
-
-    /** @var FileInfo */
-    private $fileInfo;
 
     /** @var StoreManager */
     private $storeManager;
 
     /** @var ImageHelper */
-    private $imageHelper;
-
-    /** @var FileSystemIO */
-    private $fileSystemIo;
+    protected $imageHelper;
 
     /** @var ReadInterface */
-    private $mediaDirectory;
+    protected $mediaDirectory;
 
     /** @var ImageService */
-    private $imageService;
+    protected $imageService;
 
     /** @var ImageUploader */
-    private $imageUploader;
+    protected $imageUploader;
+
+    protected $mime;
 
     /**
-     * Constructor
+     * Brand slider data provider Constructor
      *
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
-     * @param CollectionFactory $blockCollectionFactory
-     * @param DataPersistorInterface $dataPersistor
+     * @param ImageUploader $imageUploader
+     * @param Filesystem $filesystem
+     * @param Mime $mime
+     * @param CollectionFactory $sliderCollectionFactory
      * @param StoreManager $storeManager
      * @param ImageHelper $imageHelper
-     * @param FileSystemIO $fileSystemIo
+     * @param ImageService $imageService
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
      * @param array $meta
      * @param array $data
-     * @param FileInfo|null $fileInfo
-     * @param PoolInterface|null $pool
      */
     public function __construct(
-        $name,
-        $primaryFieldName,
-        $requestFieldName,
-        CollectionFactory $blockCollectionFactory,
-        DataPersistorInterface $dataPersistor,
+        ImageUploader $imageUploader,
+        Filesystem $filesystem,
+        Mime $mime,
+        CollectionFactory $sliderCollectionFactory,
         StoreManager $storeManager,
         ImageHelper $imageHelper,
-        FileSystemIO $fileSystemIo,
-        Filesystem $filesystem,
         ImageService $imageService,
-        ImageUploader $imageUploader,
-        Mime $mime,
+        string $name,
+        string $primaryFieldName,
+        string $requestFieldName,
         array $meta = [],
-        array $data = [],
-        FileInfo $fileInfo = null,
-        PoolInterface $pool = null
+        array $data = []
     ) {
-        $this->collection = $blockCollectionFactory->create();
-        $this->dataPersistor = $dataPersistor;
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
-        $this->fileSystemIo = $fileSystemIo;
-        $this->fileInfo = $fileInfo ?: ObjectManager::getInstance()->get(FileInfo::class);
         $this->imageService = $imageService;
         $this->imageUploader = $imageUploader;
         $this->mime = $mime;
         $this->mediaDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data, $pool);
+        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
+        $this->collection = $sliderCollectionFactory->create();
     }
 
     /**
@@ -134,7 +116,7 @@ class DataProvider extends ModifierPoolDataProvider
      *
      * @return array
      */
-    private function prepareImageData($data, $imageKey)
+    protected function prepareImageData($data, $imageKey)
     {
         if (isset($data[$imageKey])) {
             $imageName = $data[$imageKey];
@@ -159,7 +141,7 @@ class DataProvider extends ModifierPoolDataProvider
      *
      * @return string
      */
-    private function getMimeType($fileName)
+    protected function getMimeType($fileName)
     {
         $absoluteFilePath = $this->mediaDirectory->getAbsolutePath($this->getFilePath($fileName));
 
@@ -171,53 +153,8 @@ class DataProvider extends ModifierPoolDataProvider
      *
      * @return string
      */
-    private function getFilePath($fileName)
+    protected function getFilePath($fileName)
     {
         return $this->imageUploader->getFilePath($this->imageUploader->getBasePath(), $fileName);
-    }
-
-    /**
-     * Converts brand image data to acceptable for rendering format
-     *
-     * @param array $dataSet
-     * @return array
-     */
-    private function convertValues($dataSet): array
-    {
-        if (!is_array($dataSet)) {
-            $dataSet = [];
-        }
-        foreach ($dataSet as $i => $data) {
-            foreach ($data as $key => $value) {
-                if ($key == 'image') {
-                    $fileName = $value;
-
-                    if ($this->fileInfo->isExist($fileName)) {
-                        $stat = $this->fileInfo->getStat($fileName);
-                        $mime = $this->fileInfo->getMimeType($fileName);
-
-                        $data[$key] = [];
-                        /** @var FileSystemIO $fileSystemIo **/
-                        $fileInfo = $this->fileSystemIo->getPathInfo($fileName);
-                        $basename = $fileInfo['basename'];
-                        $data[$key][0]['name'] = $basename;
-
-                        $url = '';
-                        if ($value != '') {
-                            $url = $this->storeManager->getStore()->getBaseUrl() . $value;
-                        } else {
-                            $url = $this->imageHelper->getDefaultPlaceholderUrl('thumbnail');
-                        }
-                        $data[$key][0]['url'] = $url;
-
-                        $data[$key][0]['size'] = $stat['size'];
-                        $data[$key][0]['type'] = $mime;
-                    }
-                }
-            }
-            $dataSet[$i] = $data;
-        }
-
-        return $dataSet;
     }
 }
