@@ -27,7 +27,7 @@ interface BrandInterface
     public const UPDATE_TIME = 'update_time';
     public const STORE_ID = 'store_id';
 
-    public const BASE_MEDIA_PATH = 'acx/brandslider/images';
+    public const BASE_MEDIA_PATH = 'acx/brand/images';
     public const BRAND_TARGET_SELF = 0;
     public const BRAND_TARGET_PARENT = 1;
     public const BRAND_TARGET_BLANK = 2;
