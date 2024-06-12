@@ -106,7 +106,7 @@
                 <label translate="true">Brand Logo</label>
                 <visible>true</visible>
                 <required>false</required>
-                <dataScope>image</dataScope>
+                <dataScope>logo</dataScope>
             </settings>
             <formElements>
                 <imageUploader>
