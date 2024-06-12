@@ -17,6 +17,7 @@ interface BrandInterface
     /**
      * Constants for keys of data array. Identical to the name of the getter in snake case
      */
+    public const TABLE_NAME = 'acx_brand_slider';
     public const BRAND_ID = 'brand_id';
     public const NAME = 'name';
     public const SORT_ORDER = 'sort_order';

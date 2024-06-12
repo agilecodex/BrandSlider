@@ -1,5 +1,5 @@
 {
-    "acx_brandslider_brand": {
+    "acx_brand_slider": {
         "column": {
             "brand_id": true,
             "name": true,
@@ -13,7 +13,7 @@
             "PRIMARY": true
         }
     },
-    "acx_brandslider_brand_store": {
+    "acx_brand_store": {
         "column": {
             "brand_id": true,
             "store_id": true

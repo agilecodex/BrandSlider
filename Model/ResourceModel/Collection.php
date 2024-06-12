@@ -33,7 +33,7 @@ class Collection extends AbstractCollection
     {
         $entityMetadata = $this->metadataPool->getMetadata(BrandInterface::class);
 
-        $this->performAfterLoad('acx_brandslider_brand_store', $entityMetadata->getLinkField());
+        $this->performAfterLoad('acx_brand_store', $entityMetadata->getLinkField());
 
         return parent::_afterLoad();
     }
@@ -82,6 +82,6 @@ class Collection extends AbstractCollection
     protected function _renderFiltersBefore()
     {
         $entityMetadata = $this->metadataPool->getMetadata(BrandInterface::class);
-        $this->joinStoreRelationTable('acx_brandslider_brand_store', $entityMetadata->getLinkField());
+        $this->joinStoreRelationTable('acx_brand_store', $entityMetadata->getLinkField());
     }
 }

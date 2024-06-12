@@ -134,7 +134,7 @@ class Brand extends AbstractModel implements BrandInterface
      * @param $image
      * @return BrandInterface
      */
-    public function setImage($image): BrandInterface{
+    public function setLogo($image): BrandInterface{
         return $this->setData(self::LOGO, $image);
     }
 
@@ -153,7 +153,7 @@ class Brand extends AbstractModel implements BrandInterface
      * @param string|null $imageAlt
      * @return BrandInterface
      */
-    public function setImageAlt($imageAlt): BrandInterface{
+    public function setLogoAlt($imageAlt): BrandInterface{
         return $this->setData(self::LOGO_ALT, $imageAlt);
     }
 
