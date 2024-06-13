@@ -86,7 +86,7 @@ class ThumbnailFile
         $path     = $this->getImagePath($imageType, $fileName);
         $mediaDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
 
-        $mediaDir->copyFile("brand/brand/{$fileName}", $path);
+        $mediaDir->copyFile("acx/tmp/brand/{$fileName}", $path);
 
         $imageProcessor = $this->imageProcessorFactory->create($mediaDir->getAbsolutePath($path));
         $imageProcessor->keepAspectRatio(true);
@@ -129,7 +129,7 @@ class ThumbnailFile
      */
     private function getImagePath($imageType, $fileName)
     {
-        return "brand/{$imageType}/brand/{$fileName}";
+        return "acx/brand/{$imageType}/{$fileName}";
     }
 
     /**

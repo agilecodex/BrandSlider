@@ -104,7 +104,7 @@ class Save extends AbastractBrand
                 }
             }
 
-            $data = $this->imageService->beforeSave($data);
+            $data = $this->imageService->beforeSave($data, 'logo');
             $oldData = $model->getData();
             $model->setData($data);
 

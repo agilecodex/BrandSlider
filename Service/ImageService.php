@@ -90,9 +90,9 @@ class ImageService
      * @param \Magento\Framework\DataObject $object
      * @return \Magento\Framework\DataObject $object
      */
-    public function beforeSave($object)
+    public function beforeSave($object, $attributeName)
     {
-        $attributeName = 'image';
+        //$attributeName = 'image';
 
         $value = $object[$attributeName];
 
@@ -101,7 +101,7 @@ class ImageService
                 /** @var StoreInterface $store */
                 $store = $this->storeManager->getStore();
                 $baseMediaDir = $store->getBaseMediaDir();
-                $newImgRelativePath = $this->getImageUrl($imageName);
+                $newImgRelativePath = $this->getImageUrl($imageName, $attributeName);
                 $value[0]['url'] =  $newImgRelativePath;
                 $value[0]['name'] = $imageName;
             } catch (\Exception $e) {
@@ -192,7 +192,7 @@ class ImageService
         } else {
             /** @var Store $store */
             $store = $this->storeManager->getStore();
-            $image = $store->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . "acx/brand/{$imageName}";
+            $image = $store->getBaseUrl(UrlInterface::URL_TYPE_MEDIA) . "acx/brand/{$imageType}/{$imageName}";
         }
 
         return $image;

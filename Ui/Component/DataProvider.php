@@ -78,7 +78,7 @@ class DataProvider extends AbstractDataProvider
             $itemData = $item->getData();
 
             if ($item->getData(BrandInterface::LOGO)) {
-                $itemData[BrandInterface::LOGO . '_src'] = $this->imageService->getImageUrl($item->getLogo());
+                $itemData[BrandInterface::LOGO . '_src'] = $this->imageService->getImageUrl($item->getLogo(), 'logo');
             }
 
             $arrItems['items'][] = $itemData;
