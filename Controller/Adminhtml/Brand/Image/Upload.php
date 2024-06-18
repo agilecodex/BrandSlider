@@ -50,7 +50,7 @@ class Upload extends Action implements HttpPostActionInterface
      */
     public function execute()
     {
-        $imageId = $this->_request->getParam('param_name', 'image');
+        $imageId = $this->_request->getParam('param_name', 'logo');
 
         try {
             $result = $this->imageUploader->saveFileToTmpDir($imageId);

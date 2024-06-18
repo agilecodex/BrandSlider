@@ -140,7 +140,7 @@ class Save extends AbastractBrand
  */
     public function beforeSave($object)
     {
-        $attributeName = 'image';
+        $attributeName = 'logo';
 
         $value = $object[$attributeName];
 
