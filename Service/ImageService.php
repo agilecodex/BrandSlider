@@ -111,7 +111,7 @@ class ImageService
             $uri = \Laminas\Uri\UriFactory::factory($value[0]['url']);
             $query = $uri->getPath();
             $value[0]['url'] = parse_url($value[0]['url'], PHP_URL_PATH);
-            $value[0]['name'] = $value[0]['url'];
+            //$value[0]['name'] = $value[0]['name'];
         }
 
         if ($imageName = $this->getUploadedImageName($value)) {
