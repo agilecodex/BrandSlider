@@ -13,6 +13,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Asset\Repository;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
@@ -134,8 +135,9 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
      */
     public function getBaseUrlMedia($path = '', $secure = false)
     {
-        return $this->_storeManager->getStore()
-                ->getBaseUrl() . $path;
+        $store = $this->_storeManager->getStore();
+        return $store->getBaseUrl(UrlInterface::URL_TYPE_MEDIA)
+            . 'acx/brand/logo/' . $path;
     }
 
     /**
