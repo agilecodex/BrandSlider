@@ -121,13 +121,13 @@ class DataProvider extends AbstractDataProvider
         if (isset($data[$imageKey])) {
             $imageName = $data[$imageKey];
             unset($data[$imageKey]);
-            if ($this->mediaDirectory->isExist($this->getFilePath($imageName))) {
+            if ($this->mediaDirectory->isExist($this->getFilePath($imageName, $imageKey))) {
                 $data[$imageKey] = [
                     [
                         'name' => $imageName,
-                        'url'  => $this->imageService->getImageUrl($imageName),
-                        'size' => $this->mediaDirectory->stat($this->getFilePath($imageName))['size'],
-                        'type' => $this->getMimeType($imageName),
+                        'url'  => $this->imageService->getImageUrl($imageName, $imageKey),
+                        'size' => $this->mediaDirectory->stat($this->getFilePath($imageName, $imageKey))['size'],
+                        'type' => $this->getMimeType($imageName, $imageKey),
                     ],
                 ];
             }
@@ -138,23 +138,25 @@ class DataProvider extends AbstractDataProvider
 
     /**
      * @param string $fileName
+     * @param string $imageKey
      *
      * @return string
      */
-    protected function getMimeType($fileName)
+    protected function getMimeType($fileName, $imageKey)
     {
-        $absoluteFilePath = $this->mediaDirectory->getAbsolutePath($this->getFilePath($fileName));
+        $absoluteFilePath = $this->mediaDirectory->getAbsolutePath($this->getFilePath($fileName, $imageKey));
 
         return $this->mime->getMimeType($absoluteFilePath);
     }
 
     /**
      * @param string $fileName
+     * @param string $imgType
      *
      * @return string
      */
-    protected function getFilePath($fileName)
+    protected function getFilePath($fileName, $imgType)
     {
-        return $this->imageUploader->getFilePath($this->imageUploader->getBasePath(), $fileName);
+        return $this->imageUploader->getFilePath($this->imageUploader->getBasePath() . '/' . $imgType, $fileName);
     }
 }
