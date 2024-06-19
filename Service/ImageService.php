@@ -102,7 +102,7 @@ class ImageService
                 $store = $this->storeManager->getStore();
                 $baseMediaDir = $store->getBaseMediaDir();
                 $newImgRelativePath = $this->getImageUrl($imageName, $attributeName);
-                $value[0]['url'] =  $newImgRelativePath;
+                //$value[0]['url'] =  $newImgRelativePath;
                 $value[0]['name'] = $imageName;
             } catch (\Exception $e) {
                 $this->_logger->critical($e);
