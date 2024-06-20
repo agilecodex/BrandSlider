@@ -42,7 +42,7 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
     protected $_assetRepo;
 
     /** @var BrandModel */
-    private $brand;
+    protected $brand;
 
     /** @var BrandFactory */
     protected $brandFactory;
@@ -113,6 +113,40 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
             $srcImage = $this->_assetRepo->getUrl("Acx_BrandSlider::images/brand-logo-blank.png");
         }
         return $srcImage;
+    }
+
+    /**
+     * Start brand url.
+     *
+     * @param \Acx\BrandSlider\Model\Brand $brand
+     *
+     * @return string
+     */
+    public function startBrandPageUrl(\Acx\BrandSlider\Model\Brand $brand)
+    {
+        return '';
+    }
+
+    /**
+     * End brand url.
+     *
+     * @return string
+     */
+    public function endBrandPageUrl()
+    {
+        return '';
+    }
+
+    /**
+     * Get brand image url.
+     *
+     * @param \Acx\BrandSlider\Model\Brand $brand
+     *
+     * @return string
+     */
+    public function getBrandPageUrl(\Acx\BrandSlider\Model\Brand $brand)
+    {
+        return '';
     }
 
     /**

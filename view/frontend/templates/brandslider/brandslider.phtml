@@ -20,11 +20,13 @@ $brandCollection = $block->getBrandCollection();
     <ul class="brand-list">
         <?php foreach ($brandCollection as $brand) : ?>
             <li data-thumb="<?= $escaper->escapeUrl($block->getBrandImageUrl($brand)) ?>">
+                <?= $block->startBrandPageUrl($brand) ?>
                 <img alt="<?= $escaper->escapeHtmlAttr($brand->getLogoAlt()) ?>"
                      src="<?= $escaper->escapeUrl($block->getBrandImageUrl($brand)) ?>"/>
                 <?php if ($brand->getName() && $block->getShowCaption()): ?>
                     <span><?= $escaper->escapeHtml($brand->getName()) ?></span>
                 <?php endif; ?>
+                <?= $block->endBrandPageUrl() ?>
             </li>
         <?php endforeach; ?>
     </ul>
