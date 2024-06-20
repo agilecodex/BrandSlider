@@ -282,8 +282,7 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
      */
     public function getAutoplaySpeed()
     {
-        return ((bool)$this->getData('autoplaySpeed') === true)
-            ? "true" : "false";
+        return (int)$this->getData('autoplaySpeed') ;
     }
 
     /**
