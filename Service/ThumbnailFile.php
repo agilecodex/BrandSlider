@@ -14,34 +14,27 @@ use Magento\Framework\Filesystem;
 use Magento\Framework\Image\Factory as ImageFactory;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Acx\BrandSlider\Model\Config\Config;
+use Acx\BrandSlider\Model\Config;
 
 class ThumbnailFile
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     private $sizeByTypes
         = [
             'thumbnail'   => 75,
             'small_image' => 95,
         ];
 
-    /**
-     * @var ImageFactory
-     */
+    /** @var ImageFactory */
     private $imageProcessorFactory;
-    /**
-     * @var StoreManagerInterface
-     */
+
+    /** @var StoreManagerInterface */
     private $storeManager;
-    /**
-     * @var Filesystem
-     */
+
+    /** @var Filesystem */
     private $filesystem;
-    /**
-     * @var Config
-     */
+
+    /** @var Config */
     private $config;
 
     /**
@@ -144,8 +137,8 @@ class ThumbnailFile
             throw new LocalizedException(__('Unknown image type %1', $imageType));
         }
 
-        if ($imageType == 'thumbnail' && $this->config->getBrandLogoConfig()->isProductPageBrandLogoEnabled()) {
-            return $this->config->getBrandLogoConfig()->getProductPageBrandLogoImageWidth();
+        if ($imageType == 'thumbnail' && $this->config->isProductPageBrandLogoEnabled()) {
+            return $this->config->getProductPageBrandLogoImageWidth();
         }
 
         return $this->sizeByTypes[$imageType];
