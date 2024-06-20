@@ -118,7 +118,7 @@
                         <previewTmpl>Acx_BrandSlider/image-preview</previewTmpl>
                         <openDialogTitle>Media Gallery</openDialogTitle>
                         <initialMediaGalleryOpenSubpath>acx/brand</initialMediaGalleryOpenSubpath>
-                        <allowedExtensions>jpg jpeg gif png</allowedExtensions>
+                        <allowedExtensions>jpg jpeg gif png webp</allowedExtensions>
                         <maxFileSize>4194304</maxFileSize>
                     </settings>
                 </imageUploader>
