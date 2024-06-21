@@ -32,7 +32,7 @@
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <aclResource>Acx_BrandSlider::brandslider</aclResource>
+        <aclResource>Acx_BrandSlider::brand</aclResource>
         <dataProvider class="Acx\BrandSlider\Ui\Component\DataProvider" name="brand_brand_listing_data_source">
             <settings>
                 <requestFieldName>brand_id</requestFieldName>
