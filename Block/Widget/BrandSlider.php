@@ -27,7 +27,7 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
 {
     /** template for brand slider */
     public const TEMPLATE = 'Acx_BrandSlider::brandslider/brandslider.phtml';
-    public const XML_CONFIG_BRANDSLIDER = 'brandslider/general/enable_frontend';
+    public const XML_CONFIG_BRANDSLIDER = 'brand/general/enable_frontend';
 
     /** Prefix for cache key of Brand Slider */
     public const CACHE_KEY_PREFIX = 'BRAND_SLIDER_';
