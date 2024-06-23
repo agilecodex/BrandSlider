@@ -13,7 +13,7 @@ interface BrandStoreInterface
     const TABLE_NAME = 'acx_brand_store';
 
     const ID = 'id';
-    const BRAND_PAGE_ID = 'brand_id';
+    const BRAND_ID = 'brand_id';
     const STORE_ID = 'store_id';
 
     /**
