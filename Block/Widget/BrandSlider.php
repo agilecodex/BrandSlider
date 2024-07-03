@@ -292,8 +292,8 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
      */
     public function getSlidesToShow()
     {
-        return $this->getData('slidesToShow')
-            ? $this->getData('slidesToShow') : 5;
+        return $this->getData('slides_to_show')
+            ? $this->getData('slides_to_show') : 5;
     }
 
     /**
@@ -303,8 +303,8 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
      */
     public function getSlidesToShowOnPad()
     {
-        return $this->getData('slidesToShow')
-            ? $this->getData('slidesToShow') : 4;
+        return $this->getData('slides_to_show_tab')
+            ? $this->getData('slides_to_show_tab') : 4;
     }
 
     /**
@@ -314,8 +314,8 @@ class BrandSlider extends Template implements WidgetBlockInterface, IdentityInte
      */
     public function getSlidesToScroll()
     {
-        return $this->getData('slidesToScroll')
-            ? $this->getData('slidesToScroll') : 2;
+        return $this->getData('slides_to_scroll')
+            ? $this->getData('slides_to_scroll') : 2;
     }
 
     /**

@@ -54,12 +54,16 @@
                 <value>3000</value>
             </parameter>
             <parameter name="slides_to_show" xsi:type="text" visible="true" sort_order="120" required="true">
-                <label translate="true">SlidesToShow: # of slides to show</label>
+                <label translate="true">SlidesToShow: # of slides to show on Desktop</label>
                 <value>5</value>
             </parameter>
             <parameter name="slides_to_scroll" xsi:type="text" visible="true" sort_order="120" required="true">
                 <label translate="true">SlidesToScroll: # of slides to scroll</label>
                 <value>2</value>
+            </parameter>
+            <parameter name="slides_to_show_tab" xsi:type="text" visible="true" sort_order="120" required="true">
+                <label translate="true">SlidesToShow: # of slides to show at breakpoint: 1024px</label>
+                <value>4</value>
             </parameter>
             <parameter name="nav_button" xsi:type="select"  visible="true" sort_order="100" required="true"
                        source_model="Magento\Config\Model\Config\Source\Enabledisable">
