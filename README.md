@@ -13,7 +13,7 @@ Upload all files and folders to the root folder of your Magento installation
 Enable Acx_Backend module
 Enable Acx_BrandSlider module
 
-How to enable Magento 2 module follow this link http://devdocs.magento.com/guides/v2.0/install-gde/install/cli/install-cli-subcommands-enable.html
+How to enable Magento 2 module follow this link https://www.agilecodex.com/enable-and-disable-magento-2-module/
 That’s it! You are good to go with AgileCodex Brand Slider Extension!
 
 ## Manage Brand
