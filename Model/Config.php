@@ -30,10 +30,10 @@ class Config
     /**
      * {@inheritdoc}
      */
-    public function isProductPageBrandLogoEnabled()
+    public function isShowLogoOnProduct()
     {
         return $this->scopeConfig->getValue(
-            'brand/brand_logo/isProductPageBrandLogoEnabled',
+            'brand/logo_for_product/show_logo_on_product',
             ScopeInterface::SCOPE_STORE,
             $this->storeId
         );
@@ -42,18 +42,18 @@ class Config
     /**
      * {@inheritdoc}
      */
-    public function getProductPageBrandLogoImageWidth()
+    public function getLogoWidthForProductPage()
     {
-        $productListBrandLogoImageWidth = $this->scopeConfig->getValue(
-            'brand/brand_logo/ProductPageBrandLogoImageWidth',
+        $logoWidth = $this->scopeConfig->getValue(
+            'brand/logo_for_product/logo_width_for_product',
             ScopeInterface::SCOPE_STORE,
             $this->storeId
         );
 
-        if (!$productListBrandLogoImageWidth) {
-            $productListBrandLogoImageWidth = 30;
+        if (!$logoWidth) {
+            $logoWidth = 30;
         }
 
-        return $productListBrandLogoImageWidth;
+        return $logoWidth;
     }
 }

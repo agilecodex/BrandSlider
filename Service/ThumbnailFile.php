@@ -137,8 +137,8 @@ class ThumbnailFile
             throw new LocalizedException(__('Unknown image type %1', $imageType));
         }
 
-        if ($imageType == 'thumbnail' && $this->config->isProductPageBrandLogoEnabled()) {
-            return $this->config->getProductPageBrandLogoImageWidth();
+        if ($imageType == 'thumbnail' && $this->config->isShowLogoOnProduct()) {
+            return $this->config->getLogoWidthForProductPage();
         }
 
         return $this->sizeByTypes[$imageType];
