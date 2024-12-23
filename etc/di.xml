@@ -7,6 +7,23 @@
     <preference for="Acx\BrandSlider\Api\Data\BrandSearchResultsInterface"
                 type="Magento\Framework\Api\SearchResults" />
 
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="brand_brand_listing_data_source" xsi:type="string">
+                    Acx\BrandSlider\Model\ResourceModel\Brand\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Acx\BrandSlider\Model\ResourceModel\Brand\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">acx_brand_slider</argument>
+            <argument name="eventPrefix" xsi:type="string">brand_brand_collection</argument>
+            <argument name="eventObject" xsi:type="string">brand_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Acx\BrandSlider\Model\ResourceModel\Brand</argument>
+        </arguments>
+    </type>
 
     <type name="Magento\Framework\EntityManager\MetadataPool">
         <arguments>
