@@ -13,10 +13,10 @@ class Thumbnail extends CatalogThumbnail
     public const ALT_FIELD = 'name';
 
     /** @var ImageHelper */
-    private $imageHelper;
+    protected $imageHelper;
 
     /** @var UrlInterface */
-    private $urlBuilder;
+    protected $urlBuilder;
 
     /** @var StoreManagerInterface */
     protected $storeManager;

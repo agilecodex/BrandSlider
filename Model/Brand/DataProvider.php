@@ -33,7 +33,7 @@ class DataProvider extends AbstractDataProvider
     protected $loadedData;
 
     /** @var StoreManager */
-    private $storeManager;
+    protected $storeManager;
 
     /** @var ImageHelper */
     protected $imageHelper;
