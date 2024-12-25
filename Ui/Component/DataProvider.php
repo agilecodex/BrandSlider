@@ -8,6 +8,7 @@ namespace Acx\BrandSlider\Ui\Component;
 
 use Acx\BrandSlider\Service\ImageService;
 use Acx\BrandSlider\Api\Data\BrandInterface;
+use Acx\BrandSlider\Model\ResourceModel\Brand\Grid\CollectionFactory;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\Search\SearchCriteriaBuilder;
 use Magento\Framework\Api\Search\SearchResultInterface;
@@ -24,10 +25,15 @@ class DataProvider extends AbstractDataProvider
     /** @var AuthorizationInterface */
     private $authorization;
 
+    /** @var CollectionFactory */
+    protected $collection;
+
     /**
-     * @param string $name
-     * @param string $primaryFieldName
-     * @param string $requestFieldName
+     * @param $name
+     * @param $primaryFieldName
+     * @param $requestFieldName
+     * @param CollectionFactory $collectionFactory
+     * @param ImageService $imageService
      * @param Reporting $reporting
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
      * @param RequestInterface $request
@@ -37,10 +43,11 @@ class DataProvider extends AbstractDataProvider
      * @param array $data
      */
     public function __construct(
-        ImageService $imageService,
         $name,
         $primaryFieldName,
         $requestFieldName,
+        CollectionFactory $collectionFactory,
+        ImageService $imageService,
         Reporting $reporting,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         RequestInterface $request,
@@ -49,6 +56,7 @@ class DataProvider extends AbstractDataProvider
         array $meta = [],
         array $data = []
     ) {
+        $this->collection = $collectionFactory->create();
         parent::__construct(
             $name,
             $primaryFieldName,
@@ -65,6 +73,11 @@ class DataProvider extends AbstractDataProvider
         $this->meta = array_replace_recursive($meta, $this->prepareMetadata());
     }
 
+    public function getData()
+    {
+        return $this->collection->toArray();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -78,7 +91,8 @@ class DataProvider extends AbstractDataProvider
             $itemData = $item->getData();
 
             if ($item->getData(BrandInterface::LOGO)) {
-                $itemData[BrandInterface::LOGO . '_src'] = $this->imageService->getImageUrl($item->getLogo(), 'logo');
+                $itemData[BrandInterface::LOGO . '_src'] =
+                    $this->imageService->getImageUrl($item->getLogo(), 'logo');
             }
 
             $arrItems['items'][] = $itemData;

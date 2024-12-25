@@ -9,6 +9,7 @@ namespace Acx\BrandSlider\Model\ResourceModel\Brand\Grid;
 use Magento\Framework\Api\Search\SearchResultInterface;
 use Magento\Framework\Api\Search\AggregationInterface;
 use Acx\BrandSlider\Model\Brand as BrandModel;
+use Acx\BrandSlider\Model\ResourceModel\Brand as BrandResourceModel;
 use Acx\BrandSlider\Model\ResourceModel\Collection as BrandCollection;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
@@ -55,12 +56,12 @@ class Collection extends BrandCollection implements SearchResultInterface
         ManagerInterface $eventManager,
         StoreManagerInterface $storeManager,
         MetadataPool $metadataPool,
-        $mainTable,
-        $eventPrefix,
-        $eventObject,
-        $resourceModel,
-        $model = \Magento\Framework\View\Element\UiComponent\DataProvider\Document::class,
-        $connection = null,
+                               $mainTable,
+                               $eventPrefix,
+                               $eventObject,
+                               $resourceModel,
+                               $model = \Magento\Framework\View\Element\UiComponent\DataProvider\Document::class,
+                               $connection = null,
         AbstractDb $resource = null,
         TimezoneInterface $timeZone = null
     ) {
@@ -79,6 +80,11 @@ class Collection extends BrandCollection implements SearchResultInterface
         $this->_init($model, $resourceModel);
         $this->setMainTable($mainTable);
         $this->timeZone = $timeZone ?: ObjectManager::getInstance()->get(TimezoneInterface::class);
+    }
+
+    protected function _construct()
+    {
+        $this->_init(BrandModel::class, BrandResourceModel::class);
     }
 
     /**
