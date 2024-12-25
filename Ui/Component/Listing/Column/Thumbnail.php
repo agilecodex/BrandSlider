@@ -1,8 +1,13 @@
 <?php
 namespace Acx\BrandSlider\Ui\Component\Listing\Column;
 
+use Acx\BrandSlider\Api\Data\BrandInterface;
+use Acx\BrandSlider\Service\ImageService;
 use Magento\Catalog\Helper\Image as ImageHelper;
 use Magento\Catalog\Ui\Component\Listing\Columns\Thumbnail as CatalogThumbnail;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
@@ -21,6 +26,12 @@ class Thumbnail extends CatalogThumbnail
     /** @var StoreManagerInterface */
     protected $storeManager;
 
+    /** @var ReadInterface */
+    protected $mediaDirectory;
+
+    /** @var ImageService */
+    protected $imageService;
+
     /**
      * @param ContextInterface $context
      * @param UiComponentFactory $uiComponentFactory
@@ -36,6 +47,8 @@ class Thumbnail extends CatalogThumbnail
         ImageHelper           $imageHelper,
         UrlInterface          $urlBuilder,
         StoreManagerInterface $storeManager,
+        Filesystem $filesystem,
+        ImageService $imageService,
         array                 $components = [],
         array                 $data = []
     ) {
@@ -43,6 +56,8 @@ class Thumbnail extends CatalogThumbnail
         $this->storeManager = $storeManager;
         $this->imageHelper = $imageHelper;
         $this->urlBuilder = $urlBuilder;
+        $this->imageService = $imageService;
+        $this->mediaDirectory = $filesystem->getDirectoryRead(DirectoryList::MEDIA);
     }
 
     /**
@@ -56,18 +71,16 @@ class Thumbnail extends CatalogThumbnail
         if (isset($dataSource['data']['items'])) {
             $fieldName = $this->getData('name');
             foreach ($dataSource['data']['items'] as & $item) {
-                $url = '';
-                if ($item[$fieldName] != '') {
-                    $url = $this->storeManager->getStore()->getBaseUrl().$item[$fieldName];
-                } else {
-                    $url = $this->imageHelper->getDefaultPlaceholderUrl('thumbnail');
+                $imageName = $item[$fieldName];
+                if (isset($imageName)) {
+                    $url = $this->imageService->getImageUrl($imageName, BrandInterface::LOGO);
+                    $item[$fieldName . '_src'] = $url;
+                    $item[$fieldName . '_alt'] = $item['name'] ?? null;
+                    $item[$fieldName . '_link'] = $this->urlBuilder->getUrl(
+                        'brand/brand/edit',
+                        ['brand_id' => $item['brand_id']]
+                    );
                 }
-
-                $item[$fieldName . '_link'] = $this->urlBuilder->getUrl(
-                    'brand/brand/edit',
-                    ['brand_id' => $item['brand_id']]
-                );
-                $item[$fieldName . '_orig_src'] = $url;
             }
         }
         return $dataSource;
