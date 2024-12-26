@@ -8,13 +8,13 @@ declare(strict_types=1);
 
 namespace Acx\BrandSlider\Service;
 
+use Acx\BrandSlider\Model\Config;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Image\Factory as ImageFactory;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\StoreManagerInterface;
-use Acx\BrandSlider\Model\Config;
 
 class ThumbnailFile
 {
@@ -79,7 +79,10 @@ class ThumbnailFile
         $path     = $this->getImagePath($imageType, $fileName);
         $mediaDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
 
-        $mediaDir->copyFile("acx/tmp/brand/{$fileName}", $path);
+        //todo: need to pass via di and remove from php constructor
+        //$baseTmpPath = $this->imageUploader->getBaseTmpPath();
+        $baseTmpPath = 'acx/tmp/brand';
+        $mediaDir->copyFile("{$baseTmpPath}/{$fileName}", $path);
 
         $imageProcessor = $this->imageProcessorFactory->create($mediaDir->getAbsolutePath($path));
         $imageProcessor->keepAspectRatio(true);
