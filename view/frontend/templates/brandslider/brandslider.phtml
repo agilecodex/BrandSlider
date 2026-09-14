@@ -13,16 +13,17 @@ $brandCollection = $block->getBrandCollection();
 ?>
 <link rel="stylesheet" type="text/css"
       href="<?= $escaper->escapeUrl($block->getViewFileUrl('Acx_BrandSlider::css/slick.css')) ?>">
-<div class="slick-list">
+<section class="acx-brand-slider" aria-label="<?= $escaper->escapeHtmlAttr($block->getTitle() ?: __('Featured Brands')) ?>">
     <?php if ($block->getData("show_title")): ?>
-        <h2><?= $escaper->escapeHtml($block->getTitle()) ?></h2>
+        <h2 class="acx-brand-slider__title"><?= $escaper->escapeHtml($block->getTitle()) ?></h2>
     <?php endif; ?>
-    <ul class="brand-list">
+    <ul class="brand-list" aria-label="<?= $escaper->escapeHtmlAttr(__('Brands')) ?>">
         <?php foreach ($brandCollection as $brand) : ?>
             <li data-thumb="<?= $escaper->escapeUrl($block->getBrandImageUrl($brand)) ?>">
                 <?= $block->startBrandPageUrl($brand) ?>
                 <img alt="<?= $escaper->escapeHtmlAttr($brand->getLogoAlt()) ?>"
-                     src="<?= $escaper->escapeUrl($block->getBrandImageUrl($brand)) ?>"/>
+                     src="<?= $escaper->escapeUrl($block->getBrandImageUrl($brand)) ?>"
+                     loading="lazy"/>
                 <?php if ($brand->getName() && $block->getShowCaption()): ?>
                     <span><?= $escaper->escapeHtml($brand->getName()) ?></span>
                 <?php endif; ?>
@@ -30,7 +31,7 @@ $brandCollection = $block->getBrandCollection();
             </li>
         <?php endforeach; ?>
     </ul>
-</div>
+</section>
 
 <?php $scriptString = <<<script
     require([
