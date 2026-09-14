@@ -1,10 +1,18 @@
 # AgileCodex Brand Slider Extension for Magento 2
 
 ## Installation
-Never do anything directly on a live store. First setup and test on a development domain (i.e. “dev.url.com”).
-Make sure that you set your Magento application to the developer mode.
-Temporarily disable Magento cache.
-To avoid any possible issues with the installation we recommend disabling Magento cache before proceeding with the installation and re-enabling it once the install is complete.
+
+Never install an extension directly on a live store. Test it first on a development domain.
+This release supports Magento Open Source 2.4.8 and PHP 8.1–8.4.
+
+### Composer installation
+
+```bash
+composer require acx/module-brandslider:^3.1.6
+php bin/magento module:enable Acx_Backend Acx_BrandSlider
+php bin/magento setup:upgrade
+php bin/magento cache:flush
+```
 
 ## Upload BrandSlider extension
 Upload all files and folders to the root folder of your Magento installation
@@ -17,13 +25,25 @@ How to enable Magento 2 module follow this link https://www.agilecodex.com/enabl
 That’s it! You are good to go with AgileCodex Brand Slider Extension!
 
 ## Manage Brand
-1. Go to “AgileCodex->Brand Management->Brand List” from admin panel
-	You will see the list of brand currently added.
-2. Click in Add New Brand
-3. Fill Up Brand Information Form And Click Save Brand
+
+1. Go to **Agile Codex → Brand Management → Brand List** in the Admin Panel.
+2. Click **Add New Brand**.
+3. Enter the brand name, logo, alt text, sort order, store scope, and status.
+4. Click **Save Brand**.
 
 ## Add Widget
-1. Go to “Content -> Widgets” from Admin panel
-2. Click on Add New Widget
-3. Select "Brand Slider Widget" As Type, Select Your Active Theme And Click "Continue"
-4. Enter Your Desired Information And Click Save
+
+1. Go to **Content → Widgets** in the Admin Panel.
+2. Click **Add Widget**.
+3. Select **Brand Slider Widget**, choose the active theme, and click **Continue**.
+4. Under **Storefront Properties**, assign the widget to the required page and container.
+5. Configure the slider options and click **Save**.
+
+The slider is intentionally added through a Magento widget rather than a hardcoded
+homepage layout, so it can be moved, disabled, or removed from the Admin Panel.
+
+## Demo logos
+
+Demo/sample logos are not part of the production module. If the optional demo package
+is installed, its data patch creates sample brands and copies fixture logos into
+`pub/media/acx/brand/logo`.
