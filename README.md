@@ -3,12 +3,12 @@
 ## Installation
 
 Never install an extension directly on a live store. Test it first on a development domain.
-This release supports Magento Open Source 2.4.8 and PHP 8.1–8.4.
+This release supports the selected Magento edition with PHP 8.5.x.
 
 ### Composer installation
 
 ```bash
-composer require acx/module-brandslider:^3.1.6
+composer require acx/module-brandslider:^3.1.7
 php bin/magento module:enable Acx_Backend Acx_BrandSlider
 php bin/magento setup:upgrade
 php bin/magento cache:flush
