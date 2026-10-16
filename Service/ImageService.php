@@ -55,8 +55,8 @@ class ImageService
         Filesystem $filesystem,
         ThumbnailFile $thumbnailFile,
         AssetRepository $assertRepository,
-        StoreManagerInterface $storeManager = null,
-        ImageUploader $imageUploader = null
+        ?StoreManagerInterface $storeManager = null,
+        ?ImageUploader $imageUploader = null
     ) {
         $this->_filesystem = $filesystem;
         $this->_logger = $logger;
@@ -167,7 +167,7 @@ class ImageService
         return $this;
     }
 
-    public function getImageUrl(string $imageName, string $imageType = null): string
+    public function getImageUrl(string $imageName, ?string $imageType = null): string
     {
         $placeholderUrl = $this->assertRepository->getUrl(
             $this->thumbnailFile->getPlaceholderPath(

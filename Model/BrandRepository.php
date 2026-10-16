@@ -64,7 +64,7 @@ class BrandRepository implements BrandRepositoryInterface
         ResultsInterfaceFactory $searchResultsFactory,
         StoreManagerInterface $storeManager,
         StoreRelation $storeRelation,
-        CollectionProcessorInterface $collectionProcessor = null
+        ?CollectionProcessorInterface $collectionProcessor = null
     ) {
         $this->resource = $resource;
         $this->brandFactory = $brandFactory;

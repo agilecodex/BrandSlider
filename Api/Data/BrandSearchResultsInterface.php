@@ -27,6 +27,6 @@ interface BrandSearchResultsInterface extends SearchResultInterface
      * @param \Acx\BrandSlider\Api\Data\BrandInterface[] $items
      * @return $this
      */
-    public function setItems(array $items = null);
+    public function setItems(?array $items = null);
 
 }
